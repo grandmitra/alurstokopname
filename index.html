@@ -2488,7 +2488,7 @@
                             <thead>
                                 <tr>
                                     <th>Departemen</th>
-                                    <th>Omset (Rp)</th>
+                                    <th>Omset/Invent (Rp)</th>
                                     <th>BTK (%)</th>
                                     <th>Selisih SO (Rp)</th>
                                     <th>NSB (Rp)</th>
@@ -2766,20 +2766,20 @@
 
             // Data simulasi departemen GMB
             const departmentData = [
-                { name: "APPLIANCE", omset: 483645849, btk: 0.75, selisih: 2500000 },
-                { name: "BUILDING MATERIAL", omset: 1356748467, btk: 0.75, selisih: 4500000 },
-                { name: "DOORS & WINDOWS", omset: 267626063, btk: 0.75, selisih: 1200000 },
-                { name: "ELECTRICAL & LIGHTING", omset: 1021851662, btk: 0.75, selisih: 3500000 },
-                { name: "FLOORING & WALL", omset: 2961919818, btk: 0.75, selisih: 8500000 },
+                { name: "APPLIANCE", omset: 483645849, btk: 0.5, selisih: 2500000 },
+                { name: "BUILDING MATERIAL", omset: 1356748467, btk: 0.2, selisih: 4500000 },
+                { name: "DOORS & WINDOWS", omset: 267626063, btk: 0.2, selisih: 1200000 },
+                { name: "ELECTRICAL & LIGHTING", omset: 1021851662, btk: 0.6, selisih: 3500000 },
+                { name: "FLOORING & WALL", omset: 2961919818, btk: 0.5, selisih: 8500000 },
                 { name: "FOOD & BEVERAGE", omset: 27908960, btk: 0.75, selisih: 150000 },
-                { name: "FURNITURE", omset: 316319566, btk: 0.75, selisih: 1800000 },
-                { name: "HARDWARE", omset: 560855463, btk: 0.75, selisih: 2200000 },
-                { name: "HOUSEWARE", omset: 176930087, btk: 0.75, selisih: 800000 },
-                { name: "PAINT & SUNDRIES", omset: 1393356351, btk: 0.75, selisih: 4200000 },
-                { name: "PLUMBING", omset: 1061090859, btk: 0.75, selisih: 3800000 },
-                { name: "SANITARY", omset: 1924615631, btk: 0.75, selisih: 6200000 },
-                { name: "TOOLS", omset: 486221046, btk: 0.75, selisih: 2400000 },
-                { name: "MBC", omset: 175377449, btk: 0.75, selisih: 900000 }
+                { name: "FURNITURE", omset: 316319566, btk: 0.3, selisih: 1800000 },
+                { name: "HARDWARE", omset: 560855463, btk: 0.6, selisih: 2200000 },
+                { name: "HOUSEWARE", omset: 176930087, btk: 0.5, selisih: 800000 },
+                { name: "PAINT & SUNDRIES", omset: 1393356351, btk: 0.4, selisih: 4200000 },
+                { name: "PLUMBING", omset: 1061090859, btk: 0.6, selisih: 3800000 },
+                { name: "SANITARY", omset: 1924615631, btk: 0.4, selisih: 6200000 },
+                { name: "TOOLS", omset: 486221046, btk: 0.6, selisih: 2400000 },
+                { name: "MBC", omset: 175377449, btk: 0.3, selisih: 900000 }
             ];
 
             // Data untuk steps
@@ -2823,10 +2823,11 @@
             
             // Calculate NSB
             function calculateNSB(omset, btk, selisih) {
-                const btkValue = (btk / 100) * omset;
-                const nsb = btkValue - selisih;
-                return nsb;
-            }
+    const btkValue = (btk / 100) * omset;
+    const nsb = btkValue - selisih;
+    // Bulatkan ke bilangan bulat terdekat
+    return Math.round(nsb);
+}
             
             // Update department table
             function updateDepartmentTable() {
