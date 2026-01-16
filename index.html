@@ -928,6 +928,162 @@
             font-weight: 600;
         }
         
+        /* NSB Calculator Styles */
+        .nsb-section {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #f5576c;
+        }
+        
+        .nsb-info {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .nsb-comparison {
+            margin: 20px 0;
+        }
+        
+        .nsb-consequences {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px solid #ffc107;
+        }
+        
+        .status-good {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-bad {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .nsb-tools {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            border: 2px dashed #dee2e6;
+            margin-top: 20px;
+        }
+        
+        .tool-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .nsb-btn, .app-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        
+        .nsb-btn:hover, .app-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        
+        .nsb-btn i, .app-btn i {
+            font-size: 0.9em;
+        }
+        
+        .calc-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .calc-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .nsb-calculator {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .calc-input-group {
+            margin: 15px 0;
+        }
+        
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .calc-input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .calc-result {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .calc-result.negative {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .calc-result.positive {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        /* Responsive Styles */
         @media (max-width: 1200px) {
             .sidebar-open header,
             .sidebar-open .main-content {
@@ -1016,33 +1172,6 @@
             .form-control-table {
                 font-size: 0.7rem;
             }
-			
-			.app-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-weight: 600;
-    margin-left: 10px;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-}
-
-.app-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-}
-
-.app-btn i {
-    font-size: 0.9em;
-}
         }
     </style>
 </head>
@@ -1059,6 +1188,7 @@
                 <a class="nav-link" data-page="timeline">Timeline</a>
                 <a class="nav-link" data-page="prosedur">Prosedur</a>
                 <a class="nav-link" data-page="tools">Alat & Dokumen</a>
+                <a class="nav-link" data-page="nsb">NSB vs BTK</a>
             </div>
             <button class="calendar-btn" id="openCalendarModal">
                 <i class="fas fa-calendar-alt"></i>
@@ -1506,30 +1636,30 @@
                             </div>
                             
                             <div class="step" id="step8" data-checklist-id="8">
-    <span class="step-number">8</span>
-    <h3>Persiapan Alat & PDT oleh Tim Logistik</h3>
-    <span class="step-timetable">18-25 Feb 2026</span>
-    <div class="step-detail">
-        <p>Tim logistik menyiapkan peralatan fisik dan digital:</p>
-        <ul>
-            <li>Scanner barcode/QR code (5 unit)</li>
-            <li>Tablet/mobile device dengan aplikasi stok opname</li>
-            <li>Kertas kerja, clipboard, dan alat tulis</li>
-            <li>Alat pengukur (meteran, timbangan digital)</li>
-            <li>Walkie-talkie untuk koordinasi tim</li>
-            <li>Formulir penghitungan (250 lembar)</li>
-            <li>Name tag untuk identifikasi tim</li>
-            <li>Form Control untuk Ketua Regu (3 set)</li>
-            <li>Form Tugas untuk Checker dan Inputer (20 set)</li>
-            <li>
-                <strong>Aplikasi Input Data Stok Opname:</strong> 
-                <a href="https://grandmitra.github.io/so/" target="_blank" class="app-btn">
-                    <i class="fas fa-external-link-alt"></i> Buka Aplikasi PDT Stok Opname
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
+                                <span class="step-number">8</span>
+                                <h3>Persiapan Alat & PDT oleh Tim Logistik</h3>
+                                <span class="step-timetable">18-25 Feb 2026</span>
+                                <div class="step-detail">
+                                    <p>Tim logistik menyiapkan peralatan fisik dan digital:</p>
+                                    <ul>
+                                        <li>Scanner barcode/QR code (5 unit)</li>
+                                        <li>Tablet/mobile device dengan aplikasi stok opname</li>
+                                        <li>Kertas kerja, clipboard, dan alat tulis</li>
+                                        <li>Alat pengukur (meteran, timbangan digital)</li>
+                                        <li>Walkie-talkie untuk koordinasi tim</li>
+                                        <li>Formulir penghitungan (250 lembar)</li>
+                                        <li>Name tag untuk identifikasi tim</li>
+                                        <li>Form Control untuk Ketua Regu (3 set)</li>
+                                        <li>Form Tugas untuk Checker dan Inputer (20 set)</li>
+                                        <li>
+                                            <strong>Aplikasi Input Data Stok Opname:</strong> 
+                                            <a href="https://grandmitra.github.io/so/" target="_blank" class="app-btn">
+                                                <i class="fas fa-external-link-alt"></i> Buka Aplikasi PDT Stok Opname
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             
                             <div class="step" id="step9" data-checklist-id="9">
                                 <span class="step-number">9</span>
@@ -1862,6 +1992,90 @@
                                         <li>Rencana tindak lanjut perbaikan</li>
                                         <li>Jadwal stok opname berikutnya</li>
                                     </ul>
+                                    
+                                    <div class="nsb-section">
+                                        <h4><i class="fas fa-chart-line"></i> Analisis Nilai Selisih Barang (NSB) vs Batas Toleransi Kehilangan (BTK)</h4>
+                                        <p>Analisis mendalam terhadap selisih yang ditemukan:</p>
+                                        
+                                        <div class="nsb-info">
+                                            <p><strong>NSB (Nilai Selisih Barang):</strong> Total nilai barang yang hilang/berlebih berdasarkan hasil stok opname</p>
+                                            <p><strong>BTK (Batas Toleransi Kehilangan):</strong> Batas maksimal kehilangan yang diperbolehkan berdasarkan kebijakan perusahaan (biasanya 0.5% - 1% dari total nilai persediaan)</p>
+                                        </div>
+                                        
+                                        <div class="nsb-comparison">
+                                            <h5>Perbandingan NSB vs BTK per Departemen:</h5>
+                                            <table class="form-control-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Departemen/Area</th>
+                                                        <th>Total Nilai Persediaan</th>
+                                                        <th>NSB</th>
+                                                        <th>BTK (0.75%)</th>
+                                                        <th>Status</th>
+                                                        <th>Keterangan</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Bangunan & Konstruksi</td>
+                                                        <td>Rp 850.000.000</td>
+                                                        <td>Rp 5.200.000</td>
+                                                        <td>Rp 6.375.000</td>
+                                                        <td><span class="status-good">Dalam Batas</span></td>
+                                                        <td>NSB = 0.61%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Perkakas & Alat</td>
+                                                        <td>Rp 420.000.000</td>
+                                                        <td>Rp 4.800.000</td>
+                                                        <td>Rp 3.150.000</td>
+                                                        <td><span class="status-bad">Melebihi BTK</span></td>
+                                                        <td>NSB = 1.14% → Perlu Investigasi</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sanitasi & Pipa</td>
+                                                        <td>Rp 380.000.000</td>
+                                                        <td>Rp 2.100.000</td>
+                                                        <td>Rp 2.850.000</td>
+                                                        <td><span class="status-good">Dalam Batas</span></td>
+                                                        <td>NSB = 0.55%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Listrik & Penerangan</td>
+                                                        <td>Rp 290.000.000</td>
+                                                        <td>Rp 3.500.000</td>
+                                                        <td>Rp 2.175.000</td>
+                                                        <td><span class="status-bad">Melebihi BTK</span></td>
+                                                        <td>NSB = 1.21% → Perlu Investigasi</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="nsb-consequences">
+                                            <h5>Konsekuensi & Pertanggungjawaban:</h5>
+                                            <ul>
+                                                <li><strong>Departemen dengan NSB ≤ BTK:</strong> Evaluasi internal, rekomendasi perbaikan prosedur</li>
+                                                <li><strong>Departemen dengan NSB > BTK:</strong> 
+                                                    <ul>
+                                                        <li>Investigasi mendalam oleh tim audit internal</li>
+                                                        <li>Pertanggungjawaban oleh kepala departemen</li>
+                                                        <li>Pelatihan ulang prosedur stock handling</li>
+                                                        <li>Monitoring intensif selama 3 bulan berikutnya</li>
+                                                        <li>Potensi sanksi sesuai kebijakan perusahaan</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="nsb-tools">
+                                            <h5>Tools Analisis NSB vs BTK:</h5>
+                                            <a href="https://grandmitra.github.io/retailmath/" target="_blank" class="nsb-btn">
+                                                <i class="fas fa-calculator"></i> Buka Kalkulator NSB vs BTK
+                                            </a>
+                                            <p class="tool-description">Gunakan kalkulator untuk menghitung NSB, BTK, dan persentase kehilangan dengan cepat.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2220,6 +2434,145 @@
             </div>
         </div>
         
+        <!-- NSB vs BTK Page -->
+        <div class="page-section" id="nsb-page">
+            <header>
+                <h1><i class="fas fa-calculator"></i> NSB vs BTK Calculator</h1>
+                <p class="subtitle">Kalkulator Nilai Selisih Barang (NSB) vs Batas Toleransi Kehilangan (BTK) dengan simulasi data aktual GMB</p>
+            </header>
+            
+            <div class="procedure-container">
+                <div class="procedure-category">
+                    <h3>Perhitungan NSB vs BTK</h3>
+                    
+                    <div class="nsb-info">
+                        <h4><i class="fas fa-info-circle"></i> Definisi & Konsep</h4>
+                        <p><strong>NSB (Nilai Selisih Barang):</strong> Selisih nilai antara stok fisik dan stok sistem setelah stok opname.</p>
+                        <p><strong>BTK (Batas Toleransi Kehilangan):</strong> Batas maksimal kehilangan yang diperbolehkan berdasarkan kebijakan perusahaan, biasanya 0.5% - 1% dari total nilai persediaan atau omset.</p>
+                        <p><strong>Rumus Perhitungan:</strong> NSB = (BTK × Net Sales) - Selisih SO</p>
+                        <p><strong>Interpretasi Hasil:</strong></p>
+                        <ul>
+                            <li><span class="status-bad">NSB Minus (-)</span> = Beban karyawan (kehilangan melebihi toleransi)</li>
+                            <li><span class="status-good">NSB Plus (+)</span> = Bonus untuk karyawan (kehilangan dalam batas toleransi)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="nsb-calculator">
+                        <h4><i class="fas fa-calculator"></i> Kalkulator NSB</h4>
+                        
+                        <div class="calc-input-group">
+                            <label for="btkInput">BTK (Batas Toleransi Kehilangan) dalam %</label>
+                            <input type="number" id="btkInput" step="0.01" min="0" max="10" value="0.75" placeholder="Masukkan persentase BTK">
+                        </div>
+                        
+                        <div class="calc-input-group">
+                            <label for="selisihInput">Selisih Stok Opname (dalam Rupiah)</label>
+                            <input type="number" id="selisihInput" step="1000" value="0" placeholder="Masukkan nilai selisih SO">
+                        </div>
+                        
+                        <div style="text-align: center; margin: 20px 0;">
+                            <button class="calc-btn" id="simulateBtn">Simulasi Data Aktual GMB</button>
+                            <button class="calc-btn" id="calculateBtn">Hitung NSB</button>
+                        </div>
+                        
+                        <div id="calculationResult" class="calc-result">
+                            Masukkan data untuk menghitung NSB
+                        </div>
+                    </div>
+                    
+                    <div class="nsb-comparison">
+                        <h4><i class="fas fa-chart-bar"></i> Data Simulasi Departemen GMB</h4>
+                        <p>Data omset aktual GMB untuk perhitungan NSB vs BTK:</p>
+                        
+                        <table class="form-control-table">
+                            <thead>
+                                <tr>
+                                    <th>Departemen</th>
+                                    <th>Omset (Rp)</th>
+                                    <th>BTK (%)</th>
+                                    <th>Selisih SO (Rp)</th>
+                                    <th>NSB (Rp)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="departmentTable">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                        
+                        <div style="text-align: center; margin: 20px 0;">
+                            <a href="https://grandmitra.github.io/retailmath/" target="_blank" class="nsb-btn">
+                                <i class="fas fa-external-link-alt"></i> Buka Kalkulator NSB vs BTK Lengkap
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="nsb-consequences">
+                        <h4><i class="fas fa-balance-scale"></i> Konsekuensi & Pertanggungjawaban</h4>
+                        <p>Berdasarkan hasil perhitungan NSB vs BTK, berikut konsekuensi yang diterapkan:</p>
+                        
+                        <table class="form-control-table">
+                            <thead>
+                                <tr>
+                                    <th>Kategori</th>
+                                    <th>Kriteria</th>
+                                    <th>Konsekuensi</th>
+                                    <th>Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="status-good">Excellent</span></td>
+                                    <td>NSB > 0 dan ≤ 50% BTK</td>
+                                    <td>Bonus untuk karyawan</td>
+                                    <td>Reward, sertifikat penghargaan</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="status-good">Good</span></td>
+                                    <td>NSB > 0 tetapi ≤ BTK</td>
+                                    <td>Dalam batas wajar</td>
+                                    <td>Evaluasi internal, rekomendasi perbaikan</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="status-bad">Warning</span></td>
+                                    <td>NSB < 0 tetapi ≥ -50% BTK</td>
+                                    <td>Perlu perhatian</td>
+                                    <td>Pelatihan ulang, monitoring ketat</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="status-bad">Critical</span></td>
+                                    <td>NSB < -50% BTK</td>
+                                    <td>Beban karyawan</td>
+                                    <td>Investigasi audit, potensi sanksi</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="nsb-tools">
+                        <h4><i class="fas fa-tools"></i> Tools Pendukung</h4>
+                        <p>Gunakan tools berikut untuk perhitungan dan analisis lebih lanjut:</p>
+                        
+                        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0;">
+                            <a href="https://grandmitra.github.io/retailmath/" target="_blank" class="nsb-btn">
+                                <i class="fas fa-calculator"></i> Kalkulator Retail Math
+                            </a>
+                            <a href="https://grandmitra.github.io/so/" target="_blank" class="nsb-btn">
+                                <i class="fas fa-clipboard-check"></i> Aplikasi Stok Opname
+                            </a>
+                            <button class="nsb-btn" id="exportBtn">
+                                <i class="fas fa-download"></i> Export Data NSB
+                            </button>
+                        </div>
+                        
+                        <div class="tool-description">
+                            <p><strong>Note:</strong> Perhitungan NSB vs BTK ini digunakan untuk evaluasi kinerja departemen dan penentuan reward/punishment sesuai kebijakan perusahaan. Data yang digunakan harus valid dari hasil stok opname yang telah divalidasi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Tools Page -->
         <div class="page-section" id="tools-page">
             <header>
@@ -2411,6 +2764,24 @@
                 { id: 26, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
             ];
 
+            // Data simulasi departemen GMB
+            const departmentData = [
+                { name: "APPLIANCE", omset: 483645849, btk: 0.75, selisih: 2500000 },
+                { name: "BUILDING MATERIAL", omset: 1356748467, btk: 0.75, selisih: 4500000 },
+                { name: "DOORS & WINDOWS", omset: 267626063, btk: 0.75, selisih: 1200000 },
+                { name: "ELECTRICAL & LIGHTING", omset: 1021851662, btk: 0.75, selisih: 3500000 },
+                { name: "FLOORING & WALL", omset: 2961919818, btk: 0.75, selisih: 8500000 },
+                { name: "FOOD & BEVERAGE", omset: 27908960, btk: 0.75, selisih: 150000 },
+                { name: "FURNITURE", omset: 316319566, btk: 0.75, selisih: 1800000 },
+                { name: "HARDWARE", omset: 560855463, btk: 0.75, selisih: 2200000 },
+                { name: "HOUSEWARE", omset: 176930087, btk: 0.75, selisih: 800000 },
+                { name: "PAINT & SUNDRIES", omset: 1393356351, btk: 0.75, selisih: 4200000 },
+                { name: "PLUMBING", omset: 1061090859, btk: 0.75, selisih: 3800000 },
+                { name: "SANITARY", omset: 1924615631, btk: 0.75, selisih: 6200000 },
+                { name: "TOOLS", omset: 486221046, btk: 0.75, selisih: 2400000 },
+                { name: "MBC", omset: 175377449, btk: 0.75, selisih: 900000 }
+            ];
+
             // Data untuk steps
             const steps = document.querySelectorAll('.step');
             const stepDetails = document.querySelectorAll('.step-detail');
@@ -2432,9 +2803,115 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const pageSections = document.querySelectorAll('.page-section');
             
+            // NSB Calculator elements
+            const btkInput = document.getElementById('btkInput');
+            const selisihInput = document.getElementById('selisihInput');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const simulateBtn = document.getElementById('simulateBtn');
+            const calculationResult = document.getElementById('calculationResult');
+            const departmentTable = document.getElementById('departmentTable');
+            const exportBtn = document.getElementById('exportBtn');
+            
             let currentStep = 0;
             const totalSteps = steps.length;
             let currentPage = 'workflow';
+            
+            // Format number to Indonesian Rupiah
+            function formatRupiah(angka) {
+                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+            
+            // Calculate NSB
+            function calculateNSB(omset, btk, selisih) {
+                const btkValue = (btk / 100) * omset;
+                const nsb = btkValue - selisih;
+                return nsb;
+            }
+            
+            // Update department table
+            function updateDepartmentTable() {
+                departmentTable.innerHTML = '';
+                
+                departmentData.forEach(dept => {
+                    const nsb = calculateNSB(dept.omset, dept.btk, dept.selisih);
+                    const nsbFormatted = formatRupiah(Math.abs(nsb));
+                    const status = nsb >= 0 ? 
+                        `<span class="status-good">Bonus</span>` : 
+                        `<span class="status-bad">Beban</span>`;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${dept.name}</td>
+                        <td>${formatRupiah(dept.omset)}</td>
+                        <td>${dept.btk}%</td>
+                        <td>${formatRupiah(dept.selisih)}</td>
+                        <td>${nsbFormatted}</td>
+                        <td>${status}</td>
+                    `;
+                    departmentTable.appendChild(row);
+                });
+            }
+            
+            // Calculate NSB from input
+            function calculateFromInput() {
+                const btk = parseFloat(btkInput.value) || 0;
+                const selisih = parseFloat(selisihInput.value) || 0;
+                
+                if (!btk || !selisih) {
+                    calculationResult.textContent = 'Masukkan nilai BTK dan Selisih terlebih dahulu';
+                    calculationResult.className = 'calc-result';
+                    return;
+                }
+                
+                // Calculate average omset from department data
+                const totalOmset = departmentData.reduce((sum, dept) => sum + dept.omset, 0);
+                const avgOmset = totalOmset / departmentData.length;
+                
+                const nsb = calculateNSB(avgOmset, btk, selisih);
+                
+                calculationResult.textContent = `NSB: ${formatRupiah(Math.abs(nsb))} (${nsb >= 0 ? 'Bonus' : 'Beban'})`;
+                calculationResult.className = nsb >= 0 ? 'calc-result positive' : 'calc-result negative';
+            }
+            
+            // Simulate with actual data
+            function simulateActualData() {
+                // Randomize selisih for simulation
+                departmentData.forEach(dept => {
+                    const randomFactor = 0.5 + Math.random();
+                    dept.selisih = Math.round(dept.omset * (dept.btk / 100) * randomFactor);
+                });
+                
+                updateDepartmentTable();
+                
+                // Set random values to inputs
+                const randomBtk = (0.5 + Math.random() * 0.5).toFixed(2);
+                const randomSelisih = Math.round(100000000 + Math.random() * 500000000);
+                
+                btkInput.value = randomBtk;
+                selisihInput.value = randomSelisih;
+                
+                calculateFromInput();
+            }
+            
+            // Export data function
+            function exportData() {
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "Departemen,Omset,BTK (%),Selisih SO,NSB,Status\n";
+                
+                departmentData.forEach(dept => {
+                    const nsb = calculateNSB(dept.omset, dept.btk, dept.selisih);
+                    const status = nsb >= 0 ? "Bonus" : "Beban";
+                    csvContent += `${dept.name},${dept.omset},${dept.btk},${dept.selisih},${nsb},${status}\n`;
+                });
+                
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "nsb_data_gmb.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
             
             // Fungsi untuk mengganti halaman
             function switchPage(pageId) {
@@ -2879,10 +3356,25 @@
                 }
             });
             
+            // NSB Calculator event listeners
+            calculateBtn.addEventListener('click', calculateFromInput);
+            simulateBtn.addEventListener('click', simulateActualData);
+            exportBtn.addEventListener('click', exportData);
+            
+            // Calculate on Enter key in inputs
+            btkInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateFromInput();
+            });
+            
+            selisihInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateFromInput();
+            });
+            
             // Inisialisasi
             initializeChecklist();
             updateStepDisplay();
             generateCalendar();
+            updateDepartmentTable();
             switchPage('workflow'); // Set halaman default
             
             // Animasi masuk untuk fase
