@@ -609,7 +609,7 @@
         }
         
         .step-detail.expanded {
-            max-height: 500px;
+            max-height: 1000px;
         }
         
         .step-detail p {
@@ -890,6 +890,44 @@
             color: #e74c3c;
         }
         
+        .urgent-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .missing-item-report {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .form-control-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+        
+        .form-control-table th, .form-control-table td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+        }
+        
+        .form-control-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        
         @media (max-width: 1200px) {
             .sidebar-open header,
             .sidebar-open .main-content {
@@ -974,6 +1012,37 @@
             .budget-table {
                 font-size: 0.8rem;
             }
+            
+            .form-control-table {
+                font-size: 0.7rem;
+            }
+			
+			.app-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-left: 10px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.app-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.app-btn i {
+    font-size: 0.9em;
+}
         }
     </style>
 </head>
@@ -1140,8 +1209,79 @@
                                             <h4><i class="fas fa-truck"></i> Logistik</h4>
                                             <p><strong>Jobdesk:</strong> Menyiapkan peralatan, formulir, PDT, konsumsi tim, koordinasi kebutuhan operasional selama stok opname</p>
                                         </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-user-friends"></i> Ketua Regu Lantai 1</h4>
+                                            <p><strong>Jobdesk:</strong> Mengkoordinasi counter, checker, dan inputer di lantai 1. Bertanggung jawab atas Form Control untuk area lantai 1, termasuk jumlah lokasi, PIC checker dan inputer, serta distribusi Form Tugas.</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-user-friends"></i> Ketua Regu Lantai 2</h4>
+                                            <p><strong>Jobdesk:</strong> Mengkoordinasi counter, checker, dan inputer di lantai 2. Bertanggung jawab atas Form Control untuk area lantai 2, termasuk jumlah lokasi, PIC checker dan inputer, serta distribusi Form Tugas.</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-user-friends"></i> Ketua Regu Lantai 3</h4>
+                                            <p><strong>Jobdesk:</strong> Mengkoordinasi counter, checker, dan inputer di lantai 3. Bertanggung jawab atas Form Control untuk area lantai 3, termasuk jumlah lokasi, PIC checker dan inputer, serta distribusi Form Tugas.</p>
+                                        </div>
                                     </div>
-                                    <p><strong>Total Tim:</strong> 15 orang (Koordinator: 1, Counter: 6, Inputer: 3, Checker: 2, Validator: 1, Logistik: 2)</p>
+                                    <p><strong>Total Tim:</strong> 18 orang (Koordinator: 1, Counter: 6, Inputer: 3, Checker: 2, Validator: 1, Logistik: 2, Ketua Regu: 3)</p>
+                                    
+                                    <h4 style="margin-top: 20px;">Form Control Ketua Regu:</h4>
+                                    <p>Setiap Ketua Regu bertanggung jawab untuk:</p>
+                                    <ul>
+                                        <li>Membuat Form Control yang berisi:
+                                            <ul>
+                                                <li>Jumlah lokasi yang harus dikontrol di area lantainya</li>
+                                                <li>PIC Checker untuk setiap zona/area</li>
+                                                <li>PIC Inputer untuk setiap zona/area</li>
+                                                <li>Progress penghitungan per lokasi</li>
+                                            </ul>
+                                        </li>
+                                        <li>Mendistribusikan Form Tugas kepada Checker dan Inputer di area lantainya</li>
+                                        <li>Melaporkan progress harian ke Koordinator Lapangan</li>
+                                        <li>Memastikan koordinasi antar Counter, Checker, dan Inputer di area lantainya</li>
+                                    </ul>
+                                    
+                                    <table class="form-control-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Lantai</th>
+                                                <th>Ketua Regu</th>
+                                                <th>Jumlah Lokasi</th>
+                                                <th>Jumlah Counter</th>
+                                                <th>Jumlah Checker</th>
+                                                <th>Jumlah Inputer</th>
+                                                <th>Form Control No.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Lantai 1</td>
+                                                <td>[Nama Ketua Regu]</td>
+                                                <td>45 lokasi</td>
+                                                <td>2 orang</td>
+                                                <td>1 orang</td>
+                                                <td>1 orang</td>
+                                                <td>FC-L1-001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lantai 2</td>
+                                                <td>[Nama Ketua Regu]</td>
+                                                <td>38 lokasi</td>
+                                                <td>2 orang</td>
+                                                <td>1 orang</td>
+                                                <td>1 orang</td>
+                                                <td>FC-L2-001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lantai 3</td>
+                                                <td>[Nama Ketua Regu]</td>
+                                                <td>42 lokasi</td>
+                                                <td>2 orang</td>
+                                                <td>1 orang</td>
+                                                <td>1 orang</td>
+                                                <td>FC-L3-001</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             
@@ -1169,33 +1309,33 @@
                                             </tr>
                                             <tr>
                                                 <td>Sarapan (14 Apr)</td>
-                                                <td>15 orang</td>
+                                                <td>18 orang</td>
                                                 <td>Rp 25.000</td>
-                                                <td>Rp 375.000</td>
+                                                <td>Rp 450.000</td>
                                             </tr>
                                             <tr>
                                                 <td>Coffee Break Pagi</td>
-                                                <td>15 orang</td>
+                                                <td>18 orang</td>
                                                 <td>Rp 15.000</td>
-                                                <td>Rp 225.000</td>
+                                                <td>Rp 270.000</td>
                                             </tr>
                                             <tr>
                                                 <td>Makan Siang</td>
-                                                <td>15 orang</td>
+                                                <td>18 orang</td>
                                                 <td>Rp 35.000</td>
-                                                <td>Rp 525.000</td>
+                                                <td>Rp 630.000</td>
                                             </tr>
                                             <tr>
                                                 <td>Coffee Break Sore</td>
-                                                <td>15 orang</td>
+                                                <td>18 orang</td>
                                                 <td>Rp 15.000</td>
-                                                <td>Rp 225.000</td>
+                                                <td>Rp 270.000</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Subtotal Konsumsi</strong></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td><strong>Rp 1.350.000</strong></td>
+                                                <td><strong>Rp 1.620.000</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>B. PERALATAN</strong></td>
@@ -1205,27 +1345,33 @@
                                             </tr>
                                             <tr>
                                                 <td>Formulir Penghitungan</td>
-                                                <td>200 lembar</td>
+                                                <td>250 lembar</td>
                                                 <td>Rp 500</td>
-                                                <td>Rp 100.000</td>
+                                                <td>Rp 125.000</td>
                                             </tr>
                                             <tr>
                                                 <td>Alat Tulis (Pulpen, Clip)</td>
-                                                <td>20 set</td>
+                                                <td>25 set</td>
                                                 <td>Rp 10.000</td>
-                                                <td>Rp 200.000</td>
+                                                <td>Rp 250.000</td>
                                             </tr>
                                             <tr>
                                                 <td>Name Tag Tim</td>
-                                                <td>15 buah</td>
+                                                <td>18 buah</td>
                                                 <td>Rp 5.000</td>
-                                                <td>Rp 75.000</td>
+                                                <td>Rp 90.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Form Control & Form Tugas</td>
+                                                <td>30 set</td>
+                                                <td>Rp 3.000</td>
+                                                <td>Rp 90.000</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Subtotal Peralatan</strong></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td><strong>Rp 375.000</strong></td>
+                                                <td><strong>Rp 555.000</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>C. LAIN-LAIN</strong></td>
@@ -1235,9 +1381,9 @@
                                             </tr>
                                             <tr>
                                                 <td>Transport Tim</td>
-                                                <td>15 orang</td>
+                                                <td>18 orang</td>
                                                 <td>Rp 50.000</td>
-                                                <td>Rp 750.000</td>
+                                                <td>Rp 900.000</td>
                                             </tr>
                                             <tr>
                                                 <td>Konsumsi Rapat Persiapan</td>
@@ -1249,7 +1395,7 @@
                                                 <td><strong>TOTAL ANGGARAN</strong></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td><strong>Rp 2.925.000</strong></td>
+                                                <td><strong>Rp 3.525.000</strong></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1265,11 +1411,12 @@
                                     <p>Rapat pembentukan tim dan penjelasan tanggung jawab:</p>
                                     <ul>
                                         <li>Penjelasan tujuan dan pentingnya stok opname</li>
-                                        <li>Pembagian area kerja untuk masing-masing counter</li>
+                                        <li>Pembagian area kerja untuk masing-masing counter berdasarkan lantai</li>
                                         <li>Penjelasan sistem penghitungan dan pencatatan</li>
                                         <li>Penetapan standar operasional prosedur (SOP)</li>
                                         <li>Pembagian jadwal pelatihan teknis</li>
                                         <li>Penandatanganan surat penugasan</li>
+                                        <li>Penjelasan tentang Form Control dan Form Tugas untuk Ketua Regu</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1305,9 +1452,10 @@
                                 <div class="step-detail">
                                     <p>Pemetaan lokasi penyimpanan dan pemberian nomor:</p>
                                     <ul>
-                                        <li>Membuat denah gudang dan area toko</li>
+                                        <li>Membuat denah gudang dan area toko per lantai</li>
                                         <li>Memberi nomor pada setiap rak, palet, dan area penyimpanan</li>
                                         <li>Memastikan setiap lokasi memiliki identifikasi unik</li>
+                                        <li>Koordinasi dengan Ketua Regu untuk validasi mapping per lantai</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1341,26 +1489,47 @@
                                         <li>Pencatatan produk tanpa barcode/rusak</li>
                                         <li>Pembuatan master list barcode-lokasi</li>
                                     </ul>
+                                    
+                                    <div class="missing-item-report">
+                                        <h4><i class="fas fa-exclamation-triangle"></i> DETECTION OF UNLISTED ITEMS</h4>
+                                        <p>Setelah listing barcode akan muncul data unlisting yang tidak terecord di sistem Elleosys sebagai deteksi awal missing items:</p>
+                                        <ul>
+                                            <li>Identifikasi barang yang ada secara fisik tetapi tidak ada dalam sistem Elleosys</li>
+                                            <li>Kategorikan berdasarkan penyebab: barang baru belum diinput, barang rusak belum diproses, barang retur belum dicatat</li>
+                                            <li>Buat laporan detil unlisted items dengan jumlah dan nilai estimasi</li>
+                                            <li>Koordinasi dengan purchasing dan admin untuk klarifikasi status barang unlisted</li>
+                                            <li>Rekomendasikan tindakan korektif untuk setiap kategori unlisted items</li>
+                                        </ul>
+                                        <p><strong>Output:</strong> Laporan Unlisted Items dengan rekomendasi tindakan untuk management review</p>
+                                    </div>
                                 </div>
                             </div>
                             
                             <div class="step" id="step8" data-checklist-id="8">
-                                <span class="step-number">8</span>
-                                <h3>Persiapan Alat & PDT oleh Tim Logistik</h3>
-                                <span class="step-timetable">18-25 Feb 2026</span>
-                                <div class="step-detail">
-                                    <p>Tim logistik menyiapkan peralatan fisik dan digital:</p>
-                                    <ul>
-                                        <li>Scanner barcode/QR code (5 unit)</li>
-                                        <li>Tablet/mobile device dengan aplikasi stok opname</li>
-                                        <li>Kertas kerja, clipboard, dan alat tulis</li>
-                                        <li>Alat pengukur (meteran, timbangan digital)</li>
-                                        <li>Walkie-talkie untuk koordinasi tim</li>
-                                        <li>Formulir penghitungan (200 lembar)</li>
-                                        <li>Name tag untuk identifikasi tim</li>
-                                    </ul>
-                                </div>
-                            </div>
+    <span class="step-number">8</span>
+    <h3>Persiapan Alat & PDT oleh Tim Logistik</h3>
+    <span class="step-timetable">18-25 Feb 2026</span>
+    <div class="step-detail">
+        <p>Tim logistik menyiapkan peralatan fisik dan digital:</p>
+        <ul>
+            <li>Scanner barcode/QR code (5 unit)</li>
+            <li>Tablet/mobile device dengan aplikasi stok opname</li>
+            <li>Kertas kerja, clipboard, dan alat tulis</li>
+            <li>Alat pengukur (meteran, timbangan digital)</li>
+            <li>Walkie-talkie untuk koordinasi tim</li>
+            <li>Formulir penghitungan (250 lembar)</li>
+            <li>Name tag untuk identifikasi tim</li>
+            <li>Form Control untuk Ketua Regu (3 set)</li>
+            <li>Form Tugas untuk Checker dan Inputer (20 set)</li>
+            <li>
+                <strong>Aplikasi Input Data Stok Opname:</strong> 
+                <a href="https://grandmitra.github.io/so/" target="_blank" class="app-btn">
+                    <i class="fas fa-external-link-alt"></i> Buka Aplikasi PDT Stok Opname
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
                             
                             <div class="step" id="step9" data-checklist-id="9">
                                 <span class="step-number">9</span>
@@ -1374,6 +1543,7 @@
                                         <li>Penjelasan kode kondisi barang</li>
                                         <li>Prosedur pencatatan dan pelaporan</li>
                                         <li>Keselamatan kerja selama stok opname</li>
+                                        <li>Pelatihan khusus untuk Ketua Regu mengenai Form Control dan Form Tugas</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1389,7 +1559,24 @@
                                         <li>Verifikasi kelengkapan alat dan sistem</li>
                                         <li>Evaluasi efektivitas tim dan prosedur</li>
                                         <li>Perbaikan jika ditemukan kendala</li>
+                                        <li>Uji coba Form Control dan Form Tugas oleh Ketua Regu</li>
                                     </ul>
+                                    
+                                    <div class="urgent-note">
+                                        <h4><i class="fas fa-exclamation-circle"></i> PENTING DAN MENDESAK</h4>
+                                        <p><strong>Meeting Koordinasi dengan Developer (Pak Yohan)</strong> terkait teknis Stok Opname di Sistem Elleosys.</p>
+                                        <p><strong>Agenda Meeting:</strong></p>
+                                        <ol>
+                                            <li>Review prosedur stok opname di sistem Elleosys</li>
+                                            <li>Koordinasi mekanisme freeze dan unfreeze database</li>
+                                            <li>Validasi format data input dan output</li>
+                                            <li>Testing integrasi dengan scanner dan mobile device</li>
+                                            <li>Pembahasan backup dan recovery procedure</li>
+                                            <li>Koordinasi jadwal maintenance system</li>
+                                        </ol>
+                                        <p><strong>Tanggal:</strong> 10 Maret 2026</p>
+                                        <p><strong>Peserta:</strong> Koordinator Lapangan, Ketua Regu, Tim IT, Pak Yohan (Developer)</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1403,6 +1590,24 @@
                             
                             <div class="step" id="step11" data-checklist-id="11">
                                 <span class="step-number">11</span>
+                                <h3>Cleanup Data Outstanding</h3>
+                                <span class="step-timetable">10-12 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Sebelum freeze database sistem, melakukan cleanup data outstanding:</p>
+                                    <ul>
+                                        <li><strong>Barang In-Use yang belum diproses:</strong> Identifikasi semua barang yang statusnya "in-use" tetapi belum ada transaksi keluar</li>
+                                        <li><strong>Penjualan Manual:</strong> Proses semua penjualan manual yang belum terinput ke sistem</li>
+                                        <li><strong>Barang Indent:</strong> Review semua barang indent per kategori, pastikan status sudah "done" untuk barang yang sudah diterima</li>
+                                        <li><strong>Retur Pending:</strong> Proses semua retur yang masih pending lebih dari 7 hari</li>
+                                        <li><strong>Adjustment Belum Diproses:</strong> Proses semua adjustment stok yang belum diproses</li>
+                                        <li><strong>Barang Rusak/Expired:</strong> Proses semua barang rusak/expired yang belum dicatat</li>
+                                    </ul>
+                                    <p><strong>Output:</strong> Laporan Cleanup Data Outstanding dengan status "SEMUA DATA BERSIH" sebelum dilanjutkan ke freeze database</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step12" data-checklist-id="12">
+                                <span class="step-number">12</span>
                                 <h3>Freeze Database Sistem</h3>
                                 <span class="step-timetable">12-13 Apr 2026</span>
                                 <div class="step-detail">
@@ -1416,8 +1621,8 @@
                                 </div>
                             </div>
                             
-                            <div class="step" id="step12" data-checklist-id="12">
-                                <span class="step-number">12</span>
+                            <div class="step" id="step13" data-checklist-id="13">
+                                <span class="step-number">13</span>
                                 <h3>Cut-off Penerimaan Barang</h3>
                                 <span class="step-timetable">13 Apr 2026 (17:00)</span>
                                 <div class="step-detail">
@@ -1430,8 +1635,8 @@
                                 </div>
                             </div>
                             
-                            <div class="step" id="step13" data-checklist-id="13">
-                                <span class="step-number">13</span>
+                            <div class="step" id="step14" data-checklist-id="14">
+                                <span class="step-number">14</span>
                                 <h3>Cut-off Retur & Penyesuaian</h3>
                                 <span class="step-timetable">13 Apr 2026 (17:00)</span>
                                 <div class="step-detail">
@@ -1444,8 +1649,8 @@
                                 </div>
                             </div>
                             
-                            <div class="step" id="step14" data-checklist-id="14">
-                                <span class="step-number">14</span>
+                            <div class="step" id="step15" data-checklist-id="15">
+                                <span class="step-number">15</span>
                                 <h3>Backup Data Sistem</h3>
                                 <span class="step-timetable">13 Apr 2026</span>
                                 <div class="step-detail">
@@ -1459,18 +1664,19 @@
                                 </div>
                             </div>
                             
-                            <div class="step" id="step15" data-checklist-id="15">
-                                <span class="step-number">15</span>
+                            <div class="step" id="step16" data-checklist-id="16">
+                                <span class="step-number">16</span>
                                 <h3>Persiapan Konsumsi oleh Tim Logistik</h3>
                                 <span class="step-timetable">13 Apr 2026</span>
                                 <div class="step-detail">
                                     <p>Tim logistik menyiapkan konsumsi untuk hari H:</p>
                                     <ul>
-                                        <li>Pemesanan sarapan untuk 15 orang</li>
+                                        <li>Pemesanan sarapan untuk 18 orang</li>
                                         <li>Penyiapan coffee break pagi dan sore</li>
                                         <li>Pemesanan makan siang box</li>
                                         <li>Penyediaan air mineral dan snack</li>
                                         <li>Penyiapan area makan untuk tim</li>
+                                        <li>Distribusi konsumsi ke setiap lantai oleh Ketua Regu</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1483,8 +1689,8 @@
                                 <h2>Eksekusi & Finalisasi</h2>
                             </div>
                             
-                            <div class="step" id="step16" data-checklist-id="16">
-                                <span class="step-number">16</span>
+                            <div class="step" id="step17" data-checklist-id="17">
+                                <span class="step-number">17</span>
                                 <h3>Briefing Pagi & Sarapan Bersama</h3>
                                 <span class="step-timetable">14 Apr 2026 (07:00)</span>
                                 <div class="step-detail">
@@ -1492,15 +1698,16 @@
                                     <ul>
                                         <li><strong>07:00 - 07:15:</strong> Absensi dan sarapan bersama</li>
                                         <li><strong>07:15 - 07:30:</strong> Briefing pengarahan singkat oleh koordinator</li>
-                                        <li><strong>07:30 - 07:45:</strong> Pembagian alat dan area kerja</li>
+                                        <li><strong>07:30 - 07:45:</strong> Pembagian alat dan area kerja oleh Ketua Regu</li>
                                         <li><strong>07:45 - 08:00:</strong> Persiapan akhir sebelum penghitungan</li>
-                                        <li><strong>WAJIB:</strong> Semua tim hadir tepat waktu, menggunakan name tag, membawa alat kerja</li>
+                                        <li><strong>WAJIB:</strong> Semua tim hadir tepat waktu, menggunakan name tag, membawa alat kerja dan Form Tugas</li>
+                                        <li>Ketua Regu memastikan semua anggota di lantainya siap dan memahami Form Control mereka</li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <div class="step" id="step17" data-checklist-id="17">
-                                <span class="step-number">17</span>
+                            <div class="step" id="step18" data-checklist-id="18">
+                                <span class="step-number">18</span>
                                 <h3>Penghitungan Fisik Barang (Toko Tutup)</h3>
                                 <span class="step-timetable">14 Apr 2026 (08:00-18:00)</span>
                                 <div class="step-detail">
@@ -1515,12 +1722,13 @@
                                         <li><strong>09:30:</strong> Coffee break pagi</li>
                                         <li><strong>12:00-13:00:</strong> Istirahat makan siang</li>
                                         <li><strong>15:30:</strong> Coffee break sore</li>
+                                        <li>Ketua Regu update Form Control real-time dan laporkan progress ke Koordinator</li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <div class="step" id="step18" data-checklist-id="18">
-                                <span class="step-number">18</span>
+                            <div class="step" id="step19" data-checklist-id="19">
+                                <span class="step-number">19</span>
                                 <h3>Input Data ke Sistem (Toko Masih Tutup)</h3>
                                 <span class="step-timetable">14 Apr 2026 (18:00-22:00)</span>
                                 <div class="step-detail">
@@ -1532,12 +1740,13 @@
                                         <li>Pembuatan laporan sementara</li>
                                         <li>Tim counter membantu input data area masing-masing</li>
                                         <li>Koordinator memonitor progress input data</li>
+                                        <li>Ketua Regu mengumpulkan dan menyerahkan Form Control yang sudah terisi lengkap</li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <div class="step" id="step19" data-checklist-id="19">
-                                <span class="step-number">19</span>
+                            <div class="step" id="step20" data-checklist-id="20">
+                                <span class="step-number">20</span>
                                 <h3>Unfreeze Database Sistem</h3>
                                 <span class="step-timetable">15 Apr 2026 (07:00)</span>
                                 <div class="step-detail">
@@ -1552,8 +1761,8 @@
                                 </div>
                             </div>
                             
-                            <div class="step" id="step20" data-checklist-id="20">
-                                <span class="step-number">20</span>
+                            <div class="step" id="step21" data-checklist-id="21">
+                                <span class="step-number">21</span>
                                 <h3>Buka Toko - Transaksi Normal</h3>
                                 <span class="step-timetable">15 Apr 2026 (08:00)</span>
                                 <div class="step-detail">
@@ -1564,28 +1773,30 @@
                                         <li>Penerimaan barang dapat dilakukan kembali</li>
                                         <li>Retur barang diproses seperti biasa</li>
                                         <li>Tim stok opname kembali ke tugas normal masing-masing</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="step" id="step21" data-checklist-id="21">
-                                <span class="step-number">21</span>
-                                <h3>Identifikasi & Penelusuran Selisih</h3>
-                                <span class="step-timetable">15-19 Apr 2026</span>
-                                <div class="step-detail">
-                                    <p>Analisis perbedaan stok fisik vs sistem:</p>
-                                    <ul>
-                                        <li>Identifikasi discrepancy oleh validator</li>
-                                        <li>Penelusuran penyebab selisih oleh koordinator</li>
-                                        <li>Audit dokumen pendukung</li>
-                                        <li>Pengecekan ulang barang di lokasi yang berselisih</li>
-                                        <li>Pembuatan laporan selisih detail</li>
+                                        <li>Ketua Regu kembali ke tugas normal di departemen asal</li>
                                     </ul>
                                 </div>
                             </div>
                             
                             <div class="step" id="step22" data-checklist-id="22">
                                 <span class="step-number">22</span>
+                                <h3>Identifikasi & Penelusuran Selisih</h3>
+                                <span class="step-timetable">15-19 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Analisis perbedaan stok fisik vs sistem:</p>
+                                    <ul>
+                                        <li>Identifikasi discrepancy oleh validator</li>
+                                        <li>Penelusuran penyebab selisih oleh koordinator bersama Ketua Regu</li>
+                                        <li>Audit dokumen pendukung termasuk Form Control</li>
+                                        <li>Pengecekan ulang barang di lokasi yang berselisih</li>
+                                        <li>Pembuatan laporan selisih detail</li>
+                                        <li>Analisis khusus untuk unlisted items yang terdeteksi di fase persiapan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step23" data-checklist-id="23">
+                                <span class="step-number">23</span>
                                 <h3>Berita Acara & Penyesuaian Finance</h3>
                                 <span class="step-timetable">20 Apr 2026</span>
                                 <div class="step-detail">
@@ -1596,18 +1807,20 @@
                                         <li>Pembuatan jurnal penyesuaian</li>
                                         <li>Update harga pokok penjualan</li>
                                         <li>Distribusi laporan ke departemen terkait</li>
+                                        <li>Arsip Form Control dan Form Tugas sebagai dokumen pendukung</li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <div class="step" id="step23" data-checklist-id="23">
-                                <span class="step-number">23</span>
+                            <div class="step" id="step24" data-checklist-id="24">
+                                <span class="step-number">24</span>
                                 <h3>Evaluasi Kinerja Tim</h3>
                                 <span class="step-timetable">21 Apr 2026</span>
                                 <div class="step-detail">
                                     <p>Review kinerja tim stok opname:</p>
                                     <ul>
                                         <li>Evaluasi efektivitas setiap peran (counter, inputer, checker, dll)</li>
+                                        <li>Evaluasi khusus kinerja Ketua Regu berdasarkan Form Control</li>
                                         <li>Analisis kendala dan solusi yang ditemukan</li>
                                         <li>Feedback dari semua anggota tim</li>
                                         <li>Identifikasi area perbaikan untuk stok opname berikutnya</li>
@@ -1616,8 +1829,8 @@
                                 </div>
                             </div>
                             
-                            <div class="step" id="step24" data-checklist-id="24">
-                                <span class="step-number">24</span>
+                            <div class="step" id="step25" data-checklist-id="25">
+                                <span class="step-number">25</span>
                                 <h3>Pembubaran Tim Kecil Stok Opname</h3>
                                 <span class="step-timetable">22 Apr 2026</span>
                                 <div class="step-detail">
@@ -1625,16 +1838,16 @@
                                     <ul>
                                         <li>Rapat penutupan tim stok opname</li>
                                         <li>Penyerahan laporan final ke manajemen</li>
-                                        <li>Pembagian sertifikat/surat penghargaan kepada anggota tim</li>
+                                        <li>Pembagian sertifikat/surat penghargaan kepada anggota tim, khusus untuk Ketua Regu</li>
                                         <li>Penyelesaian administrasi keuangan (pengembalian alat, pelaporan anggaran)</li>
                                         <li>Pengembalian tim ke posisi/departemen asal masing-masing</li>
-                                        <li>Arsip semua dokumen stok opname</li>
+                                        <li>Arsip semua dokumen stok opname termasuk Form Control</li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <div class="step" id="step25" data-checklist-id="25">
-                                <span class="step-number">25</span>
+                            <div class="step" id="step26" data-checklist-id="26">
+                                <span class="step-number">26</span>
                                 <h3>Pelaporan ke Manajemen</h3>
                                 <span class="step-timetable">23 Apr 2026</span>
                                 <div class="step-detail">
@@ -1642,6 +1855,8 @@
                                     <ul>
                                         <li>Presentasi hasil akhir stok opname</li>
                                         <li>Analisis akurasi stok sistem vs fisik</li>
+                                        <li>Laporan unlisted items dan rekomendasi tindakan</li>
+                                        <li>Review kinerja tim berdasarkan Form Control</li>
                                         <li>Rekomendasi sistem dan prosedur</li>
                                         <li>Laporan keuangan hasil penyesuaian</li>
                                         <li>Rencana tindak lanjut perbaikan</li>
@@ -1671,9 +1886,17 @@
                             <div class="event-date">19 Jan 2026</div>
                             <div class="event-desc">Penyusunan Anggaran Konsumsi & Peralatan</div>
                         </div>
+                        <div class="event-item important">
+                            <div class="event-date">10 Mar 2026</div>
+                            <div class="event-desc">Meeting Koordinasi dengan Developer (Pak Yohan) - PENTING</div>
+                        </div>
                         <div class="event-item">
                             <div class="event-date">4-11 Mar 2026</div>
-                            <div class="event-desc">Uji coba prosedur stok opname</div>
+                            <div class="event-desc">Uji coba prosedur stok opname dengan Form Control</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">10-12 Apr 2026</div>
+                            <div class="event-desc">Cleanup Data Outstanding sebelum freeze database</div>
                         </div>
                         <div class="event-item important">
                             <div class="event-date">14 Apr 2026</div>
@@ -1720,11 +1943,12 @@
                         <h3>Pembentukan Tim & Persiapan Awal</h3>
                         <p><strong>Fase 1:</strong> Pembentukan struktur tim dan persiapan administratif</p>
                         <ul>
-                            <li>Pembentukan tim kecil stok opname (15 orang)</li>
-                            <li>Penetapan jobdesk: Koordinator, Counter, Inputer, Checker, Validator, Logistik</li>
-                            <li>Penyusunan budget konsumsi dan peralatan (Rp 2.925.000)</li>
+                            <li>Pembentukan tim kecil stok opname (18 orang)</li>
+                            <li>Penetapan jobdesk: Koordinator, Counter, Inputer, Checker, Validator, Logistik, Ketua Regu (3 orang)</li>
+                            <li>Penyusunan budget konsumsi dan peralatan (Rp 3.525.000)</li>
                             <li>Briefing awal dan pembagian tugas</li>
                             <li>Penandatanganan surat penugasan</li>
+                            <li>Penjelasan Form Control dan Form Tugas untuk Ketua Regu</li>
                         </ul>
                     </div>
                 </div>
@@ -1736,26 +1960,30 @@
                         <p><strong>Fase 2:</strong> Persiapan fisik dan operasional toko untuk stok opname</p>
                         <ul>
                             <li>Grouping & tata letak barang berdasarkan kategori</li>
-                            <li>Mapping & numbering seluruh lokasi penyimpanan</li>
+                            <li>Mapping & numbering seluruh lokasi penyimpanan per lantai</li>
                             <li>Listing lokasi dan barcode produk</li>
+                            <li><strong>Deteksi Unlisted Items:</strong> Identifikasi barang fisik yang tidak ada di sistem Elleosys</li>
                             <li>Persiapan alat fisik dan perangkat digital oleh tim logistik</li>
+                            <li>Persiapan Form Control dan Form Tugas untuk Ketua Regu</li>
                             <li>Pelatihan intensif untuk semua anggota tim</li>
-                            <li>Uji coba prosedur di area terbatas</li>
+                            <li><strong>Meeting Koordinasi dengan Developer (Pak Yohan):</strong> 10 Maret 2026 - PENTING</li>
+                            <li>Uji coba prosedur di area terbatas dengan Form Control</li>
                         </ul>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
-                    <div class="timeline-date">12-13 Apr 2026</div>
+                    <div class="timeline-date">10-13 Apr 2026</div>
                     <div class="timeline-content">
-                        <h3>Persiapan Administratif (2 Hari)</h3>
+                        <h3>Persiapan Administratif (4 Hari)</h3>
                         <p><strong>Fase 3:</strong> Persiapan sistem dan konsumsi sebelum stok opname</p>
                         <ul>
+                            <li><strong>Cleanup Data Outstanding:</strong> Proses barang in-use, penjualan manual, barang indent status done</li>
                             <li>Freeze database sistem</li>
                             <li>Cut-off penerimaan barang (13 Apr jam 17:00)</li>
                             <li>Cut-off retur & penyesuaian (13 Apr jam 17:00)</li>
                             <li>Backup data sistem lengkap</li>
-                            <li>Persiapan konsumsi oleh tim logistik (sarapan, makan siang, coffee break)</li>
+                            <li>Persiapan konsumsi oleh tim logistik (sarapan, makan siang, coffee break untuk 18 orang)</li>
                         </ul>
                     </div>
                 </div>
@@ -1767,11 +1995,13 @@
                         <p><strong>Fase 4:</strong> Pelaksanaan penghitungan fisik - TOKO DITUTUP</p>
                         <ul>
                             <li><strong>07:00:</strong> Briefing pagi & sarapan bersama (semua tim wajib hadir)</li>
-                            <li><strong>08:00-18:00:</strong> Penghitungan fisik barang seluruh toko & gudang</li>
+                            <li><strong>07:30:</strong> Pembagian Form Control dan Form Tugas oleh Ketua Regu</li>
+                            <li><strong>08:00-18:00:</strong> Penghitungan fisik barang seluruh toko & gudang dengan Form Control</li>
                             <li><strong>09:30:</strong> Coffee break pagi</li>
                             <li><strong>12:00-13:00:</strong> Istirahat makan siang</li>
                             <li><strong>15:30:</strong> Coffee break sore</li>
                             <li><strong>18:00-22:00:</strong> Input data ke sistem (toko masih tutup)</li>
+                            <li>Ketua Regu mengumpulkan dan melaporkan progress via Form Control</li>
                         </ul>
                     </div>
                 </div>
@@ -1785,7 +2015,7 @@
                             <li><strong>07:00:</strong> Unfreeze database sistem</li>
                             <li><strong>08:00:</strong> Buka kembali toko untuk pelanggan</li>
                             <li>Transaksi normal berjalan kembali</li>
-                            <li>Mulai identifikasi dan penelusuran selisih</li>
+                            <li>Mulai identifikasi dan penelusuran selisih dengan data Form Control</li>
                         </ul>
                     </div>
                 </div>
@@ -1796,11 +2026,12 @@
                         <h3>Analisis & Finalisasi (6 Hari)</h3>
                         <p><strong>Fase 4 (lanjutan):</strong> Penyelesaian dan evaluasi</p>
                         <ul>
-                            <li>Penelusuran penyebab selisih</li>
+                            <li>Penelusuran penyebab selisih berdasarkan Form Control</li>
+                            <li>Analisis unlisted items yang terdeteksi sebelumnya</li>
                             <li>Audit dokumen pendukung</li>
                             <li>Pembuatan berita acara final</li>
                             <li>Penyesuaian finance ke sistem</li>
-                            <li>Evaluasi kinerja tim stok opname</li>
+                            <li>Evaluasi kinerja tim stok opname berdasarkan Form Control</li>
                         </ul>
                     </div>
                 </div>
@@ -1813,10 +2044,10 @@
                         <ul>
                             <li>Pembubaran tim kecil stok opname</li>
                             <li>Penyerahan laporan final ke manajemen</li>
-                            <li>Pembagian sertifikat/surat penghargaan</li>
+                            <li>Pembagian sertifikat/surat penghargaan khusus untuk Ketua Regu</li>
                             <li>Penyelesaian administrasi keuangan</li>
                             <li>Pengembalian tim ke posisi asal</li>
-                            <li>Arsip semua dokumen stok opname</li>
+                            <li>Arsip semua dokumen stok opname termasuk Form Control</li>
                         </ul>
                     </div>
                 </div>
@@ -1842,7 +2073,7 @@
                                 <li>Manajemen menunjuk Koordinator Lapangan (biasanya Supervisor Gudang)</li>
                                 <li>Koordinator merekomendasikan calon anggota tim dari berbagai departemen</li>
                                 <li>Seleksi berdasarkan kriteria: kejujuran, ketelitian, pengetahuan produk, pengalaman</li>
-                                <li>Penetapan jumlah personil: 15 orang (6 Counter, 3 Inputer, 2 Checker, 1 Validator, 2 Logistik, 1 Koordinator)</li>
+                                <li>Penetapan jumlah personil: 18 orang (6 Counter, 3 Inputer, 2 Checker, 1 Validator, 2 Logistik, 3 Ketua Regu, 1 Koordinator)</li>
                                 <li>Pembuatan surat penugasan resmi</li>
                             </ol>
                         </div>
@@ -1858,75 +2089,130 @@
                                 <li><strong>Counter:</strong> Menghitung fisik barang di area yang ditentukan, mencatat kondisi barang, menggunakan scanner dengan benar, melaporkan temuan khusus</li>
                                 <li><strong>Inputer:</strong> Memasukkan data hasil penghitungan ke sistem dengan akurat, verifikasi data sebelum input, koordinasi dengan counter untuk klarifikasi data</li>
                                 <li><strong>Checker:</strong> Melakukan sampling check (10% dari total penghitungan), verifikasi akurasi data, memastikan prosedur diikuti dengan benar</li>
-                                <li><strong>Validator:</strong> Validasi final sebelum data dianggap sah, tanda tangan berita acara, rekomendasi penyesuaian jika diperlukan</li>
+                                <li><strong>Validator:</strong> Validasi final sebelum data dianggap sah, tanda tangan berita acara, memastikan konsistensi data antar area</li>
                                 <li><strong>Logistik:</strong> Penyediaan semua kebutuhan operasional, pengelolaan konsumsi, pemeliharaan alat, dokumentasi kegiatan</li>
+                                <li><strong>Ketua Regu (Lantai 1, 2, 3):</strong> Mengkoordinasi tim di lantainya, membuat dan mengelola Form Control, mendistribusikan Form Tugas, melaporkan progress ke Koordinator, memastikan koordinasi antar Counter, Checker, dan Inputer di area lantainya</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 
                 <div class="procedure-category">
-                    <h3>Prosedur Hari-H (14 April 2026)</h3>
+                    <h3>Prosedur Form Control Ketua Regu</h3>
                     <div class="step">
-                        <h4>1. Kedatangan & Briefing Pagi (07:00)</h4>
+                        <h4>1. Pembuatan Form Control</h4>
                         <div class="step-detail">
-                            <p><strong>Tujuan:</strong> Memastikan kesiapan semua tim sebelum memulai</p>
+                            <p><strong>Tujuan:</strong> Memastikan pengendalian yang terstruktur di setiap lantai</p>
                             <p><strong>Prosedur:</strong></p>
                             <ol>
-                                <li>Semua anggota tim hadir maksimal 07:00</li>
-                                <li>Absensi dan pembagian name tag</li>
-                                <li>Sarapan bersama (07:00-07:15)</li>
-                                <li>Briefing oleh Koordinator (07:15-07:30):
+                                <li>Setiap Ketua Regu membuat Form Control untuk lantainya (FC-L1-001, FC-L2-001, FC-L3-001)</li>
+                                <li>Form Control berisi:
                                     <ul>
-                                        <li>Review prosedur penghitungan</li>
-                                        <li>Pembagian area kerja</li>
-                                        <li>Penjelasan kode kondisi barang</li>
-                                        <li>Pengaturan jam istirahat</li>
-                                        <li>Prosedur darurat</li>
+                                        <li>Identifikasi lantai dan Ketua Regu</li>
+                                        <li>Daftar semua lokasi yang harus dikontrol</li>
+                                        <li>Jumlah lokasi total</li>
+                                        <li>PIC Checker untuk setiap zona/area</li>
+                                        <li>PIC Inputer untuk setiap zona/area</li>
+                                        <li>Kolom progress (0%, 25%, 50%, 75%, 100%)</li>
+                                        <li>Kolom catatan khusus</li>
+                                        <li>Kolom tanda tangan verifikasi</li>
                                     </ul>
                                 </li>
-                                <li>Pembagian alat dan formulir (07:30-07:45)</li>
-                                <li>Persiapan akhir di area masing-masing (07:45-08:00)</li>
+                                <li>Form Control diserahkan ke Koordinator untuk validasi sebelum hari-H</li>
+                                <li>Revisi Form Control berdasarkan hasil mapping lokasi</li>
                             </ol>
                         </div>
                     </div>
                     
                     <div class="step">
-                        <h4>2. Penghitungan Fisik (08:00-18:00)</h4>
+                        <h4>2. Penggunaan Form Control di Hari-H</h4>
                         <div class="step-detail">
-                            <p><strong>Tujuan:</strong> Menghitung semua barang dengan akurat dan sistematis</p>
+                            <p><strong>Tujuan:</strong> Memastikan monitoring real-time progress penghitungan</p>
                             <p><strong>Prosedur:</strong></p>
                             <ol>
-                                <li>Counter mulai penghitungan di area yang ditentukan</li>
-                                <li>Penggunaan scanner barcode untuk setiap item</li>
-                                <li>Pencatatan manual untuk barang tanpa barcode</li>
-                                <li>Pemberian kode kondisi: B=Baik, R=Rusak, E=Expired</li>
-                                <li>Checker melakukan sampling check setiap 2 jam</li>
-                                <li>Koordinator monitoring progress seluruh area</li>
-                                <li>Istirahat sesuai jadwal yang telah ditentukan</li>
-                                <li>Logistik memastikan ketersediaan konsumsi</li>
+                                <li>Ketua Regu membawa Form Control selama penghitungan</li>
+                                <li>Update progress setiap lokasi setelah selesai dihitung</li>
+                                <li>Catat temuan khusus di kolom catatan</li>
+                                <li>Verifikasi oleh Checker ditandai dengan paraf di kolom verifikasi</li>
+                                <li>Setiap 2 jam, laporkan progress ke Koordinator</li>
+                                <li>Form Control yang sudah terisi lengkap diserahkan ke Koordinator setelah penghitungan selesai</li>
+                                <li>Form Control menjadi dokumen pendukung untuk analisis selisih</li>
                             </ol>
                         </div>
                     </div>
                 </div>
                 
                 <div class="procedure-category">
-                    <h3>Prosedur Pembubaran Tim (22 April 2026)</h3>
+                    <h3>Prosedur Deteksi Unlisted Items</h3>
                     <div class="step">
-                        <h4>1. Rapat Penutupan</h4>
+                        <h4>1. Identifikasi Barang Tidak Terecord</h4>
                         <div class="step-detail">
-                            <p><strong>Tujuan:</strong> Menyelesaikan semua administrasi dan membubarkan tim</p>
+                            <p><strong>Tujuan:</strong> Mendeteksi awal missing items sebelum stok opname</p>
                             <p><strong>Prosedur:</strong></p>
                             <ol>
-                                <li>Rapat penutupan dihadiri semua anggota tim dan perwakilan manajemen</li>
-                                <li>Review hasil stok opname dan capaian tim</li>
-                                <li>Pembagian sertifikat/surat penghargaan</li>
-                                <li>Evaluasi kinerja individual dan tim</li>
-                                <li>Pengumpulan semua alat dan dokumen</li>
-                                <li>Pelaporan penggunaan anggaran oleh logistik</li>
-                                <li>Penyerahan arsip dokumen ke administrasi</li>
-                                <li>Pengembalian personil ke departemen asal</li>
-                                <li>Pembubaran resmi tim stok opname</li>
+                                <li>Setelah listing barcode selesai, bandingkan dengan data sistem Elleosys</li>
+                                <li>Identifikasi barang yang ada secara fisik tetapi tidak ada dalam sistem</li>
+                                <li>Kategorikan unlisted items berdasarkan:
+                                    <ul>
+                                        <li>Barang baru belum diinput</li>
+                                        <li>Barang rusak belum diproses</li>
+                                        <li>Barang retur belum dicatat</li>
+                                        <li>Barang indent status belum update</li>
+                                        <li>Barang in-use belum diproses</li>
+                                    </ul>
+                                </li>
+                                <li>Buat laporan detail unlisted items dengan jumlah dan nilai estimasi</li>
+                                <li>Koordinasi dengan purchasing dan admin untuk klarifikasi status</li>
+                                <li>Rekomendasikan tindakan korektif untuk setiap kategori</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="procedure-category">
+                    <h3>Prosedur Cleanup Data Outstanding</h3>
+                    <div class="step">
+                        <h4>1. Proses Data Belum Terselesaikan</h4>
+                        <div class="step-detail">
+                            <p><strong>Tujuan:</strong> Membersihkan data sebelum freeze database</p>
+                            <p><strong>Prosedur:</strong></p>
+                            <ol>
+                                <li>Identifikasi semua barang dengan status "in-use" yang belum ada transaksi keluar</li>
+                                <li>Proses semua penjualan manual yang belum terinput ke sistem</li>
+                                <li>Review semua barang indent per kategori, pastikan status sudah "done" untuk barang yang sudah diterima</li>
+                                <li>Proses semua retur yang masih pending lebih dari 7 hari</li>
+                                <li>Proses semua adjustment stok yang belum diproses</li>
+                                <li>Proses semua barang rusak/expired yang belum dicatat</li>
+                                <li>Buat laporan cleanup dengan status "SEMUA DATA BERSIH"</li>
+                                <li>Laporan cleanup harus disetujui oleh Koordinator sebelum freeze database</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="procedure-category">
+                    <h3>Prosedur Meeting dengan Developer</h3>
+                    <div class="step">
+                        <h4>1. Koordinasi Teknis Sistem Elleosys</h4>
+                        <div class="step-detail">
+                            <p><strong>Tujuan:</strong> Memastikan kesiapan sistem untuk stok opname</p>
+                            <p><strong>Prosedur (PENTING DAN MENDESAK):</strong></p>
+                            <ol>
+                                <li><strong>Tanggal:</strong> 10 Maret 2026</li>
+                                <li><strong>Peserta:</strong> Koordinator Lapangan, Ketua Regu, Tim IT, Pak Yohan (Developer)</li>
+                                <li><strong>Agenda:</strong>
+                                    <ul>
+                                        <li>Review prosedur stok opname di sistem Elleosys</li>
+                                        <li>Koordinasi mekanisme freeze dan unfreeze database</li>
+                                        <li>Validasi format data input dan output</li>
+                                        <li>Testing integrasi dengan scanner dan mobile device</li>
+                                        <li>Pembahasan backup dan recovery procedure</li>
+                                        <li>Koordinasi jadwal maintenance system</li>
+                                        <li>Validasi laporan unlisted items</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Output:</strong> Minutes of Meeting dengan action plan dan timeline</li>
+                                <li><strong>Follow-up:</strong> Testing sistem berdasarkan rekomendasi meeting</li>
                             </ol>
                         </div>
                     </div>
@@ -1971,7 +2257,7 @@
                     
                     <div class="tool-card">
                         <h4><i class="fas fa-clipboard"></i> Clipboard & Form</h4>
-                        <p>20 set untuk backup manual jika terjadi masalah teknis</p>
+                        <p>25 set untuk backup manual jika terjadi masalah teknis</p>
                     </div>
                 </div>
                 
@@ -1979,7 +2265,7 @@
                 <div class="tools-grid">
                     <div class="tool-card">
                         <h4><i class="fas fa-map"></i> Denah Lokasi</h4>
-                        <p>Peta lengkap toko dan gudang dengan numbering location</p>
+                        <p>Peta lengkap toko dan gudang dengan numbering location per lantai</p>
                     </div>
                     
                     <div class="tool-card">
@@ -2012,22 +2298,42 @@
                 <div class="tools-grid">
                     <div class="tool-card">
                         <h4><i class="fas fa-users"></i> Struktur Organisasi Tim</h4>
-                        <p>Struktur tim lengkap dengan nama dan jabatan masing-masing</p>
+                        <p>Struktur tim lengkap dengan nama dan jabatan masing-masing (18 orang)</p>
                     </div>
                     
                     <div class="tool-card">
                         <h4><i class="fas fa-file-signature"></i> Surat Penugasan</h4>
-                        <p>Surat resmi penugasan untuk setiap anggota tim</p>
+                        <p>Surat resmi penugasan untuk setiap anggota tim termasuk Ketua Regu</p>
                     </div>
                     
                     <div class="tool-card">
                         <h4><i class="fas fa-money-bill-wave"></i> Rencana Anggaran Biaya</h4>
-                        <p>Detail budget konsumsi, peralatan, dan transportasi</p>
+                        <p>Detail budget konsumsi, peralatan, dan transportasi (Rp 3.525.000)</p>
                     </div>
                     
                     <div class="tool-card">
-                        <h4><i class="fas fa-utensils"></i> Jadwal Konsumsi</h4>
-                        <p>Jadwal makan dan coffee break selama stok opname</p>
+                        <h4><i class="fas fa-clipboard-list"></i> Form Control Ketua Regu</h4>
+                        <p>3 set Form Control untuk Ketua Regu Lantai 1, 2, dan 3</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-tasks"></i> Form Tugas Checker & Inputer</h4>
+                        <p>20 set Form Tugas untuk didistribusikan ke Checker dan Inputer</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-file-excel"></i> Laporan Unlisted Items</h4>
+                        <p>Laporan deteksi awal missing items dari hasil listing barcode</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-file-alt"></i> Laporan Cleanup Data</h4>
+                        <p>Laporan cleanup data outstanding sebelum freeze database</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-meeting"></i> Minutes of Meeting</h4>
+                        <p>Hasil meeting koordinasi dengan Developer (Pak Yohan)</p>
                     </div>
                     
                     <div class="tool-card">
@@ -2044,20 +2350,20 @@
         </div>
         
         <div class="footer-note">
-    <p><strong>Catatan:</strong> Stok opname GMB perlu memperhatikan karakteristik barang seperti ukuran, berat, dan kondisi penyimpanan khusus. Proses ini biasanya dilakukan minimal 1-2 kali setahun atau sesuai kebijakan perusahaan.</p>
-    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; font-size: 0.9rem; color: #666;">
-        <p style="margin-bottom: 8px;">
-            <strong>Created by:</strong> 
-            <a href="https://sofyanmujid.web.app/" target="_blank" style="color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.3s ease;">
-                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-right: 4px;"></i>
-                Sofyan Mujid
-            </a>
-        </p>
-        <p style="font-size: 0.85rem; color: #888;">
-            Sistem Manajemen Stok Opname - Grand Mitra Bangunan PIK2
-        </p>
-    </div>
-</div>
+            <p><strong>Catatan:</strong> Stok opname GMB perlu memperhatikan karakteristik barang seperti ukuran, berat, dan kondisi penyimpanan khusus. Proses ini biasanya dilakukan minimal 1-2 kali setahun atau sesuai kebijakan perusahaan.</p>
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; font-size: 0.9rem; color: #666;">
+                <p style="margin-bottom: 8px;">
+                    <strong>Created by:</strong> 
+                    <a href="https://sofyanmujid.web.app/" target="_blank" style="color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.3s ease;">
+                        <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-right: 4px;"></i>
+                        Sofyan Mujid
+                    </a>
+                </p>
+                <p style="font-size: 0.85rem; color: #888;">
+                    Sistem Manajemen Stok Opname - Grand Mitra Bangunan PIK2
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- Calendar Modal -->
@@ -2075,7 +2381,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Data untuk checklist dengan total 25 item
+            // Data untuk checklist dengan total 26 item (bertambah 1)
             const checklistData = [
                 { id: 1, name: "Pembentukan Tim Kecil Stok Opname", phase: 1, progress: 0 },
                 { id: 2, name: "Penyusunan Budget Stok Opname", phase: 1, progress: 0 },
@@ -2087,21 +2393,22 @@
                 { id: 8, name: "Persiapan Alat & PDT oleh Tim Logistik", phase: 2, progress: 0 },
                 { id: 9, name: "Training Tim Stok Opname", phase: 2, progress: 0 },
                 { id: 10, name: "Uji Coba Prosedur", phase: 2, progress: 0 },
-                { id: 11, name: "Freeze Database Sistem", phase: 3, progress: 0 },
-                { id: 12, name: "Cut-off Penerimaan Barang", phase: 3, progress: 0 },
-                { id: 13, name: "Cut-off Retur & Penyesuaian", phase: 3, progress: 0 },
-                { id: 14, name: "Backup Data Sistem", phase: 3, progress: 0 },
-                { id: 15, name: "Persiapan Konsumsi oleh Tim Logistik", phase: 3, progress: 0 },
-                { id: 16, name: "Briefing Pagi & Sarapan Bersama", phase: 4, progress: 0 },
-                { id: 17, name: "Penghitungan Fisik Barang (Toko Tutup)", phase: 4, progress: 0 },
-                { id: 18, name: "Input Data ke Sistem (Toko Masih Tutup)", phase: 4, progress: 0 },
-                { id: 19, name: "Unfreeze Database Sistem", phase: 4, progress: 0 },
-                { id: 20, name: "Buka Toko - Transaksi Normal", phase: 4, progress: 0 },
-                { id: 21, name: "Identifikasi & Penelusuran Selisih", phase: 4, progress: 0 },
-                { id: 22, name: "Berita Acara & Penyesuaian Finance", phase: 4, progress: 0 },
-                { id: 23, name: "Evaluasi Kinerja Tim", phase: 4, progress: 0 },
-                { id: 24, name: "Pembubaran Tim Kecil Stok Opname", phase: 4, progress: 0 },
-                { id: 25, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
+                { id: 11, name: "Cleanup Data Outstanding", phase: 3, progress: 0 },
+                { id: 12, name: "Freeze Database Sistem", phase: 3, progress: 0 },
+                { id: 13, name: "Cut-off Penerimaan Barang", phase: 3, progress: 0 },
+                { id: 14, name: "Cut-off Retur & Penyesuaian", phase: 3, progress: 0 },
+                { id: 15, name: "Backup Data Sistem", phase: 3, progress: 0 },
+                { id: 16, name: "Persiapan Konsumsi oleh Tim Logistik", phase: 3, progress: 0 },
+                { id: 17, name: "Briefing Pagi & Sarapan Bersama", phase: 4, progress: 0 },
+                { id: 18, name: "Penghitungan Fisik Barang (Toko Tutup)", phase: 4, progress: 0 },
+                { id: 19, name: "Input Data ke Sistem (Toko Masih Tutup)", phase: 4, progress: 0 },
+                { id: 20, name: "Unfreeze Database Sistem", phase: 4, progress: 0 },
+                { id: 21, name: "Buka Toko - Transaksi Normal", phase: 4, progress: 0 },
+                { id: 22, name: "Identifikasi & Penelusuran Selisih", phase: 4, progress: 0 },
+                { id: 23, name: "Berita Acara & Penyesuaian Finance", phase: 4, progress: 0 },
+                { id: 24, name: "Evaluasi Kinerja Tim", phase: 4, progress: 0 },
+                { id: 25, name: "Pembubaran Tim Kecil Stok Opname", phase: 4, progress: 0 },
+                { id: 26, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
             ];
 
             // Data untuk steps
@@ -2493,8 +2800,8 @@
                             dateClass += ' event'; // Buka kembali toko
                         } else if (day === 22) {
                             dateClass += ' budget'; // Pembubaran tim
-                        } else if (day >= 12 && day <= 13) {
-                            dateClass += ' event'; // Persiapan administratif
+                        } else if (day >= 10 && day <= 13) {
+                            dateClass += ' event'; // Cleanup data & persiapan administratif
                         } else if (day >= 16 && day <= 21) {
                             dateClass += ' event'; // Analisis & finalisasi
                         } else if (day < 20) {
@@ -2513,11 +2820,19 @@
                     <div class="event-list">
                         <div class="event-item budget">
                             <div class="event-date">19 Jan 2026</div>
-                            <div class="event-desc"><strong>PEMBENTUKAN TIM & BUDGET:</strong> Pembentukan tim kecil (15 orang), penyusunan anggaran (Rp 2.925.000), penetapan jobdesk</div>
+                            <div class="event-desc"><strong>PEMBENTUKAN TIM & BUDGET:</strong> Pembentukan tim kecil (18 orang), penyusunan anggaran (Rp 3.525.000), penetapan jobdesk termasuk 3 Ketua Regu</div>
                         </div>
                         <div class="event-item">
                             <div class="event-date">21 Jan - 11 Mar 2026</div>
-                            <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, training tim, uji coba prosedur</div>
+                            <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, deteksi unlisted items, training tim, persiapan Form Control</div>
+                        </div>
+                        <div class="event-item important">
+                            <div class="event-date">10 Mar 2026</div>
+                            <div class="event-desc"><strong>MEETING KOORDINASI DENGAN DEVELOPER (PAK YOHAN):</strong> Koordinasi teknis stok opname di sistem Elleosys - PENTING DAN MENDESAK</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">10-12 Apr 2026</div>
+                            <div class="event-desc"><strong>CLEANUP DATA OUTSTANDING:</strong> Proses barang in-use, penjualan manual, barang indent status done sebelum freeze database</div>
                         </div>
                         <div class="event-item">
                             <div class="event-date">12-13 Apr 2026</div>
@@ -2525,23 +2840,23 @@
                         </div>
                         <div class="event-item important">
                             <div class="event-date">14 Apr 2026</div>
-                            <div class="event-desc"><strong>HARI-H STOK OPNAME (TOKO TUTUP):</strong> Briefing (07:00), penghitungan fisik (08:00-18:00), input data (18:00-22:00)</div>
+                            <div class="event-desc"><strong>HARI-H STOK OPNAME (TOKO TUTUP):</strong> Briefing (07:00), penghitungan fisik dengan Form Control (08:00-18:00), input data (18:00-22:00)</div>
                         </div>
                         <div class="event-item">
                             <div class="event-date">15 Apr 2026</div>
-                            <div class="event-desc"><strong>NORMALISASI:</strong> Unfreeze database (07:00), buka toko (08:00), transaksi normal, mulai identifikasi selisih</div>
+                            <div class="event-desc"><strong>NORMALISASI:</strong> Unfreeze database (07:00), buka toko (08:00), transaksi normal, mulai identifikasi selisih dengan data Form Control</div>
                         </div>
                         <div class="event-item">
                             <div class="event-date">16-21 Apr 2026</div>
-                            <div class="event-desc"><strong>ANALISIS & FINALISASI:</strong> Penelusuran selisih, audit dokumen, berita acara, penyesuaian finance, evaluasi tim</div>
+                            <div class="event-desc"><strong>ANALISIS & FINALISASI:</strong> Penelusuran selisih, audit dokumen termasuk Form Control, berita acara, penyesuaian finance, evaluasi tim</div>
                         </div>
                         <div class="event-item budget">
                             <div class="event-date">22 Apr 2026</div>
-                            <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat, penyelesaian administrasi, pengembalian personil</div>
+                            <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat khusus Ketua Regu, penyelesaian administrasi, pengembalian personil</div>
                         </div>
                         <div class="event-item">
                             <div class="event-date">23 Apr 2026</div>
-                            <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, rekomendasi perbaikan, arsip dokumen</div>
+                            <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, analisis unlisted items, review kinerja berdasarkan Form Control, rekomendasi perbaikan</div>
                         </div>
                     </div>
                 `;
