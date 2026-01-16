@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alur Kerja Stok Opname - Grand Mitra Bangunan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .calendar-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        /* Checklist Sidebar */
+        .checklist-sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            width: 320px;
+            height: calc(100vh - 80px);
+            background-color: white;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 90;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .checklist-sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .checklist-toggle {
+            position: fixed;
+            left: 0;
+            top: 120px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 12px 8px;
+            cursor: pointer;
+            z-index: 95;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .checklist-toggle:hover {
+            background-color: #2980b9;
+            padding-left: 12px;
+        }
+        
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .checklist-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+        }
+        
+        .overall-progress {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .progress-container {
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar-check {
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .progress-percentage {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .phase-checklist {
+            margin-bottom: 25px;
+        }
+        
+        .phase-checklist-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 600;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #ddd;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .checklist-item:hover {
+            background-color: #edf2f7;
+        }
+        
+        .checklist-item.completed {
+            border-left-color: #2ecc71;
+            background-color: #f0f9f4;
+        }
+        
+        .checklist-item.in-progress {
+            border-left-color: #f39c12;
+            background-color: #fef9e7;
+        }
+        
+        .checklist-item-name {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .checklist-item-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .item-progress-bar {
+            width: 80px;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .item-progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .item-progress-percent {
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 35px;
+            text-align: right;
+        }
+        
+        .checklist-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .checklist-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .checklist-btn.complete-all {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .checklist-btn.complete-all:hover {
+            background-color: #27ae60;
+        }
+        
+        .checklist-btn.reset-all {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .checklist-btn.reset-all:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Page Sections */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+            margin-left: 0;
+            transition: margin-left 0.4s ease;
+        }
+        
+        .sidebar-open header {
+            margin-left: 320px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            transition: margin-left 0.4s ease;
+        }
+        
+        .sidebar-open .main-content {
+            margin-left: 320px;
+        }
+        
+        .workflow-section {
+            flex: 3;
+        }
+        
+        .calendar-section {
+            flex: 2;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .calendar-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e74c3c;
+            color: #2c3e50;
+        }
+        
+        .calendar {
+            margin-bottom: 25px;
+        }
+        
+        .month-year {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            font-weight: 600;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            color: #555;
+        }
+        
+        .calendar-date {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .calendar-date:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .calendar-date.today {
+            background-color: #3498db;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .calendar-date.event {
+            background-color: #2ecc71;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .calendar-date.important {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .calendar-date.budget {
+            background-color: #9b59b6;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .calendar-date.past {
+            color: #bbb;
+        }
+        
+        .event-list {
+            margin-top: 20px;
+        }
+        
+        .event-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            background-color: #f8f9fa;
+        }
+        
+        .event-item.important {
+            border-left-color: #e74c3c;
+        }
+        
+        .event-item.budget {
+            border-left-color: #9b59b6;
+        }
+        
+        .event-date {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .event-desc {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+        }
+        
+        /* Phase Container */
+        .phase-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .phase-group {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .phase-group:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .phase-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+        
+        .phase-title i {
+            font-size: 1.8rem;
+            margin-right: 15px;
+        }
+        
+        .phase-1 .phase-title { border-color: #3498db; color: #3498db; }
+        .phase-2 .phase-title { border-color: #2ecc71; color: #2ecc71; }
+        .phase-3 .phase-title { border-color: #e74c3c; color: #e74c3c; }
+        .phase-4 .phase-title { border-color: #f39c12; color: #f39c12; }
+        
+        .phase-title h2 {
+            font-size: 1.5rem;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #ddd;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step:hover {
+            background-color: #edf2f7;
+            transform: translateX(5px);
+        }
+        
+        .phase-1 .step { border-left-color: #3498db; }
+        .phase-2 .step { border-left-color: #2ecc71; }
+        .phase-3 .step { border-left-color: #e74c3c; }
+        .phase-4 .step { border-left-color: #f39c12; }
+        
+        .step.active {
+            background-color: #e3f2fd;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #ddd;
+            color: #555;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .phase-1 .step-number { background-color: #3498db; color: white; }
+        .phase-2 .step-number { background-color: #2ecc71; color: white; }
+        .phase-3 .step-number { background-color: #e74c3c; color: white; }
+        .phase-4 .step-number { background-color: #f39c12; color: white; }
+        
+        .step h3 {
+            display: inline;
+            font-size: 1rem;
+        }
+        
+        .step-timetable {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 0.8rem;
+            background-color: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px dashed #ccc;
+            color: #666;
+        }
+        
+        .step-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 10px;
+            padding-left: 35px;
+        }
+        
+        .step-detail.expanded {
+            max-height: 500px;
+        }
+        
+        .step-detail p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .step-detail ul {
+            padding-left: 20px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .step-detail li {
+            margin-bottom: 5px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .team-card {
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .team-card h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .budget-table th, .budget-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .budget-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        
+        .budget-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .budget-table .total-row {
+            background-color: #e8f5e9;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .visual-progress {
+            width: 100%;
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2ecc71, #e74c3c, #f39c12);
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 5px;
+        }
+        
+        .footer-note {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .current-step-indicator {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            height: 30px;
+        }
+        
+        /* Timeline Page */
+        .timeline-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .timeline-date {
+            min-width: 150px;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+            margin-right: 20px;
+            height: fit-content;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .timeline-content h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* Prosedur Page */
+        .procedure-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+        
+        .procedure-category {
+            margin-bottom: 30px;
+        }
+        
+        .procedure-category h3 {
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 15px;
+        }
+        
+        /* Tools Page */
+        .tools-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .tool-card {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-top: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tool-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* Modal for Calendar */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 10px;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e74c3c;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+        
+        .close-modal {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: #e74c3c;
+        }
+        
+        @media (max-width: 1200px) {
+            .sidebar-open header,
+            .sidebar-open .main-content {
+                margin-left: 0;
+            }
+            
+            .checklist-sidebar {
+                transform: translateX(-100%);
+                width: 300px;
+            }
+            
+            .checklist-sidebar.open {
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .calendar-section {
+                position: static;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .phase-container {
+                flex-direction: column;
+            }
+            
+            .phase-group {
+                min-width: 100%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 80%;
+                justify-content: center;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .checklist-sidebar {
+                width: 280px;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+            }
+            
+            .timeline-date {
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .budget-table {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" id="logoHome">
+                <i class="fas fa-warehouse"></i>
+                <span>Stok Opname GMB</span>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link active" data-page="workflow">Alur Kerja</a>
+                <a class="nav-link" data-page="timeline">Timeline</a>
+                <a class="nav-link" data-page="prosedur">Prosedur</a>
+                <a class="nav-link" data-page="tools">Alat & Dokumen</a>
+            </div>
+            <button class="calendar-btn" id="openCalendarModal">
+                <i class="fas fa-calendar-alt"></i>
+                Kalender Stok Opname
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Checklist Sidebar -->
+    <button class="checklist-toggle" id="checklistToggle">
+        <i class="fas fa-tasks"></i>
+        Checklist
+    </button>
+    
+    <div class="checklist-sidebar" id="checklistSidebar">
+        <div class="checklist-header">
+            <h3 class="checklist-title">Checklist Progress</h3>
+            <button id="closeChecklist" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="overall-progress">
+            <div class="progress-label">
+                <span>Progress Keseluruhan</span>
+                <span id="overallPercent">0%</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar-check" id="overallProgressBar"></div>
+            </div>
+            <div class="progress-percentage">
+                <span id="completedTasks">0</span> dari <span id="totalTasks">25</span> tugas selesai
+            </div>
+        </div>
+        
+        <!-- Phase 1 Checklist -->
+        <div class="phase-checklist">
+            <div class="phase-checklist-title">
+                <i class="fas fa-users" style="color: #3498db;"></i>
+                <span>Pembentukan Tim & Persiapan</span>
+            </div>
+            <div id="phase1-checklist">
+                <!-- Checklist items will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Phase 2 Checklist -->
+        <div class="phase-checklist">
+            <div class="phase-checklist-title">
+                <i class="fas fa-tools" style="color: #2ecc71;"></i>
+                <span>Persiapan Operasional</span>
+            </div>
+            <div id="phase2-checklist">
+                <!-- Checklist items will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Phase 3 Checklist -->
+        <div class="phase-checklist">
+            <div class="phase-checklist-title">
+                <i class="fas fa-file-alt" style="color: #e74c3c;"></i>
+                <span>Persiapan Administratif</span>
+            </div>
+            <div id="phase3-checklist">
+                <!-- Checklist items will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Phase 4 Checklist -->
+        <div class="phase-checklist">
+            <div class="phase-checklist-title">
+                <i class="fas fa-calculator" style="color: #f39c12;"></i>
+                <span>Eksekusi & Finalisasi</span>
+            </div>
+            <div id="phase4-checklist">
+                <!-- Checklist items will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="checklist-controls">
+            <button class="checklist-btn complete-all" id="completeAllBtn">
+                <i class="fas fa-check-double"></i>
+                Tandai Semua Selesai
+            </button>
+            <button class="checklist-btn reset-all" id="resetAllBtn">
+                <i class="fas fa-redo"></i>
+                Reset Semua
+            </button>
+        </div>
+    </div>
+    
+    <!-- Page Sections -->
+    <div class="container" id="mainContainer">
+        
+        <!-- Workflow Page (Default) -->
+        <div class="page-section active" id="workflow-page">
+            <header>
+                <h1><i class="fas fa-clipboard-check"></i> Alur Kerja Stok Opname</h1>
+                <p class="subtitle">Mekanisme lengkap stok opname GRAND MITRA bangunan dengan timeline terintegrasi. Pelaksanaan stok opname: 14 April 2026.</p>
+            </header>
+            
+            <div class="current-step-indicator" id="currentStepIndicator">
+                Klik pada langkah untuk melihat detail
+            </div>
+            
+            <div class="visual-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="main-content">
+                <div class="workflow-section">
+                    <div class="phase-container">
+                        <!-- Fase 1: Pembentukan Tim & Persiapan -->
+                        <div class="phase-group phase-1">
+                            <div class="phase-title">
+                                <i class="fas fa-users"></i>
+                                <h2>Pembentukan Tim & Persiapan</h2>
+                            </div>
+                            
+                            <div class="step" id="step1" data-checklist-id="1">
+                                <span class="step-number">1</span>
+                                <h3>Pembentukan Tim Kecil Stok Opname</h3>
+                                <span class="step-timetable">19 Jan 2026</span>
+                                <div class="step-detail">
+                                    <p>Membentuk tim khusus untuk pelaksanaan stok opname:</p>
+                                    <div class="team-grid">
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-user-tie"></i> Koordinator Lapangan</h4>
+                                            <p><strong>Jobdesk:</strong> Mengkoordinasi seluruh kegiatan stok opname, memastikan semua prosedur diikuti, menjadi penghubung antara tim dengan manajemen</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-user-check"></i> Counter</h4>
+                                            <p><strong>Jobdesk:</strong> Melakukan penghitungan fisik barang di lokasi, menggunakan scanner barcode, mencatat kondisi barang (baik/rusak/expired)</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-keyboard"></i> Inputer</h4>
+                                            <p><strong>Jobdesk:</strong> Memasukkan data hasil penghitungan ke sistem, verifikasi kelengkapan data, koordinasi dengan counter untuk data yang kurang lengkap</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-search"></i> Checker</h4>
+                                            <p><strong>Jobdesk:</strong> Melakukan cross-check hasil penghitungan, verifikasi akurasi data, sampling check di area yang sudah dihitung</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-clipboard-check"></i> Validator</h4>
+                                            <p><strong>Jobdesk:</strong> Validasi final data sebelum masuk sistem, tanda tangan berita acara, memastikan konsistensi data antar area</p>
+                                        </div>
+                                        <div class="team-card">
+                                            <h4><i class="fas fa-truck"></i> Logistik</h4>
+                                            <p><strong>Jobdesk:</strong> Menyiapkan peralatan, formulir, PDT, konsumsi tim, koordinasi kebutuhan operasional selama stok opname</p>
+                                        </div>
+                                    </div>
+                                    <p><strong>Total Tim:</strong> 15 orang (Koordinator: 1, Counter: 6, Inputer: 3, Checker: 2, Validator: 1, Logistik: 2)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step2" data-checklist-id="2">
+                                <span class="step-number">2</span>
+                                <h3>Penyusunan Budget Stok Opname</h3>
+                                <span class="step-timetable">19 Jan 2026</span>
+                                <div class="step-detail">
+                                    <p>Rencana anggaran untuk pelaksanaan stok opname:</p>
+                                    <table class="budget-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Kuantitas</th>
+                                                <th>Harga Satuan</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>A. KONSUMSI</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sarapan (14 Apr)</td>
+                                                <td>15 orang</td>
+                                                <td>Rp 25.000</td>
+                                                <td>Rp 375.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Coffee Break Pagi</td>
+                                                <td>15 orang</td>
+                                                <td>Rp 15.000</td>
+                                                <td>Rp 225.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Makan Siang</td>
+                                                <td>15 orang</td>
+                                                <td>Rp 35.000</td>
+                                                <td>Rp 525.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Coffee Break Sore</td>
+                                                <td>15 orang</td>
+                                                <td>Rp 15.000</td>
+                                                <td>Rp 225.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Subtotal Konsumsi</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Rp 1.350.000</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>B. PERALATAN</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Formulir Penghitungan</td>
+                                                <td>200 lembar</td>
+                                                <td>Rp 500</td>
+                                                <td>Rp 100.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alat Tulis (Pulpen, Clip)</td>
+                                                <td>20 set</td>
+                                                <td>Rp 10.000</td>
+                                                <td>Rp 200.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Name Tag Tim</td>
+                                                <td>15 buah</td>
+                                                <td>Rp 5.000</td>
+                                                <td>Rp 75.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Subtotal Peralatan</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Rp 375.000</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>C. LAIN-LAIN</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Transport Tim</td>
+                                                <td>15 orang</td>
+                                                <td>Rp 50.000</td>
+                                                <td>Rp 750.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Konsumsi Rapat Persiapan</td>
+                                                <td>3x pertemuan</td>
+                                                <td>Rp 150.000</td>
+                                                <td>Rp 450.000</td>
+                                            </tr>
+                                            <tr class="total-row">
+                                                <td><strong>TOTAL ANGGARAN</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Rp 2.925.000</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p><em>Catatan: Budget sudah termasuk PPN 11% dan kontijensi 10%</em></p>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step3" data-checklist-id="3">
+                                <span class="step-number">3</span>
+                                <h3>Briefing Awal & Pembagian Tugas</h3>
+                                <span class="step-timetable">20 Jan 2026</span>
+                                <div class="step-detail">
+                                    <p>Rapat pembentukan tim dan penjelasan tanggung jawab:</p>
+                                    <ul>
+                                        <li>Penjelasan tujuan dan pentingnya stok opname</li>
+                                        <li>Pembagian area kerja untuk masing-masing counter</li>
+                                        <li>Penjelasan sistem penghitungan dan pencatatan</li>
+                                        <li>Penetapan standar operasional prosedur (SOP)</li>
+                                        <li>Pembagian jadwal pelatihan teknis</li>
+                                        <li>Penandatanganan surat penugasan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fase 2: Persiapan Operasional -->
+                        <div class="phase-group phase-2">
+                            <div class="phase-title">
+                                <i class="fas fa-tools"></i>
+                                <h2>Persiapan Operasional</h2>
+                            </div>
+                            
+                            <div class="step" id="step4" data-checklist-id="4">
+                                <span class="step-number">4</span>
+                                <h3>Grouping & Tata Letak Barang</h3>
+                                <span class="step-timetable">21-28 Jan 2026</span>
+                                <div class="step-detail">
+                                    <p>Mengelompokkan barang berdasarkan kategori:</p>
+                                    <ul>
+                                        <li>Bahan dasar (semen, pasir, kerikil)</li>
+                                        <li>Bahan finishing (cat, pelapis, pernis)</li>
+                                        <li>Perkakas (alat tangan, alat listrik)</li>
+                                        <li>Sanitasi & Pipa</li>
+                                        <li>Listrik & Penerangan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step5" data-checklist-id="5">
+                                <span class="step-number">5</span>
+                                <h3>Mapping & Numbering Location</h3>
+                                <span class="step-timetable">28 Jan - 4 Feb 2026</span>
+                                <div class="step-detail">
+                                    <p>Pemetaan lokasi penyimpanan dan pemberian nomor:</p>
+                                    <ul>
+                                        <li>Membuat denah gudang dan area toko</li>
+                                        <li>Memberi nomor pada setiap rak, palet, dan area penyimpanan</li>
+                                        <li>Memastikan setiap lokasi memiliki identifikasi unik</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step6" data-checklist-id="6">
+                                <span class="step-number">6</span>
+                                <h3>Listing Lokasi (Layout/Planogram)</h3>
+                                <span class="step-timetable">4-11 Feb 2026</span>
+                                <div class="step-detail">
+                                    <p>Membuat daftar lengkap semua lokasi penyimpanan:</p>
+                                    <ul>
+                                        <li><strong>Rak:</strong> Rak display, rak gudang, rak dinding</li>
+                                        <li><strong>Pallet:</strong> Palet lantai, palet multi-level</li>
+                                        <li><strong>Top Shelving:</strong> Rak atas untuk barang ringan</li>
+                                        <li><strong>Floor Area:</strong> Area lantai untuk barang besar/berat</li>
+                                        <li><strong>Area Promo:</strong> Display khusus barang promosi</li>
+                                        <li>Pencatatan barcode produk di setiap lokasi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step7" data-checklist-id="7">
+                                <span class="step-number">7</span>
+                                <h3>Listing Barcode per Lokasi</h3>
+                                <span class="step-timetable">11-18 Feb 2026</span>
+                                <div class="step-detail">
+                                    <p>Mencatat semua barcode produk di masing-masing lokasi:</p>
+                                    <ul>
+                                        <li>Scan barcode produk di setiap rak dan area</li>
+                                        <li>Verifikasi kesesuaian produk dengan lokasi</li>
+                                        <li>Pencatatan produk tanpa barcode/rusak</li>
+                                        <li>Pembuatan master list barcode-lokasi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step8" data-checklist-id="8">
+                                <span class="step-number">8</span>
+                                <h3>Persiapan Alat & PDT oleh Tim Logistik</h3>
+                                <span class="step-timetable">18-25 Feb 2026</span>
+                                <div class="step-detail">
+                                    <p>Tim logistik menyiapkan peralatan fisik dan digital:</p>
+                                    <ul>
+                                        <li>Scanner barcode/QR code (5 unit)</li>
+                                        <li>Tablet/mobile device dengan aplikasi stok opname</li>
+                                        <li>Kertas kerja, clipboard, dan alat tulis</li>
+                                        <li>Alat pengukur (meteran, timbangan digital)</li>
+                                        <li>Walkie-talkie untuk koordinasi tim</li>
+                                        <li>Formulir penghitungan (200 lembar)</li>
+                                        <li>Name tag untuk identifikasi tim</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step9" data-checklist-id="9">
+                                <span class="step-number">9</span>
+                                <h3>Training Tim Stok Opname</h3>
+                                <span class="step-timetable">25 Feb - 4 Mar 2026</span>
+                                <div class="step-detail">
+                                    <p>Pelatihan intensif untuk seluruh tim:</p>
+                                    <ul>
+                                        <li>Pelatihan penggunaan scanner dan aplikasi</li>
+                                        <li>Simulasi penghitungan di area terbatas</li>
+                                        <li>Penjelasan kode kondisi barang</li>
+                                        <li>Prosedur pencatatan dan pelaporan</li>
+                                        <li>Keselamatan kerja selama stok opname</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step10" data-checklist-id="10">
+                                <span class="step-number">10</span>
+                                <h3>Uji Coba Prosedur</h3>
+                                <span class="step-timetable">4-11 Mar 2026</span>
+                                <div class="step-detail">
+                                    <p>Melakukan simulasi stok opname:</p>
+                                    <ul>
+                                        <li>Uji coba penghitungan di area kecil (10% area)</li>
+                                        <li>Verifikasi kelengkapan alat dan sistem</li>
+                                        <li>Evaluasi efektivitas tim dan prosedur</li>
+                                        <li>Perbaikan jika ditemukan kendala</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fase 3: Persiapan Administratif -->
+                        <div class="phase-group phase-3">
+                            <div class="phase-title">
+                                <i class="fas fa-file-alt"></i>
+                                <h2>Persiapan Administratif</h2>
+                            </div>
+                            
+                            <div class="step" id="step11" data-checklist-id="11">
+                                <span class="step-number">11</span>
+                                <h3>Freeze Database Sistem</h3>
+                                <span class="step-timetable">12-13 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Membekukan transaksi di sistem:</p>
+                                    <ul>
+                                        <li>Menghentikan sementara semua transaksi penerimaan barang</li>
+                                        <li>Menghentikan proses retur barang</li>
+                                        <li>Memastikan tidak ada transfer barang antar gudang</li>
+                                        <li>Mencatat semua transaksi yang belum terekam</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step12" data-checklist-id="12">
+                                <span class="step-number">12</span>
+                                <h3>Cut-off Penerimaan Barang</h3>
+                                <span class="step-timetable">13 Apr 2026 (17:00)</span>
+                                <div class="step-detail">
+                                    <p>Menentukan batas waktu penerimaan barang:</p>
+                                    <ul>
+                                        <li>Barang yang datang sebelum cut-off dimasukkan dalam stok</li>
+                                        <li>Barang yang datang setelah cut-off dicatat terpisah</li>
+                                        <li>Pembuatan laporan penerimaan barang pre-cut-off</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step13" data-checklist-id="13">
+                                <span class="step-number">13</span>
+                                <h3>Cut-off Retur & Penyesuaian</h3>
+                                <span class="step-timetable">13 Apr 2026 (17:00)</span>
+                                <div class="step-detail">
+                                    <p>Menghentikan sementara retur dan penyesuaian:</p>
+                                    <ul>
+                                        <li>Retur dari customer dicatat manual</li>
+                                        <li>Retur ke supplier ditangguhkan</li>
+                                        <li>Penyesuaian stok karena rusak/expired ditangguhkan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step14" data-checklist-id="14">
+                                <span class="step-number">14</span>
+                                <h3>Backup Data Sistem</h3>
+                                <span class="step-timetable">13 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Melakukan backup data sebelum stok opname:</p>
+                                    <ul>
+                                        <li>Backup database lengkap</li>
+                                        <li>Backup laporan stok terakhir</li>
+                                        <li>Pencatatan timestamp backup</li>
+                                        <li>Verifikasi integritas data backup</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step15" data-checklist-id="15">
+                                <span class="step-number">15</span>
+                                <h3>Persiapan Konsumsi oleh Tim Logistik</h3>
+                                <span class="step-timetable">13 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Tim logistik menyiapkan konsumsi untuk hari H:</p>
+                                    <ul>
+                                        <li>Pemesanan sarapan untuk 15 orang</li>
+                                        <li>Penyiapan coffee break pagi dan sore</li>
+                                        <li>Pemesanan makan siang box</li>
+                                        <li>Penyediaan air mineral dan snack</li>
+                                        <li>Penyiapan area makan untuk tim</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fase 4: Eksekusi & Finalisasi -->
+                        <div class="phase-group phase-4">
+                            <div class="phase-title">
+                                <i class="fas fa-calculator"></i>
+                                <h2>Eksekusi & Finalisasi</h2>
+                            </div>
+                            
+                            <div class="step" id="step16" data-checklist-id="16">
+                                <span class="step-number">16</span>
+                                <h3>Briefing Pagi & Sarapan Bersama</h3>
+                                <span class="step-timetable">14 Apr 2026 (07:00)</span>
+                                <div class="step-detail">
+                                    <p>Semua tim wajib hadir untuk briefing dan sarapan:</p>
+                                    <ul>
+                                        <li><strong>07:00 - 07:15:</strong> Absensi dan sarapan bersama</li>
+                                        <li><strong>07:15 - 07:30:</strong> Briefing pengarahan singkat oleh koordinator</li>
+                                        <li><strong>07:30 - 07:45:</strong> Pembagian alat dan area kerja</li>
+                                        <li><strong>07:45 - 08:00:</strong> Persiapan akhir sebelum penghitungan</li>
+                                        <li><strong>WAJIB:</strong> Semua tim hadir tepat waktu, menggunakan name tag, membawa alat kerja</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step17" data-checklist-id="17">
+                                <span class="step-number">17</span>
+                                <h3>Penghitungan Fisik Barang (Toko Tutup)</h3>
+                                <span class="step-timetable">14 Apr 2026 (08:00-18:00)</span>
+                                <div class="step-detail">
+                                    <p>Proses menghitung stok fisik di lokasi - TOKO DITUTUP:</p>
+                                    <ul>
+                                        <li>Penghitungan menggunakan scanner atau manual</li>
+                                        <li>Pencatatan kondisi barang (baik/rusak/expired)</li>
+                                        <li>Verifikasi oleh checker setiap 2 jam</li>
+                                        <li>Pembuatan berita acara penghitungan per area</li>
+                                        <li><strong>TOKO DITUTUP UNTUK UMUM</strong></li>
+                                        <li>Hanya tim stok opname yang boleh masuk area toko</li>
+                                        <li><strong>09:30:</strong> Coffee break pagi</li>
+                                        <li><strong>12:00-13:00:</strong> Istirahat makan siang</li>
+                                        <li><strong>15:30:</strong> Coffee break sore</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step18" data-checklist-id="18">
+                                <span class="step-number">18</span>
+                                <h3>Input Data ke Sistem (Toko Masih Tutup)</h3>
+                                <span class="step-timetable">14 Apr 2026 (18:00-22:00)</span>
+                                <div class="step-detail">
+                                    <p>Input data hasil penghitungan - TOKO MASIH TUTUP:</p>
+                                    <ul>
+                                        <li>Input data oleh tim inputer</li>
+                                        <li>Verifikasi kelengkapan data oleh checker</li>
+                                        <li>Validasi oleh validator</li>
+                                        <li>Pembuatan laporan sementara</li>
+                                        <li>Tim counter membantu input data area masing-masing</li>
+                                        <li>Koordinator memonitor progress input data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step19" data-checklist-id="19">
+                                <span class="step-number">19</span>
+                                <h3>Unfreeze Database Sistem</h3>
+                                <span class="step-timetable">15 Apr 2026 (07:00)</span>
+                                <div class="step-detail">
+                                    <p>Mengaktifkan kembali transaksi di sistem:</p>
+                                    <ul>
+                                        <li>Membuka kembali transaksi penerimaan barang</li>
+                                        <li>Mengaktifkan proses retur</li>
+                                        <li>Memproses transaksi yang tertunda</li>
+                                        <li>Verifikasi sistem berjalan normal</li>
+                                        <li>Komunikasi ke semua departemen tentang aktifnya sistem</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step20" data-checklist-id="20">
+                                <span class="step-number">20</span>
+                                <h3>Buka Toko - Transaksi Normal</h3>
+                                <span class="step-timetable">15 Apr 2026 (08:00)</span>
+                                <div class="step-detail">
+                                    <p>Operasional toko kembali normal:</p>
+                                    <ul>
+                                        <li>TOKO DIBUKA KEMBALI untuk pelanggan</li>
+                                        <li>Transaksi penjualan normal dimulai</li>
+                                        <li>Penerimaan barang dapat dilakukan kembali</li>
+                                        <li>Retur barang diproses seperti biasa</li>
+                                        <li>Tim stok opname kembali ke tugas normal masing-masing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step21" data-checklist-id="21">
+                                <span class="step-number">21</span>
+                                <h3>Identifikasi & Penelusuran Selisih</h3>
+                                <span class="step-timetable">15-19 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Analisis perbedaan stok fisik vs sistem:</p>
+                                    <ul>
+                                        <li>Identifikasi discrepancy oleh validator</li>
+                                        <li>Penelusuran penyebab selisih oleh koordinator</li>
+                                        <li>Audit dokumen pendukung</li>
+                                        <li>Pengecekan ulang barang di lokasi yang berselisih</li>
+                                        <li>Pembuatan laporan selisih detail</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step22" data-checklist-id="22">
+                                <span class="step-number">22</span>
+                                <h3>Berita Acara & Penyesuaian Finance</h3>
+                                <span class="step-timetable">20 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Penyelesaian dokumen dan penyesuaian keuangan:</p>
+                                    <ul>
+                                        <li>Pembuatan berita acara stok opname final</li>
+                                        <li>Penyesuaian nilai persediaan di pembukuan</li>
+                                        <li>Pembuatan jurnal penyesuaian</li>
+                                        <li>Update harga pokok penjualan</li>
+                                        <li>Distribusi laporan ke departemen terkait</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step23" data-checklist-id="23">
+                                <span class="step-number">23</span>
+                                <h3>Evaluasi Kinerja Tim</h3>
+                                <span class="step-timetable">21 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Review kinerja tim stok opname:</p>
+                                    <ul>
+                                        <li>Evaluasi efektivitas setiap peran (counter, inputer, checker, dll)</li>
+                                        <li>Analisis kendala dan solusi yang ditemukan</li>
+                                        <li>Feedback dari semua anggota tim</li>
+                                        <li>Identifikasi area perbaikan untuk stok opname berikutnya</li>
+                                        <li>Penyusunan rekomendasi perbaikan prosedur</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step24" data-checklist-id="24">
+                                <span class="step-number">24</span>
+                                <h3>Pembubaran Tim Kecil Stok Opname</h3>
+                                <span class="step-timetable">22 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Formalitas akhir dan pembubaran tim:</p>
+                                    <ul>
+                                        <li>Rapat penutupan tim stok opname</li>
+                                        <li>Penyerahan laporan final ke manajemen</li>
+                                        <li>Pembagian sertifikat/surat penghargaan kepada anggota tim</li>
+                                        <li>Penyelesaian administrasi keuangan (pengembalian alat, pelaporan anggaran)</li>
+                                        <li>Pengembalian tim ke posisi/departemen asal masing-masing</li>
+                                        <li>Arsip semua dokumen stok opname</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="step" id="step25" data-checklist-id="25">
+                                <span class="step-number">25</span>
+                                <h3>Pelaporan ke Manajemen</h3>
+                                <span class="step-timetable">23 Apr 2026</span>
+                                <div class="step-detail">
+                                    <p>Presentasi hasil stok opname kepada manajemen:</p>
+                                    <ul>
+                                        <li>Presentasi hasil akhir stok opname</li>
+                                        <li>Analisis akurasi stok sistem vs fisik</li>
+                                        <li>Rekomendasi sistem dan prosedur</li>
+                                        <li>Laporan keuangan hasil penyesuaian</li>
+                                        <li>Rencana tindak lanjut perbaikan</li>
+                                        <li>Jadwal stok opname berikutnya</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="calendar-section">
+                    <div class="calendar-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Kalender Stok Opname</h3>
+                    </div>
+                    <div id="calendar">
+                        <!-- Calendar will be generated by JavaScript -->
+                    </div>
+                    <div class="event-list">
+                        <h4>Tanggal Penting:</h4>
+                        <div class="event-item important">
+                            <div class="event-date">19 Jan 2026</div>
+                            <div class="event-desc">Pembentukan Tim & Budget Stok Opname</div>
+                        </div>
+                        <div class="event-item budget">
+                            <div class="event-date">19 Jan 2026</div>
+                            <div class="event-desc">Penyusunan Anggaran Konsumsi & Peralatan</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">4-11 Mar 2026</div>
+                            <div class="event-desc">Uji coba prosedur stok opname</div>
+                        </div>
+                        <div class="event-item important">
+                            <div class="event-date">14 Apr 2026</div>
+                            <div class="event-desc">HARI-H: Stok Opname (Toko Tutup)</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">15 Apr 2026</div>
+                            <div class="event-desc">Buka kembali toko, transaksi normal</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">22 Apr 2026</div>
+                            <div class="event-desc">Pembubaran Tim Stok Opname</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Langkah Sebelumnya
+                </button>
+                <button id="nextBtn">
+                    Langkah Berikutnya <i class="fas fa-arrow-right"></i>
+                </button>
+                <button id="resetBtn">
+                    <i class="fas fa-redo"></i> Ulangi Alur
+                </button>
+            </div>
+        </div>
+        
+        <!-- Timeline Page -->
+        <div class="page-section" id="timeline-page">
+            <header>
+                <h1><i class="fas fa-calendar-alt"></i> Timeline Stok Opname 2026</h1>
+                <p class="subtitle">Jadwal lengkap persiapan dan pelaksanaan stok opname dari Januari hingga April 2026</p>
+            </header>
+            
+            <div class="timeline-container">
+                <h2>Timeline Detail Stok Opname</h2>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">19-20 Jan 2026</div>
+                    <div class="timeline-content">
+                        <h3>Pembentukan Tim & Persiapan Awal</h3>
+                        <p><strong>Fase 1:</strong> Pembentukan struktur tim dan persiapan administratif</p>
+                        <ul>
+                            <li>Pembentukan tim kecil stok opname (15 orang)</li>
+                            <li>Penetapan jobdesk: Koordinator, Counter, Inputer, Checker, Validator, Logistik</li>
+                            <li>Penyusunan budget konsumsi dan peralatan (Rp 2.925.000)</li>
+                            <li>Briefing awal dan pembagian tugas</li>
+                            <li>Penandatanganan surat penugasan</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">21 Jan - 11 Mar 2026</div>
+                    <div class="timeline-content">
+                        <h3>Persiapan Operasional (7 Minggu)</h3>
+                        <p><strong>Fase 2:</strong> Persiapan fisik dan operasional toko untuk stok opname</p>
+                        <ul>
+                            <li>Grouping & tata letak barang berdasarkan kategori</li>
+                            <li>Mapping & numbering seluruh lokasi penyimpanan</li>
+                            <li>Listing lokasi dan barcode produk</li>
+                            <li>Persiapan alat fisik dan perangkat digital oleh tim logistik</li>
+                            <li>Pelatihan intensif untuk semua anggota tim</li>
+                            <li>Uji coba prosedur di area terbatas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">12-13 Apr 2026</div>
+                    <div class="timeline-content">
+                        <h3>Persiapan Administratif (2 Hari)</h3>
+                        <p><strong>Fase 3:</strong> Persiapan sistem dan konsumsi sebelum stok opname</p>
+                        <ul>
+                            <li>Freeze database sistem</li>
+                            <li>Cut-off penerimaan barang (13 Apr jam 17:00)</li>
+                            <li>Cut-off retur & penyesuaian (13 Apr jam 17:00)</li>
+                            <li>Backup data sistem lengkap</li>
+                            <li>Persiapan konsumsi oleh tim logistik (sarapan, makan siang, coffee break)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">14 Apr 2026</div>
+                    <div class="timeline-content">
+                        <h3>Hari-H Stok Opname (Toko Tutup)</h3>
+                        <p><strong>Fase 4:</strong> Pelaksanaan penghitungan fisik - TOKO DITUTUP</p>
+                        <ul>
+                            <li><strong>07:00:</strong> Briefing pagi & sarapan bersama (semua tim wajib hadir)</li>
+                            <li><strong>08:00-18:00:</strong> Penghitungan fisik barang seluruh toko & gudang</li>
+                            <li><strong>09:30:</strong> Coffee break pagi</li>
+                            <li><strong>12:00-13:00:</strong> Istirahat makan siang</li>
+                            <li><strong>15:30:</strong> Coffee break sore</li>
+                            <li><strong>18:00-22:00:</strong> Input data ke sistem (toko masih tutup)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">15 Apr 2026</div>
+                    <div class="timeline-content">
+                        <h3>Normalisasi Operasional</h3>
+                        <p><strong>Fase 4 (lanjutan):</strong> Pembukaan kembali toko dan aktivitas normal</p>
+                        <ul>
+                            <li><strong>07:00:</strong> Unfreeze database sistem</li>
+                            <li><strong>08:00:</strong> Buka kembali toko untuk pelanggan</li>
+                            <li>Transaksi normal berjalan kembali</li>
+                            <li>Mulai identifikasi dan penelusuran selisih</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">16-21 Apr 2026</div>
+                    <div class="timeline-content">
+                        <h3>Analisis & Finalisasi (6 Hari)</h3>
+                        <p><strong>Fase 4 (lanjutan):</strong> Penyelesaian dan evaluasi</p>
+                        <ul>
+                            <li>Penelusuran penyebab selisih</li>
+                            <li>Audit dokumen pendukung</li>
+                            <li>Pembuatan berita acara final</li>
+                            <li>Penyesuaian finance ke sistem</li>
+                            <li>Evaluasi kinerja tim stok opname</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">22 Apr 2026</div>
+                    <div class="timeline-content">
+                        <h3>Pembubaran Tim & Pelaporan</h3>
+                        <p><strong>Fase 4 (akhir):</strong> Formalitas akhir dan pelaporan</p>
+                        <ul>
+                            <li>Pembubaran tim kecil stok opname</li>
+                            <li>Penyerahan laporan final ke manajemen</li>
+                            <li>Pembagian sertifikat/surat penghargaan</li>
+                            <li>Penyelesaian administrasi keuangan</li>
+                            <li>Pengembalian tim ke posisi asal</li>
+                            <li>Arsip semua dokumen stok opname</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Prosedur Page -->
+        <div class="page-section" id="prosedur-page">
+            <header>
+                <h1><i class="fas fa-file-alt"></i> Prosedur Detail Stok Opname</h1>
+                <p class="subtitle">Standar Operasional Prosedur (SOP) lengkap untuk setiap fase stok opname</p>
+            </header>
+            
+            <div class="procedure-container">
+                <div class="procedure-category">
+                    <h3>Prosedur Pembentukan Tim</h3>
+                    <div class="step">
+                        <h4>1. Seleksi Anggota Tim</h4>
+                        <div class="step-detail expanded">
+                            <p><strong>Tujuan:</strong> Membentuk tim yang kompeten untuk pelaksanaan stok opname</p>
+                            <p><strong>Prosedur:</strong></p>
+                            <ol>
+                                <li>Manajemen menunjuk Koordinator Lapangan (biasanya Supervisor Gudang)</li>
+                                <li>Koordinator merekomendasikan calon anggota tim dari berbagai departemen</li>
+                                <li>Seleksi berdasarkan kriteria: kejujuran, ketelitian, pengetahuan produk, pengalaman</li>
+                                <li>Penetapan jumlah personil: 15 orang (6 Counter, 3 Inputer, 2 Checker, 1 Validator, 2 Logistik, 1 Koordinator)</li>
+                                <li>Pembuatan surat penugasan resmi</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>2. Jobdesk Detail Setiap Posisi</h4>
+                        <div class="step-detail">
+                            <p><strong>Tujuan:</strong> Memastikan setiap anggota memahami tanggung jawabnya</p>
+                            <p><strong>Jobdesk Detail:</strong></p>
+                            <ul>
+                                <li><strong>Koordinator:</strong> Bertanggung jawab penuh atas kelancaran stok opname, koordinasi antar tim, komunikasi dengan manajemen, penyelesaian masalah teknis</li>
+                                <li><strong>Counter:</strong> Menghitung fisik barang di area yang ditentukan, mencatat kondisi barang, menggunakan scanner dengan benar, melaporkan temuan khusus</li>
+                                <li><strong>Inputer:</strong> Memasukkan data hasil penghitungan ke sistem dengan akurat, verifikasi data sebelum input, koordinasi dengan counter untuk klarifikasi data</li>
+                                <li><strong>Checker:</strong> Melakukan sampling check (10% dari total penghitungan), verifikasi akurasi data, memastikan prosedur diikuti dengan benar</li>
+                                <li><strong>Validator:</strong> Validasi final sebelum data dianggap sah, tanda tangan berita acara, rekomendasi penyesuaian jika diperlukan</li>
+                                <li><strong>Logistik:</strong> Penyediaan semua kebutuhan operasional, pengelolaan konsumsi, pemeliharaan alat, dokumentasi kegiatan</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="procedure-category">
+                    <h3>Prosedur Hari-H (14 April 2026)</h3>
+                    <div class="step">
+                        <h4>1. Kedatangan & Briefing Pagi (07:00)</h4>
+                        <div class="step-detail">
+                            <p><strong>Tujuan:</strong> Memastikan kesiapan semua tim sebelum memulai</p>
+                            <p><strong>Prosedur:</strong></p>
+                            <ol>
+                                <li>Semua anggota tim hadir maksimal 07:00</li>
+                                <li>Absensi dan pembagian name tag</li>
+                                <li>Sarapan bersama (07:00-07:15)</li>
+                                <li>Briefing oleh Koordinator (07:15-07:30):
+                                    <ul>
+                                        <li>Review prosedur penghitungan</li>
+                                        <li>Pembagian area kerja</li>
+                                        <li>Penjelasan kode kondisi barang</li>
+                                        <li>Pengaturan jam istirahat</li>
+                                        <li>Prosedur darurat</li>
+                                    </ul>
+                                </li>
+                                <li>Pembagian alat dan formulir (07:30-07:45)</li>
+                                <li>Persiapan akhir di area masing-masing (07:45-08:00)</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>2. Penghitungan Fisik (08:00-18:00)</h4>
+                        <div class="step-detail">
+                            <p><strong>Tujuan:</strong> Menghitung semua barang dengan akurat dan sistematis</p>
+                            <p><strong>Prosedur:</strong></p>
+                            <ol>
+                                <li>Counter mulai penghitungan di area yang ditentukan</li>
+                                <li>Penggunaan scanner barcode untuk setiap item</li>
+                                <li>Pencatatan manual untuk barang tanpa barcode</li>
+                                <li>Pemberian kode kondisi: B=Baik, R=Rusak, E=Expired</li>
+                                <li>Checker melakukan sampling check setiap 2 jam</li>
+                                <li>Koordinator monitoring progress seluruh area</li>
+                                <li>Istirahat sesuai jadwal yang telah ditentukan</li>
+                                <li>Logistik memastikan ketersediaan konsumsi</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="procedure-category">
+                    <h3>Prosedur Pembubaran Tim (22 April 2026)</h3>
+                    <div class="step">
+                        <h4>1. Rapat Penutupan</h4>
+                        <div class="step-detail">
+                            <p><strong>Tujuan:</strong> Menyelesaikan semua administrasi dan membubarkan tim</p>
+                            <p><strong>Prosedur:</strong></p>
+                            <ol>
+                                <li>Rapat penutupan dihadiri semua anggota tim dan perwakilan manajemen</li>
+                                <li>Review hasil stok opname dan capaian tim</li>
+                                <li>Pembagian sertifikat/surat penghargaan</li>
+                                <li>Evaluasi kinerja individual dan tim</li>
+                                <li>Pengumpulan semua alat dan dokumen</li>
+                                <li>Pelaporan penggunaan anggaran oleh logistik</li>
+                                <li>Penyerahan arsip dokumen ke administrasi</li>
+                                <li>Pengembalian personil ke departemen asal</li>
+                                <li>Pembubaran resmi tim stok opname</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tools Page -->
+        <div class="page-section" id="tools-page">
+            <header>
+                <h1><i class="fas fa-tools"></i> Alat & Dokumen Stok Opname</h1>
+                <p class="subtitle">Daftar lengkap alat, perangkat, dan dokumen yang diperlukan untuk stok opname</p>
+            </header>
+            
+            <div class="tools-container">
+                <h2>Alat Fisik yang Diperlukan</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-barcode"></i> Scanner Barcode</h4>
+                        <p>5 unit scanner dengan baterai cadangan untuk penghitungan cepat</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-tablet-alt"></i> Tablet/Device</h4>
+                        <p>10 unit tablet dengan aplikasi stok opname terinstal</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-weight-hanging"></i> Timbangan Digital</h4>
+                        <p>3 unit timbangan untuk barang yang dijual berdasarkan berat</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-ruler"></i> Meteran & Alat Ukur</h4>
+                        <p>5 unit meteran untuk bahan bangunan yang dijual per meter</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-walkie-talkie"></i> Walkie-Talkie</h4>
+                        <p>8 unit untuk koordinasi tim selama penghitungan</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-clipboard"></i> Clipboard & Form</h4>
+                        <p>20 set untuk backup manual jika terjadi masalah teknis</p>
+                    </div>
+                </div>
+                
+                <h2 style="margin-top: 40px;">Dokumen yang Diperlukan</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-map"></i> Denah Lokasi</h4>
+                        <p>Peta lengkap toko dan gudang dengan numbering location</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-list"></i> Master List Barcode</h4>
+                        <p>Daftar semua barcode produk beserta lokasinya</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-file-invoice"></i> Form Penghitungan</h4>
+                        <p>Form standar untuk pencatatan hasil penghitungan fisik</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-file-contract"></i> Berita Acara</h4>
+                        <p>Template berita acara stok opname untuk ditandatangani</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-chart-bar"></i> Laporan Selisih</h4>
+                        <p>Form untuk investigasi dan pelaporan penyebab selisih</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-check-circle"></i> Checklist Verifikasi</h4>
+                        <p>Checklist untuk memastikan semua prosedur telah dilaksanakan</p>
+                    </div>
+                </div>
+                
+                <h2 style="margin-top: 40px;">Dokumen Administratif Tim</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-users"></i> Struktur Organisasi Tim</h4>
+                        <p>Struktur tim lengkap dengan nama dan jabatan masing-masing</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-file-signature"></i> Surat Penugasan</h4>
+                        <p>Surat resmi penugasan untuk setiap anggota tim</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-money-bill-wave"></i> Rencana Anggaran Biaya</h4>
+                        <p>Detail budget konsumsi, peralatan, dan transportasi</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-utensils"></i> Jadwal Konsumsi</h4>
+                        <p>Jadwal makan dan coffee break selama stok opname</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-award"></i> Sertifikat Penghargaan</h4>
+                        <p>Sertifikat untuk diberikan kepada anggota tim setelah selesai</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4><i class="fas fa-archive"></i> Form Pembubaran Tim</h4>
+                        <p>Dokumen formal untuk pembubaran tim stok opname</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-note">
+    <p><strong>Catatan:</strong> Stok opname GMB perlu memperhatikan karakteristik barang seperti ukuran, berat, dan kondisi penyimpanan khusus. Proses ini biasanya dilakukan minimal 1-2 kali setahun atau sesuai kebijakan perusahaan.</p>
+    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; font-size: 0.9rem; color: #666;">
+        <p style="margin-bottom: 8px;">
+            <strong>Created by:</strong> 
+            <a href="https://sofyanmujid.web.app/" target="_blank" style="color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.3s ease;">
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-right: 4px;"></i>
+                Sofyan Mujid
+            </a>
+        </p>
+        <p style="font-size: 0.85rem; color: #888;">
+            Sistem Manajemen Stok Opname - Grand Mitra Bangunan PIK2
+        </p>
+    </div>
+</div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div class="modal" id="calendarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Kalender Lengkap Stok Opname 2026</h3>
+                <span class="close-modal" id="closeCalendarModal">&times;</span>
+            </div>
+            <div id="fullCalendar">
+                <!-- Full calendar will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data untuk checklist dengan total 25 item
+            const checklistData = [
+                { id: 1, name: "Pembentukan Tim Kecil Stok Opname", phase: 1, progress: 0 },
+                { id: 2, name: "Penyusunan Budget Stok Opname", phase: 1, progress: 0 },
+                { id: 3, name: "Briefing Awal & Pembagian Tugas", phase: 1, progress: 0 },
+                { id: 4, name: "Grouping & Tata Letak Barang", phase: 2, progress: 0 },
+                { id: 5, name: "Mapping & Numbering Location", phase: 2, progress: 0 },
+                { id: 6, name: "Listing Lokasi (Layout/Planogram)", phase: 2, progress: 0 },
+                { id: 7, name: "Listing Barcode per Lokasi", phase: 2, progress: 0 },
+                { id: 8, name: "Persiapan Alat & PDT oleh Tim Logistik", phase: 2, progress: 0 },
+                { id: 9, name: "Training Tim Stok Opname", phase: 2, progress: 0 },
+                { id: 10, name: "Uji Coba Prosedur", phase: 2, progress: 0 },
+                { id: 11, name: "Freeze Database Sistem", phase: 3, progress: 0 },
+                { id: 12, name: "Cut-off Penerimaan Barang", phase: 3, progress: 0 },
+                { id: 13, name: "Cut-off Retur & Penyesuaian", phase: 3, progress: 0 },
+                { id: 14, name: "Backup Data Sistem", phase: 3, progress: 0 },
+                { id: 15, name: "Persiapan Konsumsi oleh Tim Logistik", phase: 3, progress: 0 },
+                { id: 16, name: "Briefing Pagi & Sarapan Bersama", phase: 4, progress: 0 },
+                { id: 17, name: "Penghitungan Fisik Barang (Toko Tutup)", phase: 4, progress: 0 },
+                { id: 18, name: "Input Data ke Sistem (Toko Masih Tutup)", phase: 4, progress: 0 },
+                { id: 19, name: "Unfreeze Database Sistem", phase: 4, progress: 0 },
+                { id: 20, name: "Buka Toko - Transaksi Normal", phase: 4, progress: 0 },
+                { id: 21, name: "Identifikasi & Penelusuran Selisih", phase: 4, progress: 0 },
+                { id: 22, name: "Berita Acara & Penyesuaian Finance", phase: 4, progress: 0 },
+                { id: 23, name: "Evaluasi Kinerja Tim", phase: 4, progress: 0 },
+                { id: 24, name: "Pembubaran Tim Kecil Stok Opname", phase: 4, progress: 0 },
+                { id: 25, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
+            ];
+
+            // Data untuk steps
+            const steps = document.querySelectorAll('.step');
+            const stepDetails = document.querySelectorAll('.step-detail');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const progressBar = document.getElementById('progressBar');
+            const currentStepIndicator = document.getElementById('currentStepIndicator');
+            const checklistToggle = document.getElementById('checklistToggle');
+            const checklistSidebar = document.getElementById('checklistSidebar');
+            const closeChecklist = document.getElementById('closeChecklist');
+            const mainContainer = document.getElementById('mainContainer');
+            const completeAllBtn = document.getElementById('completeAllBtn');
+            const resetAllBtn = document.getElementById('resetAllBtn');
+            const calendarModal = document.getElementById('calendarModal');
+            const openCalendarModal = document.getElementById('openCalendarModal');
+            const closeCalendarModal = document.getElementById('closeCalendarModal');
+            const logoHome = document.getElementById('logoHome');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageSections = document.querySelectorAll('.page-section');
+            
+            let currentStep = 0;
+            const totalSteps = steps.length;
+            let currentPage = 'workflow';
+            
+            // Fungsi untuk mengganti halaman
+            function switchPage(pageId) {
+                // Sembunyikan semua halaman
+                pageSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Tampilkan halaman yang dipilih
+                const targetPage = document.getElementById(`${pageId}-page`);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    currentPage = pageId;
+                }
+                
+                // Update active nav link
+                navLinks.forEach(link => {
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                // Jika halaman workflow, aktifkan kontrol navigasi langkah
+                if (pageId === 'workflow') {
+                    document.querySelector('.controls').style.display = 'flex';
+                    document.querySelector('.visual-progress').style.display = 'block';
+                    document.querySelector('.current-step-indicator').style.display = 'block';
+                } else {
+                    document.querySelector('.controls').style.display = 'none';
+                    document.querySelector('.visual-progress').style.display = 'none';
+                    document.querySelector('.current-step-indicator').style.display = 'none';
+                }
+            }
+            
+            // Event listener untuk nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    const pageId = this.dataset.page;
+                    switchPage(pageId);
+                });
+            });
+            
+            // Event listener untuk logo home
+            logoHome.addEventListener('click', function() {
+                switchPage('workflow');
+            });
+            
+            // Inisialisasi checklist
+            function initializeChecklist() {
+                const phase1Checklist = document.getElementById('phase1-checklist');
+                const phase2Checklist = document.getElementById('phase2-checklist');
+                const phase3Checklist = document.getElementById('phase3-checklist');
+                const phase4Checklist = document.getElementById('phase4-checklist');
+                
+                // Kosongkan checklist terlebih dahulu
+                phase1Checklist.innerHTML = '';
+                phase2Checklist.innerHTML = '';
+                phase3Checklist.innerHTML = '';
+                phase4Checklist.innerHTML = '';
+                
+                // Buat elemen checklist untuk setiap item
+                checklistData.forEach(item => {
+                    const checklistItem = document.createElement('div');
+                    checklistItem.className = 'checklist-item';
+                    checklistItem.dataset.id = item.id;
+                    
+                    // Tentukan status berdasarkan progress
+                    if (item.progress === 100) {
+                        checklistItem.classList.add('completed');
+                    } else if (item.progress > 0) {
+                        checklistItem.classList.add('in-progress');
+                    }
+                    
+                    checklistItem.innerHTML = `
+                        <div class="checklist-item-name">${item.name}</div>
+                        <div class="checklist-item-progress">
+                            <div class="item-progress-bar">
+                                <div class="item-progress-fill" data-id="${item.id}" style="width: ${item.progress}%"></div>
+                            </div>
+                            <div class="item-progress-percent" data-id="${item.id}">${item.progress}%</div>
+                        </div>
+                    `;
+                    
+                    // Tambahkan ke phase yang sesuai
+                    if (item.phase === 1) phase1Checklist.appendChild(checklistItem);
+                    if (item.phase === 2) phase2Checklist.appendChild(checklistItem);
+                    if (item.phase === 3) phase3Checklist.appendChild(checklistItem);
+                    if (item.phase === 4) phase4Checklist.appendChild(checklistItem);
+                    
+                    // Tambahkan event listener untuk checklist item
+                    checklistItem.addEventListener('click', function(e) {
+                        // Cegah event bubbling ke progress bar
+                        if (e.target.classList.contains('item-progress-fill') || 
+                            e.target.classList.contains('item-progress-percent') ||
+                            e.target.classList.contains('item-progress-bar')) {
+                            return;
+                        }
+                        
+                        const id = parseInt(this.dataset.id);
+                        const itemData = checklistData.find(item => item.id === id);
+                        
+                        // Update progress (toggle antara 0, 50, 100%)
+                        if (itemData.progress === 0) {
+                            itemData.progress = 50;
+                            this.classList.remove('completed');
+                            this.classList.add('in-progress');
+                        } else if (itemData.progress === 50) {
+                            itemData.progress = 100;
+                            this.classList.remove('in-progress');
+                            this.classList.add('completed');
+                        } else {
+                            itemData.progress = 0;
+                            this.classList.remove('completed', 'in-progress');
+                        }
+                        
+                        // Update tampilan progress
+                        const progressFill = this.querySelector('.item-progress-fill');
+                        const progressPercent = this.querySelector('.item-progress-percent');
+                        
+                        if (progressFill) progressFill.style.width = `${itemData.progress}%`;
+                        if (progressPercent) progressPercent.textContent = `${itemData.progress}%`;
+                        
+                        // Update progress keseluruhan
+                        updateOverallProgress();
+                    });
+                });
+                
+                // Update progress keseluruhan
+                updateOverallProgress();
+            }
+            
+            // Update progress keseluruhan
+            function updateOverallProgress() {
+                const totalProgress = checklistData.reduce((sum, item) => sum + item.progress, 0);
+                const overallPercentage = Math.round(totalProgress / checklistData.length);
+                const completedTasks = checklistData.filter(item => item.progress === 100).length;
+                
+                // Update progress bar keseluruhan
+                const overallProgressBar = document.getElementById('overallProgressBar');
+                const overallPercent = document.getElementById('overallPercent');
+                const completedTasksEl = document.getElementById('completedTasks');
+                const totalTasksEl = document.getElementById('totalTasks');
+                
+                if (overallProgressBar) {
+                    overallProgressBar.style.width = `${overallPercentage}%`;
+                    overallProgressBar.textContent = `${overallPercentage}%`;
+                }
+                
+                if (overallPercent) overallPercent.textContent = `${overallPercentage}%`;
+                if (completedTasksEl) completedTasksEl.textContent = completedTasks;
+                if (totalTasksEl) totalTasksEl.textContent = checklistData.length;
+                
+                // Update progress bar di header
+                const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+            
+            // Fungsi untuk memperbarui tampilan langkah
+            function updateStepDisplay() {
+                // Reset semua langkah
+                steps.forEach(step => {
+                    step.classList.remove('active');
+                });
+                
+                // Tampilkan langkah aktif
+                if (currentStep >= 0 && currentStep < totalSteps) {
+                    steps[currentStep].classList.add('active');
+                    
+                    // Auto-expand detail langkah aktif
+                    const detail = steps[currentStep].querySelector('.step-detail');
+                    if (detail && !detail.classList.contains('expanded')) {
+                        detail.classList.add('expanded');
+                    }
+                    
+                    // Update indikator langkah saat ini
+                    const stepTitle = steps[currentStep].querySelector('h3').textContent;
+                    const phaseTitle = steps[currentStep].closest('.phase-group').querySelector('.phase-title h2').textContent;
+                    currentStepIndicator.textContent = `Langkah ${currentStep + 1}: ${stepTitle} (${phaseTitle})`;
+                    
+                    // Update checklist progress untuk langkah ini
+                    const checklistId = parseInt(steps[currentStep].dataset.checklistId);
+                    if (checklistId) {
+                        const itemData = checklistData.find(item => item.id === checklistId);
+                        if (itemData && itemData.progress < 100) {
+                            itemData.progress = 100;
+                            
+                            // Update tampilan checklist
+                            const checklistItem = document.querySelector(`.checklist-item[data-id="${checklistId}"]`);
+                            if (checklistItem) {
+                                checklistItem.classList.remove('in-progress');
+                                checklistItem.classList.add('completed');
+                                
+                                const progressFill = checklistItem.querySelector('.item-progress-fill');
+                                const progressPercent = checklistItem.querySelector('.item-progress-percent');
+                                
+                                if (progressFill) progressFill.style.width = '100%';
+                                if (progressPercent) progressPercent.textContent = '100%';
+                                
+                                updateOverallProgress();
+                            }
+                        }
+                    }
+                }
+                
+                // Update progress bar
+                const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                
+                // Update tombol navigasi
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+                
+                // Scroll ke langkah aktif
+                if (currentStep >= 0) {
+                    steps[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+            
+            // Fungsi untuk berpindah ke langkah berikutnya
+            function nextStep() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateStepDisplay();
+                }
+            }
+            
+            // Fungsi untuk kembali ke langkah sebelumnya
+            function prevStep() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateStepDisplay();
+                }
+            }
+            
+            // Fungsi untuk mereset alur
+            function resetSteps() {
+                currentStep = 0;
+                
+                // Tutup semua detail langkah
+                stepDetails.forEach(detail => {
+                    detail.classList.remove('expanded');
+                });
+                
+                updateStepDisplay();
+            }
+            
+            // Toggle checklist sidebar
+            checklistToggle.addEventListener('click', function() {
+                checklistSidebar.classList.toggle('open');
+                mainContainer.classList.toggle('sidebar-open');
+            });
+            
+            // Close checklist sidebar
+            closeChecklist.addEventListener('click', function() {
+                checklistSidebar.classList.remove('open');
+                mainContainer.classList.remove('sidebar-open');
+            });
+            
+            // Tandai semua checklist selesai
+            completeAllBtn.addEventListener('click', function() {
+                checklistData.forEach(item => {
+                    item.progress = 100;
+                });
+                
+                initializeChecklist();
+            });
+            
+            // Reset semua checklist
+            resetAllBtn.addEventListener('click', function() {
+                checklistData.forEach(item => {
+                    item.progress = 0;
+                });
+                
+                initializeChecklist();
+            });
+            
+            // Event listener untuk tombol navigasi langkah
+            nextBtn.addEventListener('click', nextStep);
+            prevBtn.addEventListener('click', prevStep);
+            resetBtn.addEventListener('click', resetSteps);
+            
+            // Event listener untuk setiap langkah (klik untuk lihat detail)
+            steps.forEach((step, index) => {
+                step.addEventListener('click', function() {
+                    // Tutup detail langkah lain
+                    stepDetails.forEach(detail => {
+                        if (detail !== this.querySelector('.step-detail')) {
+                            detail.classList.remove('expanded');
+                        }
+                    });
+                    
+                    // Buka/tutup detail langkah yang diklik
+                    const detail = this.querySelector('.step-detail');
+                    if (detail) {
+                        detail.classList.toggle('expanded');
+                    }
+                    
+                    // Set langkah aktif
+                    currentStep = index;
+                    updateStepDisplay();
+                });
+            });
+            
+            // Event listener untuk keyboard
+            document.addEventListener('keydown', function(event) {
+                if (currentPage === 'workflow') {
+                    if (event.key === 'ArrowRight') {
+                        nextStep();
+                    } else if (event.key === 'ArrowLeft') {
+                        prevStep();
+                    } else if (event.key === 'Home') {
+                        currentStep = 0;
+                        updateStepDisplay();
+                    } else if (event.key === 'End') {
+                        currentStep = totalSteps - 1;
+                        updateStepDisplay();
+                    }
+                }
+            });
+            
+            // Calendar functionality
+            function generateCalendar() {
+                const calendarEl = document.getElementById('calendar');
+                const fullCalendarEl = document.getElementById('fullCalendar');
+                
+                if (!calendarEl || !fullCalendarEl) return;
+                
+                // Buat kalender sederhana untuk Januari - April 2026
+                const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                                   "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                
+                // Kalender kecil untuk sidebar (April)
+                calendarEl.innerHTML = `
+                    <div class="month-year">April 2026</div>
+                    <div class="calendar-grid">
+                        ${dayNames.map(day => `<div class="calendar-day">${day}</div>`).join('')}
+                    </div>
+                    <div class="calendar-grid" id="calendarDates">
+                        <!-- Dates will be generated by JavaScript -->
+                    </div>
+                `;
+                
+                // Generate dates for April 2026
+                const calendarDates = document.getElementById('calendarDates');
+                if (calendarDates) {
+                    let dateHtml = '';
+                    
+                    // Hari pertama April 2026 adalah Rabu (3)
+                    for (let i = 0; i < 3; i++) {
+                        dateHtml += `<div class="calendar-date past"></div>`;
+                    }
+                    
+                    for (let day = 1; day <= 30; day++) {
+                        const date = new Date(2026, 3, day);
+                        let dateClass = 'calendar-date';
+                        
+                        if (day === 14) {
+                            dateClass += ' important'; // Stok opname (toko tutup)
+                        } else if (day === 15) {
+                            dateClass += ' event'; // Buka kembali toko
+                        } else if (day === 22) {
+                            dateClass += ' budget'; // Pembubaran tim
+                        } else if (day >= 12 && day <= 13) {
+                            dateClass += ' event'; // Persiapan administratif
+                        } else if (day >= 16 && day <= 21) {
+                            dateClass += ' event'; // Analisis & finalisasi
+                        } else if (day < 20) {
+                            dateClass += ' past'; // Sudah lewat
+                        }
+                        
+                        dateHtml += `<div class="${dateClass}">${day}</div>`;
+                    }
+                    
+                    calendarDates.innerHTML = dateHtml;
+                }
+                
+                // Kalender lengkap untuk modal
+                fullCalendarEl.innerHTML = `
+                    <h4>Timeline Lengkap Stok Opname 2026</h4>
+                    <div class="event-list">
+                        <div class="event-item budget">
+                            <div class="event-date">19 Jan 2026</div>
+                            <div class="event-desc"><strong>PEMBENTUKAN TIM & BUDGET:</strong> Pembentukan tim kecil (15 orang), penyusunan anggaran (Rp 2.925.000), penetapan jobdesk</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">21 Jan - 11 Mar 2026</div>
+                            <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, training tim, uji coba prosedur</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">12-13 Apr 2026</div>
+                            <div class="event-desc"><strong>PERSIAPAN ADMINISTRATIF:</strong> Freeze database, cut-off penerimaan & retur, backup data, persiapan konsumsi</div>
+                        </div>
+                        <div class="event-item important">
+                            <div class="event-date">14 Apr 2026</div>
+                            <div class="event-desc"><strong>HARI-H STOK OPNAME (TOKO TUTUP):</strong> Briefing (07:00), penghitungan fisik (08:00-18:00), input data (18:00-22:00)</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">15 Apr 2026</div>
+                            <div class="event-desc"><strong>NORMALISASI:</strong> Unfreeze database (07:00), buka toko (08:00), transaksi normal, mulai identifikasi selisih</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">16-21 Apr 2026</div>
+                            <div class="event-desc"><strong>ANALISIS & FINALISASI:</strong> Penelusuran selisih, audit dokumen, berita acara, penyesuaian finance, evaluasi tim</div>
+                        </div>
+                        <div class="event-item budget">
+                            <div class="event-date">22 Apr 2026</div>
+                            <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat, penyelesaian administrasi, pengembalian personil</div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">23 Apr 2026</div>
+                            <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, rekomendasi perbaikan, arsip dokumen</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Open calendar modal
+            openCalendarModal.addEventListener('click', function() {
+                calendarModal.style.display = 'flex';
+            });
+            
+            // Close calendar modal
+            closeCalendarModal.addEventListener('click', function() {
+                calendarModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === calendarModal) {
+                    calendarModal.style.display = 'none';
+                }
+            });
+            
+            // Inisialisasi
+            initializeChecklist();
+            updateStepDisplay();
+            generateCalendar();
+            switchPage('workflow'); // Set halaman default
+            
+            // Animasi masuk untuk fase
+            const phaseGroups = document.querySelectorAll('.phase-group');
+            phaseGroups.forEach((group, index) => {
+                setTimeout(() => {
+                    group.style.opacity = '0';
+                    group.style.transform = 'translateY(20px)';
+                    group.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        group.style.opacity = '1';
+                        group.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
