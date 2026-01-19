@@ -3,6 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Alur Kerja Stok Opname</title>
+    <style>
+        /* Login Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 3rem;
+            color: #2c3e50;
+        }
+        
+        .logo h1 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+        
+        .logo-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .login-form {
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: linear-gradient(to right, #1a252f, #3a527b);
+            transform: translateY(-2px);
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+            display: none;
+        }
+        
+        .login-info {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .app-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Container -->
+    <div class="login-container" id="loginContainer">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-warehouse"></i>
+            </div>
+            <h1>Grand Mitra Bangunan</h1>
+            <div class="logo-subtitle">Alur Kerja Stok Opname</div>
+        </div>
+        
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Login</button>
+            
+            <div class="error-message" id="errorMessage">
+                Username atau password salah
+            </div>
+        </form>
+        
+        <div class="login-info">
+            <p><strong>Default credentials:</strong></p>
+            <p>Username: <strong>admin</strong></p>
+            <p>Password: <strong>stok2026</strong></p>
+            <p style="margin-top: 10px;">Akses terbatas untuk tim stok opname GMB</p>
+        </div>
+    </div>
+    
+    <!-- App Content (akan ditampilkan setelah login) -->
+    <div class="app-content" id="appContent">
+        <!-- Semua konten aplikasi asli akan dimuat di sini -->
+        <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alur Kerja Stok Opname - Grand Mitra Bangunan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -2834,707 +3005,776 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Hamburger menu functionality
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const navLinks = document.querySelector('.nav-links');
+            // LOGIN LOGIC
+            const HARDCODE_USERNAME = 'admin';
+            const HARDCODE_PASSWORD = 'stok2026';
             
-            if (hamburgerBtn) {
-                hamburgerBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    navLinks.classList.toggle('active');
+            const loginContainer = document.getElementById('loginContainer');
+            const appContent = document.getElementById('appContent');
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Focus on username field when page loads
+            usernameInput.focus();
+            
+            // Handle login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                
+                // Check credentials
+                if (username === HARDCODE_USERNAME && password === HARDCODE_PASSWORD) {
+                    // Login successful
+                    errorMessage.style.display = 'none';
                     
-                    // Ganti icon hamburger menjadi X saat aktif
-                    const icon = this.querySelector('i');
-                    if (navLinks.classList.contains('active')) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    } else {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                });
-                
-                // Tutup menu ketika klik di luar
-                document.addEventListener('click', function(event) {
-                    if (!hamburgerBtn.contains(event.target) && !navLinks.contains(event.target)) {
-                        navLinks.classList.remove('active');
-                        const icon = hamburgerBtn.querySelector('i');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                });
-                
-                // Tutup menu ketika memilih link
-                const navLinkItems = document.querySelectorAll('.nav-link');
-                navLinkItems.forEach(link => {
-                    link.addEventListener('click', function() {
-                        navLinks.classList.remove('active');
-                        const icon = hamburgerBtn.querySelector('i');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    });
-                });
-            }
-            
-            // Data untuk checklist dengan total 26 item (bertambah 1)
-            const checklistData = [
-                { id: 1, name: "Pembentukan Tim Kecil Stok Opname", phase: 1, progress: 0 },
-                { id: 2, name: "Penyusunan Budget Stok Opname", phase: 1, progress: 0 },
-                { id: 3, name: "Briefing Awal & Pembagian Tugas", phase: 1, progress: 0 },
-                { id: 4, name: "Grouping & Tata Letak Barang", phase: 2, progress: 0 },
-                { id: 5, name: "Mapping & Numbering Location", phase: 2, progress: 0 },
-                { id: 6, name: "Listing Lokasi (Layout/Planogram)", phase: 2, progress: 0 },
-                { id: 7, name: "Listing Barcode per Lokasi", phase: 2, progress: 0 },
-                { id: 8, name: "Persiapan Alat & PDT oleh Tim Logistik", phase: 2, progress: 0 },
-                { id: 9, name: "Training Tim Stok Opname", phase: 2, progress: 0 },
-                { id: 10, name: "Uji Coba Prosedur", phase: 2, progress: 0 },
-                { id: 11, name: "Cleanup Data Outstanding", phase: 3, progress: 0 },
-                { id: 12, name: "Freeze Database Sistem", phase: 3, progress: 0 },
-                { id: 13, name: "Cut-off Penerimaan Barang", phase: 3, progress: 0 },
-                { id: 14, name: "Cut-off Retur & Penyesuaian", phase: 3, progress: 0 },
-                { id: 15, name: "Backup Data Sistem", phase: 3, progress: 0 },
-                { id: 16, name: "Persiapan Konsumsi oleh Tim Logistik", phase: 3, progress: 0 },
-                { id: 17, name: "Briefing Pagi & Sarapan Bersama", phase: 4, progress: 0 },
-                { id: 18, name: "Penghitungan Fisik Barang (Toko Tutup)", phase: 4, progress: 0 },
-                { id: 19, name: "Input Data ke Sistem (Toko Masih Tutup)", phase: 4, progress: 0 },
-                { id: 20, name: "Unfreeze Database Sistem", phase: 4, progress: 0 },
-                { id: 21, name: "Buka Toko - Transaksi Normal", phase: 4, progress: 0 },
-                { id: 22, name: "Identifikasi & Penelusuran Selisih", phase: 4, progress: 0 },
-                { id: 23, name: "Berita Acara & Penyesuaian Finance", phase: 4, progress: 0 },
-                { id: 24, name: "Evaluasi Kinerja Tim", phase: 4, progress: 0 },
-                { id: 25, name: "Pembubaran Tim Kecil Stok Opname", phase: 4, progress: 0 },
-                { id: 26, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
-            ];
-
-            // Data simulasi departemen GMB
-            const departmentData = [
-                { name: "APPLIANCE", omset: 483000000, btk: 0.5, selisih: 2500000 },
-                { name: "BUILDING MATERIAL", omset: 1356000000, btk: 0.2, selisih: 4500000 },
-                { name: "DOORS & WINDOWS", omset: 267000000, btk: 0.2, selisih: 1200000 },
-                { name: "ELECTRICAL & LIGHTING", omset: 1021000000, btk: 0.6, selisih: 3500000 },
-                { name: "FLOORING & WALL", omset: 2961000000, btk: 0.75, selisih: 8500000 },
-                { name: "FOOD & BEVERAGE", omset: 27000000, btk: 0.75, selisih: 150000 },
-                { name: "FURNITURE", omset: 316000000, btk: 0.3, selisih: 1800000 },
-                { name: "HARDWARE", omset: 560000000, btk: 0.6, selisih: 2200000 },
-                { name: "HOUSEWARE", omset: 176000000, btk: 0.5, selisih: 800000 },
-                { name: "PAINT & SUNDRIES", omset: 1393000000, btk: 0.4, selisih: 4200000 },
-                { name: "PLUMBING", omset: 1061000000, btk: 0.6, selisih: 3800000 },
-                { name: "SANITARY", omset: 1924000000, btk: 0.4, selisih: 6200000 },
-                { name: "TOOLS", omset: 48000000, btk: 0.6, selisih: 2400000 },
-                { name: "MBC", omset: 175000000, btk: 0.3, selisih: 900000 }
-            ];
-
-            // Data untuk steps
-            const steps = document.querySelectorAll('.step');
-            const stepDetails = document.querySelectorAll('.step-detail');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const progressBar = document.getElementById('progressBar');
-            const currentStepIndicator = document.getElementById('currentStepIndicator');
-            const checklistToggle = document.getElementById('checklistToggle');
-            const checklistSidebar = document.getElementById('checklistSidebar');
-            const closeChecklist = document.getElementById('closeChecklist');
-            const mainContainer = document.getElementById('mainContainer');
-            const completeAllBtn = document.getElementById('completeAllBtn');
-            const resetAllBtn = document.getElementById('resetAllBtn');
-            const calendarModal = document.getElementById('calendarModal');
-            const openCalendarModal = document.getElementById('openCalendarModal');
-            const closeCalendarModal = document.getElementById('closeCalendarModal');
-            const logoHome = document.getElementById('logoHome');
-            const navLinksAll = document.querySelectorAll('.nav-link');
-            const pageSections = document.querySelectorAll('.page-section');
-            
-            // NSB Calculator elements
-            const btkInput = document.getElementById('btkInput');
-            const selisihInput = document.getElementById('selisihInput');
-            const calculateBtn = document.getElementById('calculateBtn');
-            const simulateBtn = document.getElementById('simulateBtn');
-            const calculationResult = document.getElementById('calculationResult');
-            const departmentTable = document.getElementById('departmentTable');
-            const exportBtn = document.getElementById('exportBtn');
-            
-            let currentStep = 0;
-            const totalSteps = steps.length;
-            let currentPage = 'workflow';
-            
-            // Format number to Indonesian Rupiah
-            function formatRupiah(angka) {
-                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            }
-            
-            // Calculate NSB
-            function calculateNSB(omset, btk, selisih) {
-                const btkValue = (btk / 100) * omset;
-                const nsb = btkValue - selisih;
-                // Bulatkan ke bilangan bulat terdekat
-                return Math.round(nsb);
-            }
-            
-            // Update department table
-            function updateDepartmentTable() {
-                departmentTable.innerHTML = '';
-                
-                departmentData.forEach(dept => {
-                    const nsb = calculateNSB(dept.omset, dept.btk, dept.selisih);
-                    const nsbFormatted = formatRupiah(Math.abs(nsb));
-                    const status = nsb >= 0 ? 
-                        `<span class="status-good">Bonus</span>` : 
-                        `<span class="status-bad">Beban</span>`;
+                    // Show loading state
+                    const loginBtn = loginForm.querySelector('.login-btn');
+                    const originalText = loginBtn.textContent;
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    loginBtn.disabled = true;
                     
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${dept.name}</td>
-                        <td>${formatRupiah(dept.omset)}</td>
-                        <td>${dept.btk}%</td>
-                        <td>${formatRupiah(dept.selisih)}</td>
-                        <td>${nsbFormatted}</td>
-                        <td>${status}</td>
-                    `;
-                    departmentTable.appendChild(row);
-                });
-            }
-            
-            // Calculate NSB from input
-            function calculateFromInput() {
-                const btk = parseFloat(btkInput.value) || 0;
-                const selisih = parseFloat(selisihInput.value) || 0;
-                
-                if (!btk || !selisih) {
-                    calculationResult.textContent = 'Masukkan nilai BTK dan Selisih terlebih dahulu';
-                    calculationResult.className = 'calc-result';
-                    return;
-                }
-                
-                // Calculate average omset from department data
-                const totalOmset = departmentData.reduce((sum, dept) => sum + dept.omset, 0);
-                const avgOmset = totalOmset / departmentData.length;
-                
-                const nsb = calculateNSB(avgOmset, btk, selisih);
-                
-                calculationResult.textContent = `NSB: ${formatRupiah(Math.abs(nsb))} (${nsb >= 0 ? 'Bonus' : 'Beban'})`;
-                calculationResult.className = nsb >= 0 ? 'calc-result positive' : 'calc-result negative';
-            }
-            
-            // Simulate with actual data
-            function simulateActualData() {
-                // Randomize selisih for simulation
-                departmentData.forEach(dept => {
-                    const randomFactor = 0.5 + Math.random();
-                    dept.selisih = Math.round(dept.omset * (dept.btk / 100) * randomFactor);
-                });
-                
-                updateDepartmentTable();
-                
-                // Set random values to inputs
-                const randomBtk = (0.5 + Math.random() * 0.5).toFixed(2);
-                const randomSelisih = Math.round(100000000 + Math.random() * 500000000);
-                
-                btkInput.value = randomBtk;
-                selisihInput.value = randomSelisih;
-                
-                calculateFromInput();
-            }
-            
-            // Export data function
-            function exportData() {
-                let csvContent = "data:text/csv;charset=utf-8,";
-                csvContent += "Departemen,Omset,BTK (%),Selisih SO,NSB,Status\n";
-                
-                departmentData.forEach(dept => {
-                    const nsb = calculateNSB(dept.omset, dept.btk, dept.selisih);
-                    const status = nsb >= 0 ? "Bonus" : "Beban";
-                    csvContent += `${dept.name},${dept.omset},${dept.btk},${dept.selisih},${nsb},${status}\n`;
-                });
-                
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", "nsb_data_gmb.csv");
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-            
-            // Fungsi untuk mengganti halaman
-            function switchPage(pageId) {
-                // Sembunyikan semua halaman
-                pageSections.forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Tampilkan halaman yang dipilih
-                const targetPage = document.getElementById(`${pageId}-page`);
-                if (targetPage) {
-                    targetPage.classList.add('active');
-                    currentPage = pageId;
-                }
-                
-                // Update active nav link
-                navLinksAll.forEach(link => {
-                    if (link.dataset.page === pageId) {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-                
-                // Jika halaman workflow, aktifkan kontrol navigasi langkah
-                if (pageId === 'workflow') {
-                    document.querySelector('.controls').style.display = 'flex';
-                    document.querySelector('.visual-progress').style.display = 'block';
-                    document.querySelector('.current-step-indicator').style.display = 'block';
+                    // Show app after short delay
+                    setTimeout(() => {
+                        loginContainer.style.display = 'none';
+                        appContent.style.display = 'block';
+                        
+                        // Initialize the app functionality
+                        initializeApp();
+                    }, 800);
                 } else {
-                    document.querySelector('.controls').style.display = 'none';
-                    document.querySelector('.visual-progress').style.display = 'none';
-                    document.querySelector('.current-step-indicator').style.display = 'none';
-                }
-            }
-            
-            // Event listener untuk nav links
-            navLinksAll.forEach(link => {
-                link.addEventListener('click', function() {
-                    const pageId = this.dataset.page;
-                    switchPage(pageId);
-                });
-            });
-            
-            // Event listener untuk logo home
-            logoHome.addEventListener('click', function() {
-                switchPage('workflow');
-            });
-            
-            // Inisialisasi checklist
-            function initializeChecklist() {
-                const phase1Checklist = document.getElementById('phase1-checklist');
-                const phase2Checklist = document.getElementById('phase2-checklist');
-                const phase3Checklist = document.getElementById('phase3-checklist');
-                const phase4Checklist = document.getElementById('phase4-checklist');
-                
-                // Kosongkan checklist terlebih dahulu
-                phase1Checklist.innerHTML = '';
-                phase2Checklist.innerHTML = '';
-                phase3Checklist.innerHTML = '';
-                phase4Checklist.innerHTML = '';
-                
-                // Buat elemen checklist untuk setiap item
-                checklistData.forEach(item => {
-                    const checklistItem = document.createElement('div');
-                    checklistItem.className = 'checklist-item';
-                    checklistItem.dataset.id = item.id;
+                    // Login failed
+                    errorMessage.style.display = 'block';
                     
-                    // Tentukan status berdasarkan progress
-                    if (item.progress === 100) {
-                        checklistItem.classList.add('completed');
-                    } else if (item.progress > 0) {
-                        checklistItem.classList.add('in-progress');
+                    // Shake animation for error
+                    loginContainer.style.animation = 'none';
+                    setTimeout(() => {
+                        loginContainer.style.animation = 'none';
+                    }, 10);
+                }
+            });
+            
+            // Initialize app after successful login
+            function initializeApp() {
+                // Hamburger menu functionality
+                const hamburgerBtn = document.getElementById('hamburgerBtn');
+                const navLinks = document.querySelector('.nav-links');
+                
+                if (hamburgerBtn) {
+                    hamburgerBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        navLinks.classList.toggle('active');
+                        
+                        // Ganti icon hamburger menjadi X saat aktif
+                        const icon = this.querySelector('i');
+                        if (navLinks.classList.contains('active')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    });
+                    
+                    // Tutup menu ketika klik di luar
+                    document.addEventListener('click', function(event) {
+                        if (!hamburgerBtn.contains(event.target) && !navLinks.contains(event.target)) {
+                            navLinks.classList.remove('active');
+                            const icon = hamburgerBtn.querySelector('i');
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    });
+                    
+                    // Tutup menu ketika memilih link
+                    const navLinkItems = document.querySelectorAll('.nav-link');
+                    navLinkItems.forEach(link => {
+                        link.addEventListener('click', function() {
+                            navLinks.classList.remove('active');
+                            const icon = hamburgerBtn.querySelector('i');
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        });
+                    });
+                }
+                
+                // Data untuk checklist dengan total 26 item (bertambah 1)
+                const checklistData = [
+                    { id: 1, name: "Pembentukan Tim Kecil Stok Opname", phase: 1, progress: 0 },
+                    { id: 2, name: "Penyusunan Budget Stok Opname", phase: 1, progress: 0 },
+                    { id: 3, name: "Briefing Awal & Pembagian Tugas", phase: 1, progress: 0 },
+                    { id: 4, name: "Grouping & Tata Letak Barang", phase: 2, progress: 0 },
+                    { id: 5, name: "Mapping & Numbering Location", phase: 2, progress: 0 },
+                    { id: 6, name: "Listing Lokasi (Layout/Planogram)", phase: 2, progress: 0 },
+                    { id: 7, name: "Listing Barcode per Lokasi", phase: 2, progress: 0 },
+                    { id: 8, name: "Persiapan Alat & PDT oleh Tim Logistik", phase: 2, progress: 0 },
+                    { id: 9, name: "Training Tim Stok Opname", phase: 2, progress: 0 },
+                    { id: 10, name: "Uji Coba Prosedur", phase: 2, progress: 0 },
+                    { id: 11, name: "Cleanup Data Outstanding", phase: 3, progress: 0 },
+                    { id: 12, name: "Freeze Database Sistem", phase: 3, progress: 0 },
+                    { id: 13, name: "Cut-off Penerimaan Barang", phase: 3, progress: 0 },
+                    { id: 14, name: "Cut-off Retur & Penyesuaian", phase: 3, progress: 0 },
+                    { id: 15, name: "Backup Data Sistem", phase: 3, progress: 0 },
+                    { id: 16, name: "Persiapan Konsumsi oleh Tim Logistik", phase: 3, progress: 0 },
+                    { id: 17, name: "Briefing Pagi & Sarapan Bersama", phase: 4, progress: 0 },
+                    { id: 18, name: "Penghitungan Fisik Barang (Toko Tutup)", phase: 4, progress: 0 },
+                    { id: 19, name: "Input Data ke Sistem (Toko Masih Tutup)", phase: 4, progress: 0 },
+                    { id: 20, name: "Unfreeze Database Sistem", phase: 4, progress: 0 },
+                    { id: 21, name: "Buka Toko - Transaksi Normal", phase: 4, progress: 0 },
+                    { id: 22, name: "Identifikasi & Penelusuran Selisih", phase: 4, progress: 0 },
+                    { id: 23, name: "Berita Acara & Penyesuaian Finance", phase: 4, progress: 0 },
+                    { id: 24, name: "Evaluasi Kinerja Tim", phase: 4, progress: 0 },
+                    { id: 25, name: "Pembubaran Tim Kecil Stok Opname", phase: 4, progress: 0 },
+                    { id: 26, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
+                ];
+
+                // Data simulasi departemen GMB
+                const departmentData = [
+                    { name: "APPLIANCE", omset: 483000000, btk: 0.5, selisih: 2500000 },
+                    { name: "BUILDING MATERIAL", omset: 1356000000, btk: 0.2, selisih: 4500000 },
+                    { name: "DOORS & WINDOWS", omset: 267000000, btk: 0.2, selisih: 1200000 },
+                    { name: "ELECTRICAL & LIGHTING", omset: 1021000000, btk: 0.6, selisih: 3500000 },
+                    { name: "FLOORING & WALL", omset: 2961000000, btk: 0.75, selisih: 8500000 },
+                    { name: "FOOD & BEVERAGE", omset: 27000000, btk: 0.75, selisih: 150000 },
+                    { name: "FURNITURE", omset: 316000000, btk: 0.3, selisih: 1800000 },
+                    { name: "HARDWARE", omset: 560000000, btk: 0.6, selisih: 2200000 },
+                    { name: "HOUSEWARE", omset: 176000000, btk: 0.5, selisih: 800000 },
+                    { name: "PAINT & SUNDRIES", omset: 1393000000, btk: 0.4, selisih: 4200000 },
+                    { name: "PLUMBING", omset: 1061000000, btk: 0.6, selisih: 3800000 },
+                    { name: "SANITARY", omset: 1924000000, btk: 0.4, selisih: 6200000 },
+                    { name: "TOOLS", omset: 48000000, btk: 0.6, selisih: 2400000 },
+                    { name: "MBC", omset: 175000000, btk: 0.3, selisih: 900000 }
+                ];
+
+                // Data untuk steps
+                const steps = document.querySelectorAll('.step');
+                const stepDetails = document.querySelectorAll('.step-detail');
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const resetBtn = document.getElementById('resetBtn');
+                const progressBar = document.getElementById('progressBar');
+                const currentStepIndicator = document.getElementById('currentStepIndicator');
+                const checklistToggle = document.getElementById('checklistToggle');
+                const checklistSidebar = document.getElementById('checklistSidebar');
+                const closeChecklist = document.getElementById('closeChecklist');
+                const mainContainer = document.getElementById('mainContainer');
+                const completeAllBtn = document.getElementById('completeAllBtn');
+                const resetAllBtn = document.getElementById('resetAllBtn');
+                const calendarModal = document.getElementById('calendarModal');
+                const openCalendarModal = document.getElementById('openCalendarModal');
+                const closeCalendarModal = document.getElementById('closeCalendarModal');
+                const logoHome = document.getElementById('logoHome');
+                const navLinksAll = document.querySelectorAll('.nav-link');
+                const pageSections = document.querySelectorAll('.page-section');
+                
+                // NSB Calculator elements
+                const btkInput = document.getElementById('btkInput');
+                const selisihInput = document.getElementById('selisihInput');
+                const calculateBtn = document.getElementById('calculateBtn');
+                const simulateBtn = document.getElementById('simulateBtn');
+                const calculationResult = document.getElementById('calculationResult');
+                const departmentTable = document.getElementById('departmentTable');
+                const exportBtn = document.getElementById('exportBtn');
+                
+                let currentStep = 0;
+                const totalSteps = steps.length;
+                let currentPage = 'workflow';
+                
+                // Format number to Indonesian Rupiah
+                function formatRupiah(angka) {
+                    return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                }
+                
+                // Calculate NSB
+                function calculateNSB(omset, btk, selisih) {
+                    const btkValue = (btk / 100) * omset;
+                    const nsb = btkValue - selisih;
+                    // Bulatkan ke bilangan bulat terdekat
+                    return Math.round(nsb);
+                }
+                
+                // Update department table
+                function updateDepartmentTable() {
+                    departmentTable.innerHTML = '';
+                    
+                    departmentData.forEach(dept => {
+                        const nsb = calculateNSB(dept.omset, dept.btk, dept.selisih);
+                        const nsbFormatted = formatRupiah(Math.abs(nsb));
+                        const status = nsb >= 0 ? 
+                            `<span class="status-good">Bonus</span>` : 
+                            `<span class="status-bad">Beban</span>`;
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${dept.name}</td>
+                            <td>${formatRupiah(dept.omset)}</td>
+                            <td>${dept.btk}%</td>
+                            <td>${formatRupiah(dept.selisih)}</td>
+                            <td>${nsbFormatted}</td>
+                            <td>${status}</td>
+                        `;
+                        departmentTable.appendChild(row);
+                    });
+                }
+                
+                // Calculate NSB from input
+                function calculateFromInput() {
+                    const btk = parseFloat(btkInput.value) || 0;
+                    const selisih = parseFloat(selisihInput.value) || 0;
+                    
+                    if (!btk || !selisih) {
+                        calculationResult.textContent = 'Masukkan nilai BTK dan Selisih terlebih dahulu';
+                        calculationResult.className = 'calc-result';
+                        return;
                     }
                     
-                    checklistItem.innerHTML = `
-                        <div class="checklist-item-name">${item.name}</div>
-                        <div class="checklist-item-progress">
-                            <div class="item-progress-bar">
-                                <div class="item-progress-fill" data-id="${item.id}" style="width: ${item.progress}%"></div>
-                            </div>
-                            <div class="item-progress-percent" data-id="${item.id}">${item.progress}%</div>
-                        </div>
-                    `;
+                    // Calculate average omset from department data
+                    const totalOmset = departmentData.reduce((sum, dept) => sum + dept.omset, 0);
+                    const avgOmset = totalOmset / departmentData.length;
                     
-                    // Tambahkan ke phase yang sesuai
-                    if (item.phase === 1) phase1Checklist.appendChild(checklistItem);
-                    if (item.phase === 2) phase2Checklist.appendChild(checklistItem);
-                    if (item.phase === 3) phase3Checklist.appendChild(checklistItem);
-                    if (item.phase === 4) phase4Checklist.appendChild(checklistItem);
+                    const nsb = calculateNSB(avgOmset, btk, selisih);
                     
-                    // Tambahkan event listener untuk checklist item
-                    checklistItem.addEventListener('click', function(e) {
-                        // Cegah event bubbling ke progress bar
-                        if (e.target.classList.contains('item-progress-fill') || 
-                            e.target.classList.contains('item-progress-percent') ||
-                            e.target.classList.contains('item-progress-bar')) {
-                            return;
-                        }
-                        
-                        const id = parseInt(this.dataset.id);
-                        const itemData = checklistData.find(item => item.id === id);
-                        
-                        // Update progress (toggle antara 0, 50, 100%)
-                        if (itemData.progress === 0) {
-                            itemData.progress = 50;
-                            this.classList.remove('completed');
-                            this.classList.add('in-progress');
-                        } else if (itemData.progress === 50) {
-                            itemData.progress = 100;
-                            this.classList.remove('in-progress');
-                            this.classList.add('completed');
+                    calculationResult.textContent = `NSB: ${formatRupiah(Math.abs(nsb))} (${nsb >= 0 ? 'Bonus' : 'Beban'})`;
+                    calculationResult.className = nsb >= 0 ? 'calc-result positive' : 'calc-result negative';
+                }
+                
+                // Simulate with actual data
+                function simulateActualData() {
+                    // Randomize selisih for simulation
+                    departmentData.forEach(dept => {
+                        const randomFactor = 0.5 + Math.random();
+                        dept.selisih = Math.round(dept.omset * (dept.btk / 100) * randomFactor);
+                    });
+                    
+                    updateDepartmentTable();
+                    
+                    // Set random values to inputs
+                    const randomBtk = (0.5 + Math.random() * 0.5).toFixed(2);
+                    const randomSelisih = Math.round(100000000 + Math.random() * 500000000);
+                    
+                    btkInput.value = randomBtk;
+                    selisihInput.value = randomSelisih;
+                    
+                    calculateFromInput();
+                }
+                
+                // Export data function
+                function exportData() {
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += "Departemen,Omset,BTK (%),Selisih SO,NSB,Status\n";
+                    
+                    departmentData.forEach(dept => {
+                        const nsb = calculateNSB(dept.omset, dept.btk, dept.selisih);
+                        const status = nsb >= 0 ? "Bonus" : "Beban";
+                        csvContent += `${dept.name},${dept.omset},${dept.btk},${dept.selisih},${nsb},${status}\n`;
+                    });
+                    
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "nsb_data_gmb.csv");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+                
+                // Fungsi untuk mengganti halaman
+                function switchPage(pageId) {
+                    // Sembunyikan semua halaman
+                    pageSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Tampilkan halaman yang dipilih
+                    const targetPage = document.getElementById(`${pageId}-page`);
+                    if (targetPage) {
+                        targetPage.classList.add('active');
+                        currentPage = pageId;
+                    }
+                    
+                    // Update active nav link
+                    navLinksAll.forEach(link => {
+                        if (link.dataset.page === pageId) {
+                            link.classList.add('active');
                         } else {
-                            itemData.progress = 0;
-                            this.classList.remove('completed', 'in-progress');
+                            link.classList.remove('active');
                         }
-                        
-                        // Update tampilan progress
-                        const progressFill = this.querySelector('.item-progress-fill');
-                        const progressPercent = this.querySelector('.item-progress-percent');
-                        
-                        if (progressFill) progressFill.style.width = `${itemData.progress}%`;
-                        if (progressPercent) progressPercent.textContent = `${itemData.progress}%`;
-                        
-                        // Update progress keseluruhan
-                        updateOverallProgress();
+                    });
+                    
+                    // Jika halaman workflow, aktifkan kontrol navigasi langkah
+                    if (pageId === 'workflow') {
+                        document.querySelector('.controls').style.display = 'flex';
+                        document.querySelector('.visual-progress').style.display = 'block';
+                        document.querySelector('.current-step-indicator').style.display = 'block';
+                    } else {
+                        document.querySelector('.controls').style.display = 'none';
+                        document.querySelector('.visual-progress').style.display = 'none';
+                        document.querySelector('.current-step-indicator').style.display = 'none';
+                    }
+                }
+                
+                // Event listener untuk nav links
+                navLinksAll.forEach(link => {
+                    link.addEventListener('click', function() {
+                        const pageId = this.dataset.page;
+                        switchPage(pageId);
                     });
                 });
+                
+                // Event listener untuk logo home
+                logoHome.addEventListener('click', function() {
+                    switchPage('workflow');
+                });
+                
+                // Inisialisasi checklist
+                function initializeChecklist() {
+                    const phase1Checklist = document.getElementById('phase1-checklist');
+                    const phase2Checklist = document.getElementById('phase2-checklist');
+                    const phase3Checklist = document.getElementById('phase3-checklist');
+                    const phase4Checklist = document.getElementById('phase4-checklist');
+                    
+                    // Kosongkan checklist terlebih dahulu
+                    phase1Checklist.innerHTML = '';
+                    phase2Checklist.innerHTML = '';
+                    phase3Checklist.innerHTML = '';
+                    phase4Checklist.innerHTML = '';
+                    
+                    // Buat elemen checklist untuk setiap item
+                    checklistData.forEach(item => {
+                        const checklistItem = document.createElement('div');
+                        checklistItem.className = 'checklist-item';
+                        checklistItem.dataset.id = item.id;
+                        
+                        // Tentukan status berdasarkan progress
+                        if (item.progress === 100) {
+                            checklistItem.classList.add('completed');
+                        } else if (item.progress > 0) {
+                            checklistItem.classList.add('in-progress');
+                        }
+                        
+                        checklistItem.innerHTML = `
+                            <div class="checklist-item-name">${item.name}</div>
+                            <div class="checklist-item-progress">
+                                <div class="item-progress-bar">
+                                    <div class="item-progress-fill" data-id="${item.id}" style="width: ${item.progress}%"></div>
+                                </div>
+                                <div class="item-progress-percent" data-id="${item.id}">${item.progress}%</div>
+                            </div>
+                        `;
+                        
+                        // Tambahkan ke phase yang sesuai
+                        if (item.phase === 1) phase1Checklist.appendChild(checklistItem);
+                        if (item.phase === 2) phase2Checklist.appendChild(checklistItem);
+                        if (item.phase === 3) phase3Checklist.appendChild(checklistItem);
+                        if (item.phase === 4) phase4Checklist.appendChild(checklistItem);
+                        
+                        // Tambahkan event listener untuk checklist item
+                        checklistItem.addEventListener('click', function(e) {
+                            // Cegah event bubbling ke progress bar
+                            if (e.target.classList.contains('item-progress-fill') || 
+                                e.target.classList.contains('item-progress-percent') ||
+                                e.target.classList.contains('item-progress-bar')) {
+                                return;
+                            }
+                            
+                            const id = parseInt(this.dataset.id);
+                            const itemData = checklistData.find(item => item.id === id);
+                            
+                            // Update progress (toggle antara 0, 50, 100%)
+                            if (itemData.progress === 0) {
+                                itemData.progress = 50;
+                                this.classList.remove('completed');
+                                this.classList.add('in-progress');
+                            } else if (itemData.progress === 50) {
+                                itemData.progress = 100;
+                                this.classList.remove('in-progress');
+                                this.classList.add('completed');
+                            } else {
+                                itemData.progress = 0;
+                                this.classList.remove('completed', 'in-progress');
+                            }
+                            
+                            // Update tampilan progress
+                            const progressFill = this.querySelector('.item-progress-fill');
+                            const progressPercent = this.querySelector('.item-progress-percent');
+                            
+                            if (progressFill) progressFill.style.width = `${itemData.progress}%`;
+                            if (progressPercent) progressPercent.textContent = `${itemData.progress}%`;
+                            
+                            // Update progress keseluruhan
+                            updateOverallProgress();
+                        });
+                    });
+                    
+                    // Update progress keseluruhan
+                    updateOverallProgress();
+                }
                 
                 // Update progress keseluruhan
-                updateOverallProgress();
-            }
-            
-            // Update progress keseluruhan
-            function updateOverallProgress() {
-                const totalProgress = checklistData.reduce((sum, item) => sum + item.progress, 0);
-                const overallPercentage = Math.round(totalProgress / checklistData.length);
-                const completedTasks = checklistData.filter(item => item.progress === 100).length;
-                
-                // Update progress bar keseluruhan
-                const overallProgressBar = document.getElementById('overallProgressBar');
-                const overallPercent = document.getElementById('overallPercent');
-                const completedTasksEl = document.getElementById('completedTasks');
-                const totalTasksEl = document.getElementById('totalTasks');
-                
-                if (overallProgressBar) {
-                    overallProgressBar.style.width = `${overallPercentage}%`;
-                    overallProgressBar.textContent = `${overallPercentage}%`;
-                }
-                
-                if (overallPercent) overallPercent.textContent = `${overallPercentage}%`;
-                if (completedTasksEl) completedTasksEl.textContent = completedTasks;
-                if (totalTasksEl) totalTasksEl.textContent = checklistData.length;
-                
-                // Update progress bar di header
-                const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
-                progressBar.style.width = `${progressPercentage}%`;
-            }
-            
-            // Fungsi untuk memperbarui tampilan langkah
-            function updateStepDisplay() {
-                // Reset semua langkah
-                steps.forEach(step => {
-                    step.classList.remove('active');
-                });
-                
-                // Tampilkan langkah aktif
-                if (currentStep >= 0 && currentStep < totalSteps) {
-                    steps[currentStep].classList.add('active');
+                function updateOverallProgress() {
+                    const totalProgress = checklistData.reduce((sum, item) => sum + item.progress, 0);
+                    const overallPercentage = Math.round(totalProgress / checklistData.length);
+                    const completedTasks = checklistData.filter(item => item.progress === 100).length;
                     
-                    // Auto-expand detail langkah aktif
-                    const detail = steps[currentStep].querySelector('.step-detail');
-                    if (detail && !detail.classList.contains('expanded')) {
-                        detail.classList.add('expanded');
+                    // Update progress bar keseluruhan
+                    const overallProgressBar = document.getElementById('overallProgressBar');
+                    const overallPercent = document.getElementById('overallPercent');
+                    const completedTasksEl = document.getElementById('completedTasks');
+                    const totalTasksEl = document.getElementById('totalTasks');
+                    
+                    if (overallProgressBar) {
+                        overallProgressBar.style.width = `${overallPercentage}%`;
+                        overallProgressBar.textContent = `${overallPercentage}%`;
                     }
                     
-                    // Update indikator langkah saat ini
-                    const stepTitle = steps[currentStep].querySelector('h3').textContent;
-                    const phaseTitle = steps[currentStep].closest('.phase-group').querySelector('.phase-title h2').textContent;
-                    currentStepIndicator.textContent = `Langkah ${currentStep + 1}: ${stepTitle} (${phaseTitle})`;
+                    if (overallPercent) overallPercent.textContent = `${overallPercentage}%`;
+                    if (completedTasksEl) completedTasksEl.textContent = completedTasks;
+                    if (totalTasksEl) totalTasksEl.textContent = checklistData.length;
                     
-                    // Update checklist progress untuk langkah ini
-                    const checklistId = parseInt(steps[currentStep].dataset.checklistId);
-                    if (checklistId) {
-                        const itemData = checklistData.find(item => item.id === checklistId);
-                        if (itemData && itemData.progress < 100) {
-                            itemData.progress = 100;
-                            
-                            // Update tampilan checklist
-                            const checklistItem = document.querySelector(`.checklist-item[data-id="${checklistId}"]`);
-                            if (checklistItem) {
-                                checklistItem.classList.remove('in-progress');
-                                checklistItem.classList.add('completed');
+                    // Update progress bar di header
+                    const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
+                    progressBar.style.width = `${progressPercentage}%`;
+                }
+                
+                // Fungsi untuk memperbarui tampilan langkah
+                function updateStepDisplay() {
+                    // Reset semua langkah
+                    steps.forEach(step => {
+                        step.classList.remove('active');
+                    });
+                    
+                    // Tampilkan langkah aktif
+                    if (currentStep >= 0 && currentStep < totalSteps) {
+                        steps[currentStep].classList.add('active');
+                        
+                        // Auto-expand detail langkah aktif
+                        const detail = steps[currentStep].querySelector('.step-detail');
+                        if (detail && !detail.classList.contains('expanded')) {
+                            detail.classList.add('expanded');
+                        }
+                        
+                        // Update indikator langkah saat ini
+                        const stepTitle = steps[currentStep].querySelector('h3').textContent;
+                        const phaseTitle = steps[currentStep].closest('.phase-group').querySelector('.phase-title h2').textContent;
+                        currentStepIndicator.textContent = `Langkah ${currentStep + 1}: ${stepTitle} (${phaseTitle})`;
+                        
+                        // Update checklist progress untuk langkah ini
+                        const checklistId = parseInt(steps[currentStep].dataset.checklistId);
+                        if (checklistId) {
+                            const itemData = checklistData.find(item => item.id === checklistId);
+                            if (itemData && itemData.progress < 100) {
+                                itemData.progress = 100;
                                 
-                                const progressFill = checklistItem.querySelector('.item-progress-fill');
-                                const progressPercent = checklistItem.querySelector('.item-progress-percent');
-                                
-                                if (progressFill) progressFill.style.width = '100%';
-                                if (progressPercent) progressPercent.textContent = '100%';
-                                
-                                updateOverallProgress();
+                                // Update tampilan checklist
+                                const checklistItem = document.querySelector(`.checklist-item[data-id="${checklistId}"]`);
+                                if (checklistItem) {
+                                    checklistItem.classList.remove('in-progress');
+                                    checklistItem.classList.add('completed');
+                                    
+                                    const progressFill = checklistItem.querySelector('.item-progress-fill');
+                                    const progressPercent = checklistItem.querySelector('.item-progress-percent');
+                                    
+                                    if (progressFill) progressFill.style.width = '100%';
+                                    if (progressPercent) progressPercent.textContent = '100%';
+                                    
+                                    updateOverallProgress();
+                                }
                             }
                         }
                     }
+                    
+                    // Update progress bar
+                    const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
+                    progressBar.style.width = `${progressPercentage}%`;
+                    
+                    // Update tombol navigasi
+                    prevBtn.disabled = currentStep === 0;
+                    nextBtn.disabled = currentStep === totalSteps - 1;
+                    
+                    // Scroll ke langkah aktif
+                    if (currentStep >= 0) {
+                        steps[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
                 
-                // Update progress bar
-                const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
-                progressBar.style.width = `${progressPercentage}%`;
-                
-                // Update tombol navigasi
-                prevBtn.disabled = currentStep === 0;
-                nextBtn.disabled = currentStep === totalSteps - 1;
-                
-                // Scroll ke langkah aktif
-                if (currentStep >= 0) {
-                    steps[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Fungsi untuk berpindah ke langkah berikutnya
+                function nextStep() {
+                    if (currentStep < totalSteps - 1) {
+                        currentStep++;
+                        updateStepDisplay();
+                    }
                 }
-            }
-            
-            // Fungsi untuk berpindah ke langkah berikutnya
-            function nextStep() {
-                if (currentStep < totalSteps - 1) {
-                    currentStep++;
-                    updateStepDisplay();
+                
+                // Fungsi untuk kembali ke langkah sebelumnya
+                function prevStep() {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        updateStepDisplay();
+                    }
                 }
-            }
-            
-            // Fungsi untuk kembali ke langkah sebelumnya
-            function prevStep() {
-                if (currentStep > 0) {
-                    currentStep--;
-                    updateStepDisplay();
-                }
-            }
-            
-            // Fungsi untuk mereset alur
-            function resetSteps() {
-                currentStep = 0;
                 
-                // Tutup semua detail langkah
-                stepDetails.forEach(detail => {
-                    detail.classList.remove('expanded');
-                });
-                
-                updateStepDisplay();
-            }
-            
-            // Toggle checklist sidebar
-            checklistToggle.addEventListener('click', function() {
-                checklistSidebar.classList.toggle('open');
-                mainContainer.classList.toggle('sidebar-open');
-            });
-            
-            // Close checklist sidebar
-            closeChecklist.addEventListener('click', function() {
-                checklistSidebar.classList.remove('open');
-                mainContainer.classList.remove('sidebar-open');
-            });
-            
-            // Tandai semua checklist selesai
-            completeAllBtn.addEventListener('click', function() {
-                checklistData.forEach(item => {
-                    item.progress = 100;
-                });
-                
-                initializeChecklist();
-            });
-            
-            // Reset semua checklist
-            resetAllBtn.addEventListener('click', function() {
-                checklistData.forEach(item => {
-                    item.progress = 0;
-                });
-                
-                initializeChecklist();
-            });
-            
-            // Event listener untuk tombol navigasi langkah
-            nextBtn.addEventListener('click', nextStep);
-            prevBtn.addEventListener('click', prevStep);
-            resetBtn.addEventListener('click', resetSteps);
-            
-            // Event listener untuk setiap langkah (klik untuk lihat detail)
-            steps.forEach((step, index) => {
-                step.addEventListener('click', function() {
-                    // Tutup detail langkah lain
+                // Fungsi untuk mereset alur
+                function resetSteps() {
+                    currentStep = 0;
+                    
+                    // Tutup semua detail langkah
                     stepDetails.forEach(detail => {
-                        if (detail !== this.querySelector('.step-detail')) {
-                            detail.classList.remove('expanded');
-                        }
+                        detail.classList.remove('expanded');
                     });
                     
-                    // Buka/tutup detail langkah yang diklik
-                    const detail = this.querySelector('.step-detail');
-                    if (detail) {
-                        detail.classList.toggle('expanded');
-                    }
-                    
-                    // Set langkah aktif
-                    currentStep = index;
                     updateStepDisplay();
-                });
-            });
-            
-            // Event listener untuk keyboard
-            document.addEventListener('keydown', function(event) {
-                if (currentPage === 'workflow') {
-                    if (event.key === 'ArrowRight') {
-                        nextStep();
-                    } else if (event.key === 'ArrowLeft') {
-                        prevStep();
-                    } else if (event.key === 'Home') {
-                        currentStep = 0;
-                        updateStepDisplay();
-                    } else if (event.key === 'End') {
-                        currentStep = totalSteps - 1;
-                        updateStepDisplay();
-                    }
                 }
-            });
-            
-            // Calendar functionality
-            function generateCalendar() {
-                const calendarEl = document.getElementById('calendar');
-                const fullCalendarEl = document.getElementById('fullCalendar');
                 
-                if (!calendarEl || !fullCalendarEl) return;
+                // Toggle checklist sidebar
+                checklistToggle.addEventListener('click', function() {
+                    checklistSidebar.classList.toggle('open');
+                    mainContainer.classList.toggle('sidebar-open');
+                });
                 
-                // Buat kalender sederhana untuk Januari - April 2026
-                const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-                                   "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-                const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                // Close checklist sidebar
+                closeChecklist.addEventListener('click', function() {
+                    checklistSidebar.classList.remove('open');
+                    mainContainer.classList.remove('sidebar-open');
+                });
                 
-                // Kalender kecil untuk sidebar (April)
-                calendarEl.innerHTML = `
-                    <div class="month-year">April 2026</div>
-                    <div class="calendar-grid">
-                        ${dayNames.map(day => `<div class="calendar-day">${day}</div>`).join('')}
-                    </div>
-                    <div class="calendar-grid" id="calendarDates">
-                        <!-- Dates will be generated by JavaScript -->
-                    </div>
-                `;
-                
-                // Generate dates for April 2026
-                const calendarDates = document.getElementById('calendarDates');
-                if (calendarDates) {
-                    let dateHtml = '';
+                // Tandai semua checklist selesai
+                completeAllBtn.addEventListener('click', function() {
+                    checklistData.forEach(item => {
+                        item.progress = 100;
+                    });
                     
-                    // Hari pertama April 2026 adalah Rabu (3)
-                    for (let i = 0; i < 3; i++) {
-                        dateHtml += `<div class="calendar-date past"></div>`;
-                    }
+                    initializeChecklist();
+                });
+                
+                // Reset semua checklist
+                resetAllBtn.addEventListener('click', function() {
+                    checklistData.forEach(item => {
+                        item.progress = 0;
+                    });
                     
-                    for (let day = 1; day <= 30; day++) {
-                        const date = new Date(2026, 3, day);
-                        let dateClass = 'calendar-date';
+                    initializeChecklist();
+                });
+                
+                // Event listener untuk tombol navigasi langkah
+                nextBtn.addEventListener('click', nextStep);
+                prevBtn.addEventListener('click', prevStep);
+                resetBtn.addEventListener('click', resetSteps);
+                
+                // Event listener untuk setiap langkah (klik untuk lihat detail)
+                steps.forEach((step, index) => {
+                    step.addEventListener('click', function() {
+                        // Tutup detail langkah lain
+                        stepDetails.forEach(detail => {
+                            if (detail !== this.querySelector('.step-detail')) {
+                                detail.classList.remove('expanded');
+                            }
+                        });
                         
-                        if (day === 14) {
-                            dateClass += ' important'; // Stok opname (toko tutup)
-                        } else if (day === 15) {
-                            dateClass += ' event'; // Buka kembali toko
-                        } else if (day === 22) {
-                            dateClass += ' budget'; // Pembubaran tim
-                        } else if (day >= 10 && day <= 13) {
-                            dateClass += ' event'; // Cleanup data & persiapan administratif
-                        } else if (day >= 16 && day <= 21) {
-                            dateClass += ' event'; // Analisis & finalisasi
-                        } else if (day < 20) {
-                            dateClass += ' past'; // Sudah lewat
+                        // Buka/tutup detail langkah yang diklik
+                        const detail = this.querySelector('.step-detail');
+                        if (detail) {
+                            detail.classList.toggle('expanded');
                         }
                         
-                        dateHtml += `<div class="${dateClass}">${day}</div>`;
+                        // Set langkah aktif
+                        currentStep = index;
+                        updateStepDisplay();
+                    });
+                });
+                
+                // Event listener untuk keyboard
+                document.addEventListener('keydown', function(event) {
+                    if (currentPage === 'workflow') {
+                        if (event.key === 'ArrowRight') {
+                            nextStep();
+                        } else if (event.key === 'ArrowLeft') {
+                            prevStep();
+                        } else if (event.key === 'Home') {
+                            currentStep = 0;
+                            updateStepDisplay();
+                        } else if (event.key === 'End') {
+                            currentStep = totalSteps - 1;
+                            updateStepDisplay();
+                        }
+                    }
+                });
+                
+                // Calendar functionality
+                function generateCalendar() {
+                    const calendarEl = document.getElementById('calendar');
+                    const fullCalendarEl = document.getElementById('fullCalendar');
+                    
+                    if (!calendarEl || !fullCalendarEl) return;
+                    
+                    // Buat kalender sederhana untuk Januari - April 2026
+                    const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                                       "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                    const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                    
+                    // Kalender kecil untuk sidebar (April)
+                    calendarEl.innerHTML = `
+                        <div class="month-year">April 2026</div>
+                        <div class="calendar-grid">
+                            ${dayNames.map(day => `<div class="calendar-day">${day}</div>`).join('')}
+                        </div>
+                        <div class="calendar-grid" id="calendarDates">
+                            <!-- Dates will be generated by JavaScript -->
+                        </div>
+                    `;
+                    
+                    // Generate dates for April 2026
+                    const calendarDates = document.getElementById('calendarDates');
+                    if (calendarDates) {
+                        let dateHtml = '';
+                        
+                        // Hari pertama April 2026 adalah Rabu (3)
+                        for (let i = 0; i < 3; i++) {
+                            dateHtml += `<div class="calendar-date past"></div>`;
+                        }
+                        
+                        for (let day = 1; day <= 30; day++) {
+                            const date = new Date(2026, 3, day);
+                            let dateClass = 'calendar-date';
+                            
+                            if (day === 14) {
+                                dateClass += ' important'; // Stok opname (toko tutup)
+                            } else if (day === 15) {
+                                dateClass += ' event'; // Buka kembali toko
+                            } else if (day === 22) {
+                                dateClass += ' budget'; // Pembubaran tim
+                            } else if (day >= 10 && day <= 13) {
+                                dateClass += ' event'; // Cleanup data & persiapan administratif
+                            } else if (day >= 16 && day <= 21) {
+                                dateClass += ' event'; // Analisis & finalisasi
+                            } else if (day < 20) {
+                                dateClass += ' past'; // Sudah lewat
+                            }
+                            
+                            dateHtml += `<div class="${dateClass}">${day}</div>`;
+                        }
+                        
+                        calendarDates.innerHTML = dateHtml;
                     }
                     
-                    calendarDates.innerHTML = dateHtml;
+                    // Kalender lengkap untuk modal
+                    fullCalendarEl.innerHTML = `
+                        <h4>Timeline Lengkap Stok Opname 2026</h4>
+                        <div class="event-list">
+                            <div class="event-item budget">
+                                <div class="event-date">19 Jan 2026</div>
+                                <div class="event-desc"><strong>PEMBENTUKAN TIM & BUDGET:</strong> Pembentukan tim kecil (18 orang), penyusunan anggaran (Rp 3.525.000), penetapan jobdesk termasuk 3 Ketua Regu</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">21 Jan - 11 Mar 2026</div>
+                                <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, deteksi unlisted items, training tim, persiapan Form Control</div>
+                            </div>
+                            <div class="event-item important">
+                                <div class="event-date">10 Mar 2026</div>
+                                <div class="event-desc"><strong>MEETING KOORDINASI DENGAN DEVELOPER (PAK YOHAN):</strong> Koordinasi teknis stok opname di sistem Elleosys - PENTING DAN MENDESAK</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">10-12 Apr 2026</div>
+                                <div class="event-desc"><strong>CLEANUP DATA OUTSTANDING:</strong> Proses barang in-use, penjualan manual, barang indent status done sebelum freeze database</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">12-13 Apr 2026</div>
+                                <div class="event-desc"><strong>PERSIAPAN ADMINISTRATIF:</strong> Freeze database, cut-off penerimaan & retur, backup data, persiapan konsumsi</div>
+                            </div>
+                            <div class="event-item important">
+                                <div class="event-date">14 Apr 2026</div>
+                                <div class="event-desc"><strong>HARI-H STOK OPNAME (TOKO TUTUP):</strong> Briefing (07:00), penghitungan fisik dengan Form Control (08:00-18:00), input data (18:00-22:00)</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">15 Apr 2026</div>
+                                <div class="event-desc"><strong>NORMALISASI:</strong> Unfreeze database (07:00), buka toko (08:00), transaksi normal, mulai identifikasi selisih dengan data Form Control</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">16-21 Apr 2026</div>
+                                <div class="event-desc"><strong>ANALISIS & FINALISASI:</strong> Penelusuran selisih, audit dokumen termasuk Form Control, berita acara, penyesuaian finance, evaluasi tim</div>
+                            </div>
+                            <div class="event-item budget">
+                                <div class="event-date">22 Apr 2026</div>
+                                <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat khusus Ketua Regu, penyelesaian administrasi, pengembelian personil</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">23 Apr 2026</div>
+                                <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, analisis unlisted items, review kinerja berdasarkan Form Control, rekomendasi perbaikan</div>
+                            </div>
+                        </div>
+                    `;
                 }
                 
-                // Kalender lengkap untuk modal
-                fullCalendarEl.innerHTML = `
-                    <h4>Timeline Lengkap Stok Opname 2026</h4>
-                    <div class="event-list">
-                        <div class="event-item budget">
-                            <div class="event-date">19 Jan 2026</div>
-                            <div class="event-desc"><strong>PEMBENTUKAN TIM & BUDGET:</strong> Pembentukan tim kecil (18 orang), penyusunan anggaran (Rp 3.525.000), penetapan jobdesk termasuk 3 Ketua Regu</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">21 Jan - 11 Mar 2026</div>
-                            <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, deteksi unlisted items, training tim, persiapan Form Control</div>
-                        </div>
-                        <div class="event-item important">
-                            <div class="event-date">10 Mar 2026</div>
-                            <div class="event-desc"><strong>MEETING KOORDINASI DENGAN DEVELOPER (PAK YOHAN):</strong> Koordinasi teknis stok opname di sistem Elleosys - PENTING DAN MENDESAK</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">10-12 Apr 2026</div>
-                            <div class="event-desc"><strong>CLEANUP DATA OUTSTANDING:</strong> Proses barang in-use, penjualan manual, barang indent status done sebelum freeze database</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">12-13 Apr 2026</div>
-                            <div class="event-desc"><strong>PERSIAPAN ADMINISTRATIF:</strong> Freeze database, cut-off penerimaan & retur, backup data, persiapan konsumsi</div>
-                        </div>
-                        <div class="event-item important">
-                            <div class="event-date">14 Apr 2026</div>
-                            <div class="event-desc"><strong>HARI-H STOK OPNAME (TOKO TUTUP):</strong> Briefing (07:00), penghitungan fisik dengan Form Control (08:00-18:00), input data (18:00-22:00)</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">15 Apr 2026</div>
-                            <div class="event-desc"><strong>NORMALISASI:</strong> Unfreeze database (07:00), buka toko (08:00), transaksi normal, mulai identifikasi selisih dengan data Form Control</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">16-21 Apr 2026</div>
-                            <div class="event-desc"><strong>ANALISIS & FINALISASI:</strong> Penelusuran selisih, audit dokumen termasuk Form Control, berita acara, penyesuaian finance, evaluasi tim</div>
-                        </div>
-                        <div class="event-item budget">
-                            <div class="event-date">22 Apr 2026</div>
-                            <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat khusus Ketua Regu, penyelesaian administrasi, pengembalian personil</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">23 Apr 2026</div>
-                            <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, analisis unlisted items, review kinerja berdasarkan Form Control, rekomendasi perbaikan</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Open calendar modal
-            openCalendarModal.addEventListener('click', function() {
-                calendarModal.style.display = 'flex';
-            });
-            
-            // Close calendar modal
-            closeCalendarModal.addEventListener('click', function() {
-                calendarModal.style.display = 'none';
-            });
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === calendarModal) {
+                // Open calendar modal
+                openCalendarModal.addEventListener('click', function() {
+                    calendarModal.style.display = 'flex';
+                });
+                
+                // Close calendar modal
+                closeCalendarModal.addEventListener('click', function() {
                     calendarModal.style.display = 'none';
-                }
-            });
-            
-            // NSB Calculator event listeners
-            calculateBtn.addEventListener('click', calculateFromInput);
-            simulateBtn.addEventListener('click', simulateActualData);
-            exportBtn.addEventListener('click', exportData);
-            
-            // Calculate on Enter key in inputs
-            btkInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') calculateFromInput();
-            });
-            
-            selisihInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') calculateFromInput();
-            });
-            
-            // Inisialisasi
-            initializeChecklist();
-            updateStepDisplay();
-            generateCalendar();
-            updateDepartmentTable();
-            switchPage('workflow'); // Set halaman default
-            
-            // Animasi masuk untuk fase
-            const phaseGroups = document.querySelectorAll('.phase-group');
-            phaseGroups.forEach((group, index) => {
-                setTimeout(() => {
-                    group.style.opacity = '0';
-                    group.style.transform = 'translateY(20px)';
-                    group.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    
+                });
+                
+                // Close modal when clicking outside
+                window.addEventListener('click', function(event) {
+                    if (event.target === calendarModal) {
+                        calendarModal.style.display = 'none';
+                    }
+                });
+                
+                // NSB Calculator event listeners
+                calculateBtn.addEventListener('click', calculateFromInput);
+                simulateBtn.addEventListener('click', simulateActualData);
+                exportBtn.addEventListener('click', exportData);
+                
+                // Calculate on Enter key in inputs
+                btkInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') calculateFromInput();
+                });
+                
+                selisihInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') calculateFromInput();
+                });
+                
+                // Inisialisasi
+                initializeChecklist();
+                updateStepDisplay();
+                generateCalendar();
+                updateDepartmentTable();
+                switchPage('workflow'); // Set halaman default
+                
+                // Animasi masuk untuk fase
+                const phaseGroups = document.querySelectorAll('.phase-group');
+                phaseGroups.forEach((group, index) => {
                     setTimeout(() => {
-                        group.style.opacity = '1';
-                        group.style.transform = 'translateY(0)';
-                    }, 50);
-                }, index * 200);
-            });
+                        group.style.opacity = '0';
+                        group.style.transform = 'translateY(20px)';
+                        group.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        
+                        setTimeout(() => {
+                            group.style.opacity = '1';
+                            group.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 200);
+                });
+            }
         });
+    </script>
+</body>
+</html>
+        </div>
+    </div>
+
+    <script>
+        // Font Awesome untuk icon di login page
+        if (!document.querySelector('link[href*="font-awesome"]')) {
+            const faLink = document.createElement('link');
+            faLink.rel = 'stylesheet';
+            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(faLink);
+        }
     </script>
 </body>
 </html>
