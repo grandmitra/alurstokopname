@@ -1569,7 +1569,7 @@
                         <div class="progress-bar-check" id="overallProgressBar"></div>
                     </div>
                     <div class="progress-percentage">
-                        <span id="completedTasks">0</span> dari <span id="totalTasks">25</span> tugas selesai
+                        <span id="completedTasks">0</span> dari <span id="totalTasks">26</span> tugas selesai
                     </div>
                 </div>
                 
@@ -3061,7 +3061,7 @@
                         <div style="margin-top: 40px; text-align: center;">
                             <h3><i class="fas fa-print"></i> Cetak Label Lokasi</h3>
                             <p>Untuk mencetak label lokasi untuk setiap area toko dan gudang:</p>
-                            <a href="https://grandmitra.github.io/lokasilabel/" target="_blank" class="label-print-btn">
+                            <a href="https://script.google.com/macros/s/AKfycbyJm18kynpcyBExJj-1cAilLi8fZO612-YHi_daxMf25khdofBCh_freX5_om74Wkod/exec" target="_blank" class="label-print-btn">
                                 <i class="fas fa-print"></i> Buka Aplikasi Cetak Label Lokasi
                             </a>
                         </div>
@@ -3113,7 +3113,7 @@
                             <p><strong>Catatan:</strong> Pastikan setiap area telah diberi nomor lokasi sebelum stok opname dimulai.</p>
                             
                             <div style="margin-top: 20px;">
-                                <a href="https://grandmitra.github.io/lokasilabel/" target="_blank" class="label-print-btn">
+                                <a href="https://script.google.com/macros/s/AKfycbyJm18kynpcyBExJj-1cAilLi8fZO612-YHi_daxMf25khdofBCh_freX5_om74Wkod/exec" target="_blank" class="label-print-btn">
                                     <i class="fas fa-print"></i> Cetak Label Lokasi
                                 </a>
                             </div>
@@ -3251,8 +3251,13 @@
                     });
                 }
                 
+                // ==================== PENYIMPANAN DATA DENGAN LOCALSTORAGE ====================
+                
+                // Kunci untuk localStorage
+                const STORAGE_KEY = 'gmb_stok_opname_checklist';
+                
                 // Data untuk checklist dengan total 26 item
-                const checklistData = [
+                const defaultChecklistData = [
                     { id: 1, name: "Pembentukan Tim Kecil Stok Opname", phase: 1, progress: 0 },
                     { id: 2, name: "Penyusunan Budget Stok Opname", phase: 1, progress: 0 },
                     { id: 3, name: "Briefing Awal & Pembagian Tugas", phase: 1, progress: 0 },
@@ -3280,6 +3285,32 @@
                     { id: 25, name: "Pembubaran Tim Kecil Stok Opname", phase: 4, progress: 0 },
                     { id: 26, name: "Pelaporan ke Manajemen", phase: 4, progress: 0 }
                 ];
+
+                // Fungsi untuk memuat data dari localStorage
+                function loadChecklistData() {
+                    const savedData = localStorage.getItem(STORAGE_KEY);
+                    if (savedData) {
+                        try {
+                            const parsed = JSON.parse(savedData);
+                            // Validasi apakah data yang dimuat memiliki struktur yang benar
+                            if (Array.isArray(parsed) && parsed.length === defaultChecklistData.length) {
+                                return parsed;
+                            }
+                        } catch (e) {
+                            console.error('Gagal memuat data dari localStorage:', e);
+                        }
+                    }
+                    // Jika tidak ada data tersimpan atau data rusak, gunakan data default
+                    return JSON.parse(JSON.stringify(defaultChecklistData)); // Deep copy
+                }
+
+                // Fungsi untuk menyimpan data ke localStorage
+                function saveChecklistData() {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistData));
+                }
+
+                // Muat data dari localStorage saat inisialisasi
+                let checklistData = loadChecklistData();
 
                 // Data simulasi departemen GMB
                 const departmentData = [
@@ -3540,6 +3571,7 @@
                             const id = parseInt(this.dataset.id);
                             const itemData = checklistData.find(item => item.id === id);
                             
+                            // Siklus progress: 0% -> 50% -> 100% -> 0%
                             if (itemData.progress === 0) {
                                 itemData.progress = 50;
                                 this.classList.remove('completed');
@@ -3558,6 +3590,9 @@
                             
                             if (progressFill) progressFill.style.width = `${itemData.progress}%`;
                             if (progressPercent) progressPercent.textContent = `${itemData.progress}%`;
+                            
+                            // Simpan data ke localStorage setelah setiap perubahan
+                            saveChecklistData();
                             
                             updateOverallProgress();
                         });
@@ -3625,6 +3660,9 @@
                                     if (progressFill) progressFill.style.width = '100%';
                                     if (progressPercent) progressPercent.textContent = '100%';
                                     
+                                    // Simpan data ke localStorage setelah perubahan dari langkah alur kerja
+                                    saveChecklistData();
+                                    
                                     updateOverallProgress();
                                 }
                             }
@@ -3687,6 +3725,9 @@
                         item.progress = 100;
                     });
                     
+                    // Simpan ke localStorage
+                    saveChecklistData();
+                    
                     initializeChecklist();
                 });
                 
@@ -3695,6 +3736,9 @@
                     checklistData.forEach(item => {
                         item.progress = 0;
                     });
+                    
+                    // Simpan ke localStorage
+                    saveChecklistData();
                     
                     initializeChecklist();
                 });
