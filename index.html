@@ -1035,13 +1035,105 @@
             color: #856404;
         }
         
+        /* Perbaikan untuk DETECTION OF UNLISTED ITEMS */
         .missing-item-report {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-left: 4px solid #dc3545;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .missing-item-report h4 {
+            color: #c0392b;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .missing-item-report h4 i {
+            color: #e74c3c;
+        }
+        
+        .missing-item-report h5 {
+            color: #2c3e50;
+            margin: 15px 0 10px;
+            font-size: 1rem;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+        
+        .missing-item-report ul {
+            margin-bottom: 15px;
+        }
+        
+        .missing-item-report ul li {
+            margin-bottom: 8px;
+        }
+        
+        .missing-item-report strong {
+            color: #2c3e50;
+        }
+        
+        .missing-item-report .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #dc3545;
+        }
+        
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #28a745;
+        }
+        
+        .badge-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #17a2b8;
+        }
+        
+        .table-detection {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+        
+        .table-detection th {
+            background-color: #343a40;
+            color: white;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .table-detection td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .table-detection tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
         
         .form-control-table {
@@ -1969,17 +2061,82 @@
                                                 <li>Pembuatan master list barcode-lokasi</li>
                                             </ul>
                                             
+                                            <!-- Perbaikan DETECTION OF UNLISTED ITEMS dengan keterangan lengkap -->
                                             <div class="missing-item-report">
-                                                <h4><i class="fas fa-exclamation-triangle"></i> DETECTION OF UNLISTED ITEMS</h4>
+                                                <h4><i class="fas fa-exclamation-triangle"></i> DETECTION OF UNLISTED ITEMS & MISSING ITEMS</h4>
+                                                
+                                                <p><strong>A. UNLISTED ITEMS (Barang Fisik Tidak Ada di Sistem Elleosys):</strong></p>
                                                 <p>Setelah listing barcode akan muncul data unlisting yang tidak terecord di sistem Elleosys sebagai deteksi awal missing items:</p>
                                                 <ul>
-                                                    <li>Identifikasi barang yang ada secara fisik tetapi tidak ada dalam sistem Elleosys</li>
-                                                    <li>Kategorikan berdasarkan penyebab: barang baru belum diinput, barang rusak belum diproses, barang retur belum dicatat</li>
-                                                    <li>Buat laporan detil unlisted items dengan jumlah dan nilai estimasi</li>
-                                                    <li>Koordinasi dengan purchasing dan admin untuk klarifikasi status barang unlisted</li>
-                                                    <li>Rekomendasikan tindakan korektif untuk setiap kategori unlisted items</li>
+                                                    <li><span class="badge badge-warning">Kategori 1:</span> Barang baru belum diinput (barang datang dari supplier belum diproses penerimaan)</li>
+                                                    <li><span class="badge badge-warning">Kategori 2:</span> Barang rusak belum diproses (barang rusak fisik tapi belum diadjust di sistem)</li>
+                                                    <li><span class="badge badge-warning">Kategori 3:</span> Barang retur belum dicatat (retur dari customer atau ke supplier belum diproses)</li>
+                                                    <li><span class="badge badge-warning">Kategori 4:</span> Barang indent status belum update (barang indent sudah datang tapi status masih pending)</li>
                                                 </ul>
-                                                <p><strong>Output:</strong> Laporan Unlisted Items dengan rekomendasi tindakan untuk management review</p>
+                                                
+                                                <p><strong>B. MISSING ITEMS (Barang Ada di Sistem Elleosys Tapi Tidak Ditemukan di Lokasi Manapun):</strong></p>
+                                                <p>Setelah listing barcode, juga akan terdeteksi barang yang tercatat di sistem Elleosys memiliki stok, namun secara fisik tidak ditemukan di lokasi manapun selama proses listing:</p>
+                                                <ul>
+                                                    <li><span class="badge badge-danger">Kategori 1:</span> Barang terjual tapi belum diproses penjualannya di sistem</li>
+                                                    <li><span class="badge badge-danger">Kategori 2:</span> Barang dipindah ke lokasi lain tanpa update sistem (salah letak)</li>
+                                                    <li><span class="badge badge-danger">Kategori 3:</span> Barang hilang/kehilangan (shrinkage) yang belum terdeteksi</li>
+                                                    <li><span class="badge badge-danger">Kategori 4:</span> Barang digunakan untuk operasional toko (in-use) belum diproses</li>
+                                                    <li><span class="badge badge-danger">Kategori 5:</span> Barang sample/display yang belum diadjust statusnya</li>
+                                                </ul>
+                                                
+                                                <h5>Ilustrasi Deteksi Unlisted & Missing Items:</h5>
+                                                <table class="table-detection">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Kategori</th>
+                                                            <th>Di Sistem Elleosys</th>
+                                                            <th>Di Fisik (Listing)</th>
+                                                            <th>Status</th>
+                                                            <th>Tindakan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><strong>Unlisted Items</strong></td>
+                                                            <td>Tidak Ada</td>
+                                                            <td>Ada</td>
+                                                            <td><span class="badge badge-warning">Barang Fisik Tanpa Record</span></td>
+                                                            <td>Input ke sistem, cek sumber barang</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Missing Items</strong></td>
+                                                            <td>Ada Stok</td>
+                                                            <td>Tidak Ada</td>
+                                                            <td><span class="badge badge-danger">Barang Sistem Tanpa Fisik</span></td>
+                                                            <td>Investigasi penyebab kehilangan</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Matched</strong></td>
+                                                            <td>Ada Stok</td>
+                                                            <td>Ada</td>
+                                                            <td><span class="badge badge-success">Sesuai</span></td>
+                                                            <td>Normal, lanjut proses</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Salah Lokasi</strong></td>
+                                                            <td>Ada di Lokasi A</td>
+                                                            <td>Ditemukan di Lokasi B</td>
+                                                            <td><span class="badge badge-info">Salah Letak</span></td>
+                                                            <td>Update lokasi di sistem</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                
+                                                <p><strong>Langkah Tindak Lanjut:</strong></p>
+                                                <ol>
+                                                    <li>Buat laporan detail unlisted items dengan jumlah dan nilai estimasi</li>
+                                                    <li>Buat laporan detail missing items dengan jumlah dan nilai estimasi berdasarkan data sistem Elleosys</li>
+                                                    <li>Koordinasi dengan purchasing dan admin untuk klarifikasi status barang unlisted</li>
+                                                    <li>Investigasi penyebab missing items (cek CCTV, wawancara staff, audit dokumen)</li>
+                                                    <li>Rekomendasikan tindakan korektif untuk setiap kategori unlisted & missing items</li>
+                                                </ol>
+                                                
+                                                <p><strong>Output:</strong> Laporan Unlisted Items & Missing Items dengan rekomendasi tindakan untuk management review</p>
                                             </div>
                                         </div>
                                     </div>
@@ -2269,7 +2426,7 @@
                                                 <li>Audit dokumen pendukung termasuk Form Control</li>
                                                 <li>Pengecekan ulang barang di lokasi yang berselisih</li>
                                                 <li>Pembuatan laporan selisih detail</li>
-                                                <li>Analisis khusus untuk unlisted items yang terdeteksi di fase persiapan</li>
+                                                <li>Analisis khusus untuk unlisted items & missing items yang terdeteksi di fase persiapan</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -2334,7 +2491,7 @@
                                             <ul>
                                                 <li>Presentasi hasil akhir stok opname</li>
                                                 <li>Analisis akurasi stok sistem vs fisik</li>
-                                                <li>Laporan unlisted items dan rekomendasi tindakan</li>
+                                                <li>Laporan unlisted items & missing items dan rekomendasi tindakan</li>
                                                 <li>Review kinerja tim berdasarkan Form Control</li>
                                                 <li>Rekomendasi sistem dan prosedur</li>
                                                 <li>Laporan keuangan hasil penyesuaian</li>
@@ -2525,7 +2682,7 @@
                                     <li>Grouping & tata letak barang berdasarkan kategori</li>
                                     <li>Mapping & numbering seluruh lokasi penyimpanan per lantai</li>
                                     <li>Listing lokasi dan barcode produk</li>
-                                    <li><strong>Deteksi Unlisted Items:</strong> Identifikasi barang fisik yang tidak ada di sistem Elleosys</li>
+                                    <li><strong>Deteksi Unlisted Items & Missing Items:</strong> Identifikasi barang fisik tidak ada di sistem Elleosys (unlisted) dan barang sistem tidak ditemukan fisiknya (missing)</li>
                                     <li>Persiapan alat fisik dan perangkat digital oleh tim logistik</li>
                                     <li>Persiapan Form Control dan Form Tugas untuk Ketua Regu</li>
                                     <li>Pelatihan intensif untuk semua anggota tim</li>
@@ -2590,7 +2747,7 @@
                                 <p><strong>Fase 4 (lanjutan):</strong> Penyelesaian dan evaluasi</p>
                                 <ul>
                                     <li>Penelusuran penyebab selisih berdasarkan Form Control</li>
-                                    <li>Analisis unlisted items yang terdeteksi sebelumnya</li>
+                                    <li>Analisis unlisted items & missing items yang terdeteksi sebelumnya</li>
                                     <li>Audit dokumen pendukung</li>
                                     <li>Pembuatan berita acara final</li>
                                     <li>Penyesuaian finance ke sistem</li>
@@ -2706,16 +2863,16 @@
                         </div>
                         
                         <div class="procedure-category">
-                            <h3>Prosedur Deteksi Unlisted Items</h3>
+                            <h3>Prosedur Deteksi Unlisted Items & Missing Items</h3>
                             <div class="step">
-                                <h4>1. Identifikasi Barang Tidak Terecord</h4>
+                                <h4>1. Identifikasi Barang Tidak Terecord (Unlisted Items)</h4>
                                 <div class="step-detail">
-                                    <p><strong>Tujuan:</strong> Mendeteksi awal missing items sebelum stok opname</p>
+                                    <p><strong>Tujuan:</strong> Mendeteksi awal barang fisik yang tidak ada di sistem Elleosys</p>
                                     <p><strong>Prosedur:</strong></p>
                                     <ol>
                                         <li>Setelah listing barcode selesai, bandingkan dengan data sistem Elleosys</li>
                                         <li>Identifikasi barang yang ada secara fisik tetapi tidak ada dalam sistem</li>
-                                        <li>Kategorikan unlisted items berdasarkan:
+                                        <li>Kategorikan unlisted items berdasarkan penyebab:
                                             <ul>
                                                 <li>Barang baru belum diinput</li>
                                                 <li>Barang rusak belum diproses</li>
@@ -2724,8 +2881,29 @@
                                                 <li>Barang in-use belum diproses</li>
                                             </ul>
                                         </li>
-                                        <li>Buat laporan detail unlisted items dengan jumlah dan nilai estimasi</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <h4>2. Identifikasi Barang Hilang (Missing Items)</h4>
+                                <div class="step-detail">
+                                    <p><strong>Tujuan:</strong> Mendeteksi awal barang yang ada di sistem Elleosys tetapi tidak ditemukan fisiknya</p>
+                                    <p><strong>Prosedur:</strong></p>
+                                    <ol>
+                                        <li>Setelah listing barcode selesai, bandingkan data sistem Elleosys dengan temuan fisik</li>
+                                        <li>Identifikasi barang yang tercatat di sistem memiliki stok, namun tidak ditemukan di lokasi manapun</li>
+                                        <li>Kategorikan missing items berdasarkan penyebab:
+                                            <ul>
+                                                <li>Barang terjual tapi belum diproses penjualannya</li>
+                                                <li>Barang dipindah ke lokasi lain tanpa update sistem</li>
+                                                <li>Barang hilang/kehilangan (shrinkage)</li>
+                                                <li>Barang digunakan untuk operasional toko (in-use)</li>
+                                                <li>Barang sample/display yang belum diadjust</li>
+                                            </ul>
+                                        </li>
+                                        <li>Buat laporan detail unlisted items & missing items dengan jumlah dan nilai estimasi</li>
                                         <li>Koordinasi dengan purchasing dan admin untuk klarifikasi status</li>
+                                        <li>Investigasi penyebab missing items (cek CCTV, wawancara staff, audit dokumen)</li>
                                         <li>Rekomendasikan tindakan korektif untuk setiap kategori</li>
                                     </ol>
                                 </div>
@@ -2771,7 +2949,7 @@
                                                 <li>Testing integrasi dengan scanner dan mobile device</li>
                                                 <li>Pembahasan backup dan recovery procedure</li>
                                                 <li>Koordinasi jadwal maintenance system</li>
-                                                <li>Validasi laporan unlisted items</li>
+                                                <li>Validasi laporan unlisted items & missing items</li>
                                             </ul>
                                         </li>
                                         <li><strong>Output:</strong> Minutes of Meeting dengan action plan dan timeline</li>
@@ -2916,7 +3094,7 @@
                                         <i class="fas fa-external-link-alt"></i> Shrinkage
                                     </a>
                                     <a href="https://grandmitra.github.io/lostcodehunt/" target="_blank" class="nsb-btn">
-                                        <i class="fas fa-external-link-alt"></i> Losct Code Hunt
+                                        <i class="fas fa-external-link-alt"></i> Lost Code Hunt
                                     </a>
                                     <a href="https://grandmitra.github.io/laporanso/" target="_blank" class="nsb-btn">
                                         <i class="fas fa-external-link-alt"></i> Laporan Stock Opname
@@ -2924,7 +3102,7 @@
                                     <button class="nsb-btn" id="exportBtn">
                                         <i class="fas fa-download"></i> Export Data NSB
                                     </button>
-									<a href="https://grandmitra.github.io/unlisting/" target="_blank" class="nsb-btn">
+                                    <a href="https://grandmitra.github.io/unlisting/" target="_blank" class="nsb-btn">
                                         <i class="fas fa-external-link-alt"></i> Laporan UnListed
                                     </a>
                                 </div>
@@ -3039,8 +3217,8 @@
                             </div>
                             
                             <div class="tool-card">
-                                <h4><i class="fas fa-file-excel"></i> Laporan Unlisted Items</h4>
-                                <p>Laporan deteksi awal missing items dari hasil listing barcode</p>
+                                <h4><i class="fas fa-file-excel"></i> Laporan Unlisted Items & Missing Items</h4>
+                                <p>Laporan deteksi awal unlisted & missing items dari hasil listing barcode</p>
                             </div>
                             
                             <div class="tool-card">
@@ -3123,12 +3301,12 @@
                                     <i class="fas fa-print"></i> Cetak Label Lokasi
                                 </a>
                             </div>
-							<div style="margin-top: 20px;">
+                            <div style="margin-top: 20px;">
                                 <a href="https://grandmitra.github.io/lokasi/" target="_blank" class="label-print-btn">
                                     <i class="fas fa-print"></i> Cek Lokasi barang
                                 </a>
                             </div>
-							<div style="margin-top: 20px;">
+                            <div style="margin-top: 20px;">
                                 <a href="https://grandmitra.github.io/kordinat/" target="_blank" class="label-print-btn">
                                     <i class="fas fa-print"></i> Kordinat Lokasi
                                 </a>
@@ -3862,7 +4040,7 @@
                             </div>
                             <div class="event-item">
                                 <div class="event-date">21 Jan - 11 Mar 2026</div>
-                                <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, deteksi unlisted items, training tim, persiapan Form Control</div>
+                                <div class="event-desc"><strong>PERSIAPAN OPERASIONAL:</strong> Grouping barang, mapping lokasi, listing barcode, deteksi unlisted items & missing items, training tim, persiapan Form Control</div>
                             </div>
                             <div class="event-item important">
                                 <div class="event-date">10 Mar 2026</div>
@@ -3890,11 +4068,11 @@
                             </div>
                             <div class="event-item budget">
                                 <div class="event-date">22 Apr 2026</div>
-                                <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat khusus Ketua Regu, penyelesaian administrasi, pengembelian personil</div>
+                                <div class="event-desc"><strong>PEMBUBARAN TIM:</strong> Rapat penutupan, pembagian sertifikat khusus Ketua Regu, penyelesaian administrasi, pengembalian personil</div>
                             </div>
                             <div class="event-item">
                                 <div class="event-date">23 Apr 2026</div>
-                                <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, analisis unlisted items, review kinerja berdasarkan Form Control, rekomendasi perbaikan</div>
+                                <div class="event-desc"><strong>PELAPORAN AKHIR:</strong> Presentasi hasil stok opname kepada manajemen, analisis unlisted items & missing items, review kinerja berdasarkan Form Control, rekomendasi perbaikan</div>
                             </div>
                         </div>
                     `;
